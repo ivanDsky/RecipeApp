@@ -35,11 +35,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun setupBottomNavigation() {
-        with(binding.bottomNavigation) {
-            setOnItemSelectedListener {
-                viewModel.onMenuSelected(it)
-                return@setOnItemSelectedListener true
-            }
+        binding.bottomNavigation.setOnItemSelectedListener {
+            viewModel.onMenuSelected(it)
+            return@setOnItemSelectedListener true
         }
     }
 
