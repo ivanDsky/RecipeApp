@@ -27,7 +27,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun setupNavigation() {
         lifecycleScope.launchWhenStarted {
             viewModel.navigationScreenFlow.collect {
-                binding.toolbar.tvTitle.text = it.title
+                binding.toolbar.tvTitle.text = getString(it.title)
                 binding.bottomNavigation.selectedItemId = it.id
                 replaceFragment(it.fragment)
             }
