@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="?colorPrimaryVariant"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/_16sdp"
+    android:paddingVertical="@dimen/_4sdp"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnTools"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:src="@color/blue_light" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_gravity="center"
+        android:id="@+id/btnTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="@dimen/_16ssp"
+        android:gravity="center"
+        android:text="Popular" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnSettings"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:src="@color/blue_light" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
