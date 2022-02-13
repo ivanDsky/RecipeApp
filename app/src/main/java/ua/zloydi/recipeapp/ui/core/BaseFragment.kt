@@ -21,7 +21,7 @@ abstract class BaseFragment<VB : ViewBinding>(@LayoutRes res: Int) : Fragment(re
         savedInstanceState: Bundle?
     ): View? {
         _binding = inflate(inflater)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     override fun onDestroyView() {
