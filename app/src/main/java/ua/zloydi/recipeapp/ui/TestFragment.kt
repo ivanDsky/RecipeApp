@@ -9,7 +9,7 @@ import ua.zloydi.recipeapp.databinding.FragmentTestBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import kotlin.random.Random
 
-class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
+class TestFragment : BaseFragment<FragmentTestBinding>() {
     override fun inflate(inflater: LayoutInflater) = FragmentTestBinding.inflate(inflater)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

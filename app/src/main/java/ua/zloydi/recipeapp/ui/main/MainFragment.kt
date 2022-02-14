@@ -13,7 +13,7 @@ import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.FragmentMainBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 
-class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
+class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun inflate(inflater: LayoutInflater) = FragmentMainBinding.inflate(inflater)
 
     private val viewModel: MainFragmentViewModel by activityViewModels()
