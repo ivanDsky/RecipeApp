@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/_24sdp"
-    android:transitionGroup="true"
-    android:transitionName="31"
     app:cardBackgroundColor="?colorPrimaryVariant">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +15,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/settings"
-            android:transitionName="32"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
