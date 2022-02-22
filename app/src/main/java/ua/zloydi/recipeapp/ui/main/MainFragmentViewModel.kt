@@ -8,11 +8,12 @@ import kotlinx.coroutines.flow.StateFlow
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.NavigationItem
 import ua.zloydi.recipeapp.ui.TestFragment
+import ua.zloydi.recipeapp.ui.search.SearchFragment
 import java.util.NoSuchElementException
 
 class MainFragmentViewModel : ViewModel(){
     companion object{
-        private val mainNavigationItem = NavigationItem(TestFragment(), R.string.main_screen, R.id.mainScreen)
+        private val mainNavigationItem = NavigationItem(SearchFragment(), R.string.main_screen, R.id.mainScreen)
         val screens = arrayOf(
             mainNavigationItem,
             NavigationItem(TestFragment(), R.string.category, R.id.categoryScreen),
