@@ -1,8 +1,5 @@
 package ua.zloydi.recipeapp.domain.retrofit
 
-import ua.zloydi.recipeapp.data.filter_types.CuisineType
-import ua.zloydi.recipeapp.data.filter_types.DishType
-import ua.zloydi.recipeapp.data.filter_types.MealType
 import ua.zloydi.recipeapp.data.filter_types.getString
 
 class RetrofitService(private val api: RecipeApi) {
