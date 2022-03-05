@@ -1,6 +1,6 @@
 package ua.zloydi.recipeapp.data.filter_types
 
-enum class DishType{
+enum class DishType {
     AlcoholCocktail,
     BiscuitsAndCookies,
     Bread,
@@ -20,10 +20,15 @@ enum class DishType{
     Starter,
 }
 
-fun DishType.getString() = when(this){
-    DishType.AlcoholCocktail -> "Alcohol-cocktail"
-    DishType.BiscuitsAndCookies -> "Biscuits and cookies"
-    DishType.CondimentsAndSauces -> "Condiments and sauces"
-    DishType.MainCourse -> "Main course"
-    else -> toString()
+val dishMapper by lazy { DishMapper()}
+
+class DishMapper : TypeMapper<DishType>() {
+    override fun allName() = DishType.values()
+    override val customNames: Array<Pair<DishType, String>>
+        get() = arrayOf(
+            DishType.AlcoholCocktail to "Alcohol-cocktail",
+            DishType.BiscuitsAndCookies to "Biscuits and cookies",
+            DishType.CondimentsAndSauces to "Condiments and sauces",
+            DishType.MainCourse to "Main course",
+        )
 }

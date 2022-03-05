@@ -8,4 +8,10 @@ enum class MealType {
     Teatime,
 }
 
-fun MealType.getString() = toString()
+val mealMapper by lazy { MealMapper() }
+
+class MealMapper : TypeMapper<MealType>(){
+    override fun allName() = MealType.values()
+    override val customNames: Array<Pair<MealType, String>>
+        get() = emptyArray()
+}
