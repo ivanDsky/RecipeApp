@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_card"
@@ -11,12 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/settings"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintHeight_max="@dimen/_64sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_max="@dimen/_64sdp" />
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent=".4" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
@@ -26,7 +26,6 @@
         android:text="@string/app_name"
         android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_16ssp"
-        app:layout_constraintBottom_toTopOf="@id/tvDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivRecipePreview"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,11 +35,65 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8sdp"
-        android:text="@string/bookmarks"
         android:textColor="?colorOnPrimaryVariant"
         android:textSize="@dimen/_13ssp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivRecipePreview"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/headerBarrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tvDescription,ivRecipePreview,tvTitle"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvIngredients"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:orientation="horizontal" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/typeFlow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:constraint_referenced_ids="tvCuisineType,tvMealType,tvDishType"
+        app:flow_horizontalBias="0"
+        app:flow_horizontalGap="@dimen/_16sdp"
+        app:flow_horizontalStyle="packed"
+        app:flow_verticalGap="@dimen/_8sdp"
+        app:flow_verticalStyle="packed"
+        app:flow_wrapMode="chain2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvIngredients" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCuisineType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="America" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMealType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Lunch" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDishType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Bread" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
