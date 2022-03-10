@@ -14,6 +14,7 @@ import ua.zloydi.recipeapp.data.filter_types.mealMapper
 import ua.zloydi.recipeapp.data.ui.IngredientUI
 import ua.zloydi.recipeapp.data.ui.RecipeUI
 import ua.zloydi.recipeapp.databinding.FragmentTestBinding
+import ua.zloydi.recipeapp.domain.error.ErrorProvider
 import ua.zloydi.recipeapp.domain.repository.RecipeRepository
 import ua.zloydi.recipeapp.domain.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.domain.retrofit.RetrofitProvider
@@ -27,11 +28,9 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) {
-            val repository = RecipeRepository(RetrofitProvider.service)
-            val response = repository.query(RecipeQuery("rice", cuisineType = CuisineType.CentralEurope))
-            if (response.isSuccessful && response.body() != null) {
-                val body = response.body()!!
-                val recipes = body.hits?.map { it.recipe }?.map { recipeDTO ->
+            val repository = RecipeRepository(RetrofitProvider.service, ErrorProvider.service)
+            repository.query(RecipeQuery("rice", cuisineType = CuisineType.CentralEurope))?.let {query ->
+                val recipes = query.hits?.map { it.recipe }?.map { recipeDTO ->
                     val ingredients =
                         recipeDTO.ingredients?.map { IngredientUI(it.food, it.text, it.measure) }
                             ?: emptyList()
