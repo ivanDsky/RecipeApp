@@ -3,12 +3,16 @@ package ua.zloydi.recipeapp.ui.core.adapter.baseAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import ua.zloydi.recipeapp.data.ui.RecipeUI
+import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeAdapter
 
 abstract class BaseAdapter<IM>(private val fingerprints: List<BaseFingerprint<*, IM>>) :
     RecyclerView.Adapter<BaseViewHolder<ViewBinding, IM>>(){
-    protected abstract val differ: AsyncListDiffer<IM>
+    protected abstract val Diff: DiffUtil.ItemCallback<IM>
+    private val differ = AsyncListDiffer(this, Diff)
 
     override fun getItemViewType(position: Int): Int {
         val item = differ.currentList[position]
