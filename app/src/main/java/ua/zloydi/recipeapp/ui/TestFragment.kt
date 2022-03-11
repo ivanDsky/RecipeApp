@@ -7,10 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ua.zloydi.recipeapp.data.filter_types.CuisineType
-import ua.zloydi.recipeapp.data.filter_types.cuisineMapper
-import ua.zloydi.recipeapp.data.filter_types.dishMapper
-import ua.zloydi.recipeapp.data.filter_types.mealMapper
+import ua.zloydi.recipeapp.data.filter_types.*
+import ua.zloydi.recipeapp.data.ui.FilterTypeUI
 import ua.zloydi.recipeapp.data.ui.IngredientUI
 import ua.zloydi.recipeapp.data.ui.RecipeUI
 import ua.zloydi.recipeapp.databinding.FragmentTestBinding
@@ -21,6 +19,7 @@ import ua.zloydi.recipeapp.domain.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
+import ua.zloydi.recipeapp.ui.core.adapterDecorators.SpaceDecorator
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
 
 class TestFragment : BaseFragment<FragmentTestBinding>() {
@@ -29,15 +28,17 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) {
             val repository = RecipeRepository(RetrofitProvider.service, ErrorProvider.service)
-            repository.query(RecipeQuery("rice", cuisineType = CuisineType.CentralEurope))?.let {query ->
+            repository.query(RecipeQuery("omelete", cuisineType = Cuisine.CentralEurope))?.let { query ->
                 val recipes = query.hits?.map { it.recipe }?.map { recipeDTO ->
                     val ingredients =
                         recipeDTO.ingredients?.map { IngredientUI(it.food, it.text, it.measure) }
                             ?: emptyList()
-                    val cuisineType = cuisineMapper.enum(recipeDTO.cuisineType?.first())
-                    val dishType = dishMapper.enum(recipeDTO.dishType?.first())
-                    val mealType = mealMapper.enum(recipeDTO.mealType?.first()?.split("/")?.first())
-                    RecipeUI(recipeDTO.label, recipeDTO.image, ingredients, cuisineType, dishType, mealType)
+                    val types = mutableListOf<FilterType?>()
+                    recipeDTO.mealType?.forEach { it.split("/").forEach { types.add(MealMapper.enum(it)) } }
+                    recipeDTO.dishType?.forEach { it.split("/").forEach { types.add(DishMapper.enum(it)) } }
+                    recipeDTO.cuisineType?.forEach { it.split("/").forEach { types.add(CuisineMapper.enum(it)) } }
+                    RecipeUI(recipeDTO.label, recipeDTO.image, ingredients, types.filterNotNull().map { FilterTypeUI(it.label) })
+//                    RecipeUI(recipeDTO.label, recipeDTO.image, ingredients, emptyList())
                 } ?: emptyList()
                 launch(Dispatchers.Main) { setupAdapter(recipes) }
             }
@@ -49,7 +50,12 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
             layoutManager = LinearLayoutManager(requireContext())
             val adapter = RecipeAdapter(listOf(LongRecipeFingerprint()))
             this.adapter = adapter
-            addItemDecoration(PaddingDecoratorFactory(resources).create(8f, 20f, 8f, 0f))
+            addItemDecoration(SpaceDecorator.builder(resources){
+                marginTop = 20
+                marginBottom = 20
+                verticalSpace = 20
+            })
+            addItemDecoration(PaddingDecoratorFactory(resources).create(8f,0f,8f,0f))
             adapter.setItems(list)
         }
     }

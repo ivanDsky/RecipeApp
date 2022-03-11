@@ -15,8 +15,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_max="wrap"
-        app:layout_constraintWidth_percent=".4" />
+        app:layout_constraintWidth_percent=".25"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
@@ -62,38 +61,13 @@
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:orientation="horizontal" />
 
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/typeFlow"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLabels"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
-        app:constraint_referenced_ids="tvCuisineType,tvMealType,tvDishType"
-        app:flow_horizontalBias="0"
-        app:flow_horizontalGap="@dimen/_16sdp"
-        app:flow_horizontalStyle="packed"
-        app:flow_verticalGap="@dimen/_8sdp"
-        app:flow_verticalStyle="packed"
-        app:flow_wrapMode="chain2"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rvIngredients" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCuisineType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="America" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvMealType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Lunch" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvDishType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Bread" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
