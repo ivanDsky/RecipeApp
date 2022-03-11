@@ -1,12 +1,10 @@
 package ua.zloydi.recipeapp.domain.retrofit
 
-import ua.zloydi.recipeapp.data.filter_types.CuisineType
-import ua.zloydi.recipeapp.data.filter_types.DishType
-import ua.zloydi.recipeapp.data.filter_types.MealType
+import ua.zloydi.recipeapp.data.filter_types.*
 
 data class RecipeQuery(
     val query: String,
-    val cuisineType: CuisineType? = null,
-    val mealType: MealType? = null,
-    val dishType: DishType? = null,
+    val cuisineType: Cuisine? = null,
+    val mealType: Meal? = null,
+    val dishType: Dish? = null,
 )

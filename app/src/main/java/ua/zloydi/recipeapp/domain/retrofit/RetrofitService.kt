@@ -1,9 +1,5 @@
 package ua.zloydi.recipeapp.domain.retrofit
 
-import ua.zloydi.recipeapp.data.filter_types.cuisineMapper
-import ua.zloydi.recipeapp.data.filter_types.dishMapper
-import ua.zloydi.recipeapp.data.filter_types.mealMapper
-
 class RetrofitService(private val api: RecipeApi) {
 
     companion object {
@@ -28,9 +24,9 @@ class RetrofitService(private val api: RecipeApi) {
         api.queryFilters(
             this.query,
             DEFAULT_FILTERS,
-            cuisineType = cuisineMapper.string(query.cuisineType),
-            dishType = dishMapper.string(query.dishType),
-            mealType = mealMapper.string(query.mealType),
+            cuisineType = query.cuisineType?.label,
+            dishType = query.dishType?.label,
+            mealType = query.mealType?.label,
         )
     }
 }
