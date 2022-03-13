@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingVertical="@dimen/_6sdp"
-    android:paddingHorizontal="@dimen/_8sdp"
+    android:paddingVertical="@dimen/_4sdp"
+    android:paddingHorizontal="@dimen/_6sdp"
     android:textColor="?colorOnSecondary"
     android:background="@drawable/bg_label"
-    android:textSize="@dimen/_9ssp"
+    android:textSize="@dimen/_10ssp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
