@@ -20,9 +20,6 @@ class LongRecipeFingerprint : RecipeFingerprint<LayoutLongRecipeItemBinding, Rec
         parent: ViewGroup
     ): LongRecipeViewHolder {
         val binding = LayoutLongRecipeItemBinding.inflate(inflater, parent, false)
-        binding.rvIngredients.layoutManager =
-            LinearLayoutManager(parent.context, LinearLayoutManager.VERTICAL, false)
-        binding.rvLabels.layoutManager = FlexboxLayoutManager(parent.context,ROW,WRAP)
         binding.rvLabels.addItemDecoration(PaddingDecoratorFactory(parent.resources).create(0f,2f,8f,2f))
         return LongRecipeViewHolder(binding)
     }
