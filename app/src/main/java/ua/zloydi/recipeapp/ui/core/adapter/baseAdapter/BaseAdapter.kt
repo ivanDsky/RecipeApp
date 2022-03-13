@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import ua.zloydi.recipeapp.data.ui.RecipeUI
-import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeAdapter
 
 abstract class BaseAdapter<IM>(private val fingerprints: List<BaseFingerprint<*, IM>>) :
     RecyclerView.Adapter<BaseViewHolder<ViewBinding, IM>>(){

@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.data.filter_types.*
 import ua.zloydi.recipeapp.data.ui.IngredientUI
-import ua.zloydi.recipeapp.data.ui.RecipeUI
+import ua.zloydi.recipeapp.data.ui.RecipeItemUI
 import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
 import ua.zloydi.recipeapp.data.ui.filterType.DishUI
 import ua.zloydi.recipeapp.data.ui.filterType.MealUI
@@ -38,7 +38,7 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
                     recipeDTO.mealType?.forEach { it.split("/").forEach { types.add(MealMapper.enum(it)) } }
                     recipeDTO.dishType?.forEach { it.split("/").forEach { types.add(DishMapper.enum(it)) } }
                     recipeDTO.cuisineType?.forEach { it.split("/").forEach { types.add(CuisineMapper.enum(it)) } }
-                    RecipeUI(recipeDTO.label, recipeDTO.image, recipeDTO.totalTime, ingredients, types.mapNotNull {
+                    RecipeItemUI(recipeDTO.label, recipeDTO.image, recipeDTO.totalTime, ingredients, types.mapNotNull {
                         when(it){
                             is Meal -> MealUI(it.label)
                             is Dish -> DishUI(it.label)
@@ -54,7 +54,7 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
     }
 
 
-    private fun setupAdapter(list: List<RecipeUI>) {
+    private fun setupAdapter(list: List<RecipeItemUI>) {
         with(binding.rvRecipes) {
             val span = 2
             layoutManager = GridLayoutManager(requireContext(),span)

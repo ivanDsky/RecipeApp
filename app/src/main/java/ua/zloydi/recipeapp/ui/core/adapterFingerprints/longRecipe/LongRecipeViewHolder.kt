@@ -3,18 +3,17 @@ package ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.data.ui.RecipeUI
+import ua.zloydi.recipeapp.data.ui.RecipeItemUI
 import ua.zloydi.recipeapp.databinding.LayoutLongRecipeItemBinding
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
-import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeViewHolder
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
 
 class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding) :
-    RecipeViewHolder<LayoutLongRecipeItemBinding, RecipeUI>(binding) {
-    override fun bind(item: RecipeUI) = with(binding){
+    RecipeViewHolder<LayoutLongRecipeItemBinding, RecipeItemUI>(binding) {
+    override fun bind(item: RecipeItemUI) = with(binding){
         tvTitle.text = item.title
         if(item.time == null || item.time < 1 || item.time > 240) {
             tvTime.isVisible = false
