@@ -7,15 +7,24 @@
     android:background="@drawable/bg_card"
     android:padding="@dimen/_8sdp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivRecipePreview"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ivRecipePreviewCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/settings"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".25"/>
+        app:layout_constraintWidth_percent=".25">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivRecipePreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/settings" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
@@ -26,7 +35,7 @@
         android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_16ssp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivRecipePreview"
+        app:layout_constraintStart_toEndOf="@id/ivRecipePreviewCard"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -37,37 +46,20 @@
         android:textColor="?colorOnPrimaryVariant"
         android:textSize="@dimen/_13ssp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivRecipePreview"
+        app:layout_constraintStart_toEndOf="@id/ivRecipePreviewCard"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/headerBarrier"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="tvDescription,ivRecipePreview,tvTitle"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="10dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvIngredients"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerBarrier"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:orientation="horizontal" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLabels"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:orientation="horizontal"
+        app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvIngredients" />
+        app:layout_constraintStart_toEndOf="@id/ivRecipePreviewCard"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
