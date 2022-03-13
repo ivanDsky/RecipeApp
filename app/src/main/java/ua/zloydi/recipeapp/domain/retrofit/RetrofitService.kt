@@ -11,6 +11,7 @@ class RetrofitService(private val api: RecipeApi) {
             "url",
             "ingredients",
             "calories",
+            "totalTime",
             "totalWeight",
             "cuisineType",
             "mealType",

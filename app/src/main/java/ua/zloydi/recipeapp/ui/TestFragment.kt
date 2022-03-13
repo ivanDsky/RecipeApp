@@ -38,7 +38,7 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
                     recipeDTO.mealType?.forEach { it.split("/").forEach { types.add(MealMapper.enum(it)) } }
                     recipeDTO.dishType?.forEach { it.split("/").forEach { types.add(DishMapper.enum(it)) } }
                     recipeDTO.cuisineType?.forEach { it.split("/").forEach { types.add(CuisineMapper.enum(it)) } }
-                    RecipeUI(recipeDTO.label, recipeDTO.image, ingredients, types.mapNotNull {
+                    RecipeUI(recipeDTO.label, recipeDTO.image, recipeDTO.totalTime, ingredients, types.mapNotNull {
                         when(it){
                             is Meal -> MealUI(it.label)
                             is Dish -> DishUI(it.label)

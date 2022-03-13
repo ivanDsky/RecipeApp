@@ -8,6 +8,7 @@ data class RecipeDTO(
     val url: String? = null,
     val ingredients: Array<IngredientDTO>? = null,
     val calories: Float? = null,
+    val totalTime: Float? = null,
     val totalWeight: Float? = null,
     val cuisineType: Array<String>? = null,
     val mealType: Array<String>? = null,

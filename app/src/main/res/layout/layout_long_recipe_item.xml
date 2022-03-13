@@ -24,6 +24,14 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/settings" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTime"
+            android:padding="@dimen/_3sdp"
+            android:background="@drawable/bg_time"
+            android:layout_gravity="bottom|start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
