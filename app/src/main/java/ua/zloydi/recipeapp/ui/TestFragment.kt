@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.data.filter_types.*
-import ua.zloydi.recipeapp.data.ui.filterType.FilterTypeUI
 import ua.zloydi.recipeapp.data.ui.IngredientUI
 import ua.zloydi.recipeapp.data.ui.RecipeUI
 import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
@@ -22,9 +21,7 @@ import ua.zloydi.recipeapp.domain.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
-import ua.zloydi.recipeapp.ui.core.adapterDecorators.SpaceDecorator
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
-import kotlin.reflect.KClass
 
 class TestFragment : BaseFragment<FragmentTestBinding>() {
     override fun inflate(inflater: LayoutInflater) = FragmentTestBinding.inflate(inflater)
@@ -32,7 +29,7 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) {
             val repository = RecipeRepository(RetrofitProvider.service, ErrorProvider.service)
-            repository.query(RecipeQuery("omelet", cuisineType = Cuisine.CentralEurope))?.let { query ->
+            repository.query(RecipeQuery("", cuisineType = Cuisine.CentralEurope))?.let { query ->
                 val recipes = query.hits?.map { it.recipe }?.map { recipeDTO ->
                     val ingredients =
                         recipeDTO.ingredients?.map { IngredientUI(it.food, it.text, it.measure) }
@@ -59,15 +56,11 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
 
     private fun setupAdapter(list: List<RecipeUI>) {
         with(binding.rvRecipes) {
-            layoutManager = LinearLayoutManager(requireContext())
+            val span = 2
+            layoutManager = GridLayoutManager(requireContext(),span)
             val adapter = RecipeAdapter(listOf(LongRecipeFingerprint()))
             this.adapter = adapter
-            addItemDecoration(SpaceDecorator.builder(resources){
-                marginTop = 20
-                marginBottom = 20
-                verticalSpace = 20
-            })
-            addItemDecoration(PaddingDecoratorFactory(resources).create(8f,0f,8f,0f))
+            PaddingDecoratorFactory(resources).apply(this, 8f, 8f)
             adapter.setItems(list)
         }
     }
