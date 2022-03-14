@@ -9,7 +9,7 @@ import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 
 
-class LongRecipeFingerprint : RecipeFingerprint<LayoutLongRecipeItemBinding, RecipeItemUI>() {
+object LongRecipeFingerprint : RecipeFingerprint<LayoutLongRecipeItemBinding, RecipeItemUI>() {
     override fun inflate(
         inflater: LayoutInflater,
         parent: ViewGroup

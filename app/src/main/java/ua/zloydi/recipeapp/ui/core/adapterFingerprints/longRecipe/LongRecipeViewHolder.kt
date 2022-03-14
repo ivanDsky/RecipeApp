@@ -26,7 +26,7 @@ class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding) :
             .load(item.image)
             .into(ivRecipePreview)
 
-        rvLabels.adapter = LabelAdapter(listOf(CuisineFingerprint(), DishFingerprint(), MealFingerprint()))
+        rvLabels.adapter = LabelAdapter(listOf(CuisineFingerprint, DishFingerprint, MealFingerprint))
             .also { it.setItems(item.types)}
     }
 }
