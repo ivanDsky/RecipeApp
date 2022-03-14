@@ -1,6 +1,8 @@
 package ua.zloydi.recipeapp.data.ui.filterType
 
-abstract class FilterTypeUI {
+import java.io.Serializable
+
+abstract class FilterTypeUI : Serializable {
     open val name: String? = null
 }
 
