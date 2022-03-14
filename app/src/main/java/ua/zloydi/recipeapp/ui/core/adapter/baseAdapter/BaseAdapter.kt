@@ -7,10 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseAdapter<IM>(private val fingerprints: List<BaseFingerprint<*, IM>>) :
+abstract class BaseAdapter<IM>(
+    private val fingerprints: List<BaseFingerprint<*, IM>>,
+    protected val onItemClickListener: OnItemClickListener? = null
+) :
     RecyclerView.Adapter<BaseViewHolder<ViewBinding, IM>>(){
     protected abstract val Diff: DiffUtil.ItemCallback<IM>
     private val differ = AsyncListDiffer(this, Diff)
+
+    fun interface OnItemClickListener{
+        fun onItemClick(binding: ViewBinding, position: Int)
+    }
 
     override fun getItemViewType(position: Int): Int {
         val item = differ.currentList[position]
@@ -30,8 +37,16 @@ abstract class BaseAdapter<IM>(private val fingerprints: List<BaseFingerprint<*,
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, IM>, position: Int) {
-        holder.bind(differ.currentList[position])
+        holder.bind(getItem(position))
+        holder.binding.root.setOnClickListener {
+            onItemClickListener?.onItemClick(
+                holder.binding,
+                position
+            )
+        }
     }
+
+    fun getItem(position: Int) = differ.currentList[position]
 
     override fun getItemCount() = differ.currentList.size
 
