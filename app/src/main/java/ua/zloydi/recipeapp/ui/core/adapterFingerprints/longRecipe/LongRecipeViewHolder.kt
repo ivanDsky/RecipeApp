@@ -14,6 +14,8 @@ import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
 class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding) :
     RecipeViewHolder<LayoutLongRecipeItemBinding, RecipeItemUI>(binding) {
     override fun bind(item: RecipeItemUI) = with(binding){
+        tvTitle.transitionName = "tvTitle$adapterPosition"
+        ivRecipePreview.transitionName = "ivRecipePreview$adapterPosition"
         tvTitle.text = item.title
         if(item.time == null || item.time < 1 || item.time > 240) {
             tvTime.isVisible = false
