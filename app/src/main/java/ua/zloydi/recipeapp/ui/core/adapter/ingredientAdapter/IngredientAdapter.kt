@@ -13,6 +13,6 @@ class IngredientAdapter :
         override fun areItemsTheSame(oldItem: IngredientUI, newItem: IngredientUI) =
             oldItem.food == newItem.food
 
-        override fun areContentsTheSame(oldItem: IngredientUI, newItem: IngredientUI) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: IngredientUI, newItem: IngredientUI) = oldItem.text == newItem.text
     }
 }
