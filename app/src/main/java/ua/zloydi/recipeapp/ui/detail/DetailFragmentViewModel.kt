@@ -1,7 +1,7 @@
 package ua.zloydi.recipeapp.ui.detail
 
 import androidx.lifecycle.ViewModel
-import ua.zloydi.recipeapp.data.ui.RecipeUI
+import ua.zloydi.recipeapp.ui.data.RecipeUI
 
 class DetailFragmentViewModel : ViewModel(){
     private var _recipe: RecipeUI? = null

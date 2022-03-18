@@ -3,7 +3,7 @@ package ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.data.ui.RecipeItemUI
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.databinding.LayoutLongRecipeItemBinding
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory

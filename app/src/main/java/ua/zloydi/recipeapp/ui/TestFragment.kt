@@ -14,12 +14,12 @@ import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.filter_types.CuisineMapper
 import ua.zloydi.recipeapp.data.filter_types.DishMapper
 import ua.zloydi.recipeapp.data.filter_types.MealMapper
-import ua.zloydi.recipeapp.data.ui.IngredientUI
-import ua.zloydi.recipeapp.data.ui.RecipeItemUI
-import ua.zloydi.recipeapp.data.ui.RecipeUI
-import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
-import ua.zloydi.recipeapp.data.ui.filterType.DishUI
-import ua.zloydi.recipeapp.data.ui.filterType.MealUI
+import ua.zloydi.recipeapp.ui.data.IngredientUI
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.ui.data.RecipeUI
+import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
+import ua.zloydi.recipeapp.ui.data.filterType.DishUI
+import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.databinding.FragmentTestBinding
 import ua.zloydi.recipeapp.databinding.LayoutLongRecipeItemBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
@@ -56,11 +56,17 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
                     val dto = runBlocking { viewModel.recipes.await() }?.find { it.image == item.image && it.label == item.title} ?: return@commit
                     val ingredients = dto.ingredients?.map { IngredientUI(it.food, it.text, it.measure, it.image) }
                     val cuisine = mutableListOf<CuisineUI>()
-                        dto.cuisineType?.forEach { it.split('/').forEach {CuisineMapper.enum(it)?.label?.let { cuisine.add(CuisineUI(it)) }} }
+                        dto.cuisineType?.forEach { it.split('/').forEach {CuisineMapper.enum(it)?.label?.let { cuisine.add(
+                            CuisineUI(it)
+                        ) }} }
                     val meal = mutableListOf<MealUI>()
-                        dto.mealType?.forEach { it.split('/').forEach {MealMapper.enum(it)?.label?.let { meal.add(MealUI(it)) }} }
+                        dto.mealType?.forEach { it.split('/').forEach {MealMapper.enum(it)?.label?.let { meal.add(
+                            MealUI(it)
+                        ) }} }
                     val dish = mutableListOf<DishUI>()
-                        dto.dishType?.forEach { it.split('/').forEach {DishMapper.enum(it)?.label?.let { dish.add(DishUI(it)) }} }
+                        dto.dishType?.forEach { it.split('/').forEach {DishMapper.enum(it)?.label?.let { dish.add(
+                            DishUI(it)
+                        ) }} }
                     val recipeUI = RecipeUI(
                         dto.label,
                         dto.image,

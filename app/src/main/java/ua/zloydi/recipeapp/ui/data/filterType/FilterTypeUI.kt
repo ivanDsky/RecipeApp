@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.ui.filterType
+package ua.zloydi.recipeapp.ui.data.filterType
 
 import java.io.Serializable
 

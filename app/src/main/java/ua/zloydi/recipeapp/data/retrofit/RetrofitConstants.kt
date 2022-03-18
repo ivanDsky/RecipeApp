@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.domain.retrofit
+package ua.zloydi.recipeapp.data.retrofit
 
 object RetrofitConstants {
      const val BASE_URl = "https://api.edamam.com/api/recipes/"

@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.ui
+package ua.zloydi.recipeapp.ui.data
 
 import java.io.Serializable
 

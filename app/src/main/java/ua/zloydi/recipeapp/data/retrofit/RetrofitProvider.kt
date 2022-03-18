@@ -1,11 +1,10 @@
-package ua.zloydi.recipeapp.domain.retrofit
+package ua.zloydi.recipeapp.data.retrofit
 
-import android.content.Context
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ua.zloydi.recipeapp.App
-import ua.zloydi.recipeapp.domain.retrofit.RetrofitConstants.BASE_URl
+import ua.zloydi.recipeapp.data.retrofit.RetrofitConstants.BASE_URl
 import ua.zloydi.recipeapp.utils.NetworkChecker
 
 

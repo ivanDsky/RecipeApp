@@ -1,7 +1,7 @@
 package ua.zloydi.recipeapp.ui.core.adapterFingerprints.label
 
-import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
-import ua.zloydi.recipeapp.data.ui.filterType.FilterTypeUI
+import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
+import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
 import ua.zloydi.recipeapp.databinding.LayoutLabelBinding
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelFingerprint
 

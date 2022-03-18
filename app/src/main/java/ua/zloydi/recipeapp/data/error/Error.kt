@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.errors
+package ua.zloydi.recipeapp.data.error
 
 sealed class Error{
     abstract val message: String

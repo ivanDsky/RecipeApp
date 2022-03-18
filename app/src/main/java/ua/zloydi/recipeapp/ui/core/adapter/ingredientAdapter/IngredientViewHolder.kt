@@ -3,7 +3,7 @@ package ua.zloydi.recipeapp.ui.core.adapter.ingredientAdapter
 import android.widget.TextView
 import androidx.core.view.isGone
 import com.bumptech.glide.Glide
-import ua.zloydi.recipeapp.data.ui.IngredientUI
+import ua.zloydi.recipeapp.ui.data.IngredientUI
 import ua.zloydi.recipeapp.databinding.LayoutIngredientBinding
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 import ua.zloydi.recipeapp.utils.firstCaps

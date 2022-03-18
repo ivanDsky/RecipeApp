@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.data.ui.IngredientUI
-import ua.zloydi.recipeapp.data.ui.RecipeUI
-import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
-import ua.zloydi.recipeapp.data.ui.filterType.DishUI
-import ua.zloydi.recipeapp.data.ui.filterType.FilterTypeUI
-import ua.zloydi.recipeapp.data.ui.filterType.MealUI
+import ua.zloydi.recipeapp.ui.data.IngredientUI
+import ua.zloydi.recipeapp.ui.data.RecipeUI
+import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
+import ua.zloydi.recipeapp.ui.data.filterType.DishUI
+import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
+import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.ingredientAdapter.IngredientAdapter
@@ -109,7 +109,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
         PaddingDecoratorFactory(resources).apply(rvLabels, 0f, 2f, false)
     }
 
-    private fun getRecipe(): RecipeUI{
+    private fun getRecipe(): RecipeUI {
         val obj = (arguments?.get(RECIPE) ?: throw IllegalStateException("Incorrect initialization"))
         if(obj !is RecipeUI) throw TypeCastException("Incorrect parameter in RECIPE field")
         return obj

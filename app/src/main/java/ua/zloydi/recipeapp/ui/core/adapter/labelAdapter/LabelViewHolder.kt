@@ -1,6 +1,6 @@
 package ua.zloydi.recipeapp.ui.core.adapter.labelAdapter
 
-import ua.zloydi.recipeapp.data.ui.filterType.FilterTypeUI
+import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
 import ua.zloydi.recipeapp.databinding.LayoutLabelBinding
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 

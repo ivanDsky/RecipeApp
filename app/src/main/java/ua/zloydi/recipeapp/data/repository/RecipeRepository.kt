@@ -1,10 +1,10 @@
-package ua.zloydi.recipeapp.domain.repository
+package ua.zloydi.recipeapp.data.repository
 
 import ua.zloydi.recipeapp.data.dto.QueryDTO
-import ua.zloydi.recipeapp.data.errors.Error
-import ua.zloydi.recipeapp.domain.error.ErrorService
-import ua.zloydi.recipeapp.domain.retrofit.RecipeQuery
-import ua.zloydi.recipeapp.domain.retrofit.RetrofitService
+import ua.zloydi.recipeapp.data.error.Error
+import ua.zloydi.recipeapp.data.error.ErrorService
+import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
+import ua.zloydi.recipeapp.data.retrofit.RetrofitService
 import java.io.IOException
 
 class RecipeRepository(

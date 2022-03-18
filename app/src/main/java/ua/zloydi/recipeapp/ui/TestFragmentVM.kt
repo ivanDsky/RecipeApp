@@ -7,14 +7,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import ua.zloydi.recipeapp.data.dto.RecipeDTO
 import ua.zloydi.recipeapp.data.filter_types.*
-import ua.zloydi.recipeapp.data.ui.RecipeItemUI
-import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
-import ua.zloydi.recipeapp.data.ui.filterType.DishUI
-import ua.zloydi.recipeapp.data.ui.filterType.MealUI
-import ua.zloydi.recipeapp.domain.error.ErrorProvider
-import ua.zloydi.recipeapp.domain.repository.RecipeRepository
-import ua.zloydi.recipeapp.domain.retrofit.RecipeQuery
-import ua.zloydi.recipeapp.domain.retrofit.RetrofitProvider
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
+import ua.zloydi.recipeapp.ui.data.filterType.DishUI
+import ua.zloydi.recipeapp.ui.data.filterType.MealUI
+import ua.zloydi.recipeapp.data.error.ErrorProvider
+import ua.zloydi.recipeapp.data.repository.RecipeRepository
+import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
+import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 
 class TestFragmentVM : ViewModel(){
     val recipes: Deferred<List<RecipeDTO>?> = viewModelScope.async(Dispatchers.IO) {

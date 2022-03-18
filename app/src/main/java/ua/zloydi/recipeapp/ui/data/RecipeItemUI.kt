@@ -1,6 +1,6 @@
-package ua.zloydi.recipeapp.data.ui
+package ua.zloydi.recipeapp.ui.data
 
-import ua.zloydi.recipeapp.data.ui.filterType.FilterTypeUI
+import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
 
 data class RecipeItemUI(
     val title: String? = null,

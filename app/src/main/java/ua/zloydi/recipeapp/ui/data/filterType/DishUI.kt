@@ -1,3 +1,3 @@
-package ua.zloydi.recipeapp.data.ui.filterType
+package ua.zloydi.recipeapp.ui.data.filterType
 
 data class DishUI(override val name: String?) : FilterTypeUI()

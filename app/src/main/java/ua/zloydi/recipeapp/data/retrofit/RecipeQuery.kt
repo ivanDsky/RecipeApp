@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.domain.retrofit
+package ua.zloydi.recipeapp.data.retrofit
 
 import ua.zloydi.recipeapp.data.filter_types.*
 

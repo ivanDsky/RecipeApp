@@ -1,8 +1,8 @@
-package ua.zloydi.recipeapp.data.ui
+package ua.zloydi.recipeapp.ui.data
 
-import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
-import ua.zloydi.recipeapp.data.ui.filterType.DishUI
-import ua.zloydi.recipeapp.data.ui.filterType.MealUI
+import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
+import ua.zloydi.recipeapp.ui.data.filterType.DishUI
+import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import java.io.Serializable
 
 data class RecipeUI(

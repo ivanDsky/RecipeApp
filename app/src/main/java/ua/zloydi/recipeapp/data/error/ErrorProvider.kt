@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.domain.error
+package ua.zloydi.recipeapp.data.error
 
 object ErrorProvider {
     val service = ErrorService()

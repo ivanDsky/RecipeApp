@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.domain.retrofit
+package ua.zloydi.recipeapp.data.retrofit
 
 class RetrofitService(private val api: RecipeApi) {
 

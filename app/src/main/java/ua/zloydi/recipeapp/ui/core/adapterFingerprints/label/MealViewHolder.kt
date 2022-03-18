@@ -1,9 +1,8 @@
 package ua.zloydi.recipeapp.ui.core.adapterFingerprints.label
 
 import android.content.res.ColorStateList
-import androidx.core.content.ContextCompat
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.data.ui.filterType.FilterTypeUI
+import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
 import ua.zloydi.recipeapp.databinding.LayoutLabelBinding
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelViewHolder
 import ua.zloydi.recipeapp.utils.getThemeColor

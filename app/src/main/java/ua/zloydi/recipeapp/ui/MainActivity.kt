@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.domain.error.ErrorProvider
+import ua.zloydi.recipeapp.data.error.ErrorProvider
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
