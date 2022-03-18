@@ -13,6 +13,7 @@
         android:background="?colorPrimaryVariant">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:transitionName="ivRecipePreview"
             android:id="@+id/ivRecipePreview"
             android:layout_width="0dp"
             android:layout_height="0dp"
