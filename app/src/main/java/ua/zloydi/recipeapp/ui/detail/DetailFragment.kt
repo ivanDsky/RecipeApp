@@ -1,15 +1,19 @@
 package ua.zloydi.recipeapp.ui.detail
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import ua.zloydi.recipeapp.R
+import ua.zloydi.recipeapp.data.ui.IngredientUI
 import ua.zloydi.recipeapp.data.ui.RecipeUI
 import ua.zloydi.recipeapp.data.ui.filterType.CuisineUI
 import ua.zloydi.recipeapp.data.ui.filterType.DishUI
@@ -17,6 +21,7 @@ import ua.zloydi.recipeapp.data.ui.filterType.FilterTypeUI
 import ua.zloydi.recipeapp.data.ui.filterType.MealUI
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
+import ua.zloydi.recipeapp.ui.core.adapter.ingredientAdapter.IngredientAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
@@ -36,7 +41,15 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.recipe = getRecipe()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            containerColor = Color.BLACK
+            drawingViewId = R.id.mainContainer
+            duration = 2000
+        }
         bind()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+            parentFragmentManager.popBackStack()
+        }
     }
 
     private fun bind() =
@@ -57,7 +70,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
             tvSource.text = url
 
             createLabels(rvLabels,cuisineType, dishType, mealType)
-
+            createIngredients(rvIngredients, ingredients)
 
             description?.let {
                 tvDescription.text = it
@@ -66,6 +79,14 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
                 tvDescription.isVisible = false
             }
         }}
+
+    private fun createIngredients(rvIngredients: RecyclerView, ingredients: Array<IngredientUI>?) {
+        rvIngredients.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = IngredientAdapter()
+        rvIngredients.adapter = adapter
+        PaddingDecoratorFactory(resources).apply(rvIngredients,2f, 0f, false)
+        adapter.setItems(ingredients?.toList() ?: emptyList())
+    }
 
     private fun createLabels(
         rvLabels: RecyclerView,
@@ -89,7 +110,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
     }
 
     private fun getRecipe(): RecipeUI{
-        val obj = (arguments?.get(RECIPE) ?: throw ExceptionInInitializerError("Incorrect initialization"))
+        val obj = (arguments?.get(RECIPE) ?: throw IllegalStateException("Incorrect initialization"))
         if(obj !is RecipeUI) throw TypeCastException("Incorrect parameter in RECIPE field")
         return obj
     }
