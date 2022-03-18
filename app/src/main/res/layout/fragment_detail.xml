@@ -28,7 +28,6 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:translationZ="10sp"
             android:id="@+id/tvTitle"
-            android:transitionName="tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_8sdp"

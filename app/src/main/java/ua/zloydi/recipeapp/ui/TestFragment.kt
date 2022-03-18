@@ -75,7 +75,6 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
                         dish.toTypedArray()
                     )
                     setReorderingAllowed(true)
-                    addSharedElement(b.tvTitle,"tvTitle")
                     addSharedElement(b.ivRecipePreview,"ivRecipePreview")
                     replace(R.id.mainContainer,DetailFragment.create(recipeUI))
                     addToBackStack(null)
