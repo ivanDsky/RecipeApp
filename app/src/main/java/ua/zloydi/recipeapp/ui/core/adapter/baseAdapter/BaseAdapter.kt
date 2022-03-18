@@ -38,12 +38,13 @@ abstract class BaseAdapter<IM>(
 
     override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, IM>, position: Int) {
         holder.bind(getItem(position))
-        holder.binding.root.setOnClickListener {
-            onItemClickListener?.onItemClick(
-                holder.binding,
-                position
-            )
-        }
+        if (onItemClickListener != null)
+            holder.binding.root.setOnClickListener {
+                onItemClickListener.onItemClick(
+                    holder.binding,
+                    position
+                )
+            }
     }
 
     fun getItem(position: Int) = differ.currentList[position]
