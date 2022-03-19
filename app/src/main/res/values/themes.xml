@@ -2,6 +2,10 @@
     <!-- Base application theme. -->
     <attr name="colorOnPrimaryVariant" format="color"/>
     <attr name="colorBackground" format="color"/>
+    <attr name="colorSecondaryTone1" format="color"/>
+    <attr name="colorSecondaryTone2" format="color"/>
+    <attr name="colorSecondaryTone3" format="color"/>
+
 
     <style name="Theme.RecipeApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -13,6 +17,9 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue_dark</item>
         <item name="colorSecondaryVariant">@color/blue_light</item>
+        <item name="colorSecondaryTone1">@color/blue_tone_1</item>
+        <item name="colorSecondaryTone2">@color/blue_tone_2</item>
+        <item name="colorSecondaryTone3">@color/blue_tone_3</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>

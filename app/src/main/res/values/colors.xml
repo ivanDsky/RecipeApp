@@ -8,6 +8,9 @@
     <color name="gray_dark">#504B4F</color>
     <color name="blue_light">#6294F7</color>
     <color name="blue_dark">#3170F0</color>
+    <color name="blue_tone_1">#62C0F7</color>
+    <color name="blue_tone_2">#62B0F7</color>
+    <color name="blue_tone_3">#62A0F7</color>
 
 
     <color name="purple_200">#FFBB86FC</color>
