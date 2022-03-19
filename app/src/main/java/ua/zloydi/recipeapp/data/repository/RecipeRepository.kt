@@ -11,9 +11,9 @@ class RecipeRepository(
     private val retrofitService: RetrofitService,
     private val errorService: ErrorService
 ) {
-    suspend fun query(query: RecipeQuery): QueryDTO? {
+    suspend fun query(query: RecipeQuery, nextHash: String? = null) : QueryDTO?{
         try {
-            val response = retrofitService.query(query)
+            val response = retrofitService.query(query, nextHash)
             if (!response.isSuccessful) {
                 submitErrorMessage(response.errorBody()?.string())
                 return null

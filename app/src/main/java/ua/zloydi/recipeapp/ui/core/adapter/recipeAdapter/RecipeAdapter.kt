@@ -1,9 +1,9 @@
 package ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter
 
 import androidx.recyclerview.widget.DiffUtil
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
 class RecipeAdapter(
     fingerprints: List<RecipeFingerprint<*, RecipeItemUI>>,

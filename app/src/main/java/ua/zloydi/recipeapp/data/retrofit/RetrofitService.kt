@@ -20,11 +20,13 @@ class RetrofitService(private val api: RecipeApi) {
     }
 
     suspend fun query(
-        query: RecipeQuery
+        query: RecipeQuery,
+        nextHash: String? = null
     ) = with(query) {
         api.queryFilters(
-            this.query,
-            DEFAULT_FILTERS,
+            query = this.query,
+            fields = DEFAULT_FILTERS,
+            nextHash = nextHash,
             cuisineType = query.cuisineType?.label,
             dishType = query.dishType?.label,
             mealType = query.mealType?.label,
