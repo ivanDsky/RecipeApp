@@ -15,7 +15,7 @@ class RecipeRepository(
         try {
             val response = retrofitService.query(query, nextHash)
             if (!response.isSuccessful) {
-                submitErrorMessage(response.errorBody()?.string())
+                submitErrorMessage("Error code = ${response.code()}")
                 return null
             }
             if (response.body() == null) {
