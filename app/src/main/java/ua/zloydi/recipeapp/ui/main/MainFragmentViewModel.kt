@@ -5,32 +5,26 @@ import android.view.MenuItem
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.NavigationItem
-import ua.zloydi.recipeapp.ui.TestFragment
-import ua.zloydi.recipeapp.ui.search.SearchFragment
-import java.util.NoSuchElementException
+import ua.zloydi.recipeapp.data.NavigationItem.*
+
 
 class MainFragmentViewModel : ViewModel(){
     companion object{
-        private val mainNavigationItem = NavigationItem(SearchFragment(), R.string.main_screen, R.id.mainScreen)
-        val screens = arrayOf(
-            mainNavigationItem,
-            NavigationItem(TestFragment(), R.string.category, R.id.categoryScreen),
-            NavigationItem(TestFragment(), R.string.bookmarks, R.id.bookmarksScreen),
-        )
+        val defaultScreen = Search
+        val screens = listOf(Search,Category,Bookmarks)
     }
 
-    private val _navigationScreenFlow = MutableStateFlow(mainNavigationItem)
-    val navigationScreenFlow : StateFlow<NavigationItem> get() = _navigationScreenFlow
+    private val _navigationScreenChannel = MutableStateFlow<NavigationItem>(defaultScreen)
+    val navigationScreenFlow : StateFlow<NavigationItem> get() = _navigationScreenChannel
 
     fun onMenuSelected(menuItem: MenuItem){
-        Log.d("Debug141", "onMenuSelected: ${menuItem.itemId}")
-        if(_navigationScreenFlow.value.id == menuItem.itemId)
+        if(_navigationScreenChannel.value.id == menuItem.itemId)
             return
 
+        Log.d("Debug141", "onMenuSelected: ${menuItem.itemId}")
         screens.find { it.id == menuItem.itemId } ?.let {
-            _navigationScreenFlow.value = it
+            _navigationScreenChannel.value = it
         } ?: throw NoSuchElementException("No element with id: ${menuItem.itemId}")
     }
 }

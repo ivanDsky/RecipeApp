@@ -9,6 +9,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.R
+import ua.zloydi.recipeapp.data.NavigationItem
 import ua.zloydi.recipeapp.databinding.FragmentMainBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 
@@ -25,12 +26,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private fun setupNavigation() {
         lifecycleScope.launchWhenStarted {
-            viewModel.navigationScreenFlow.collect {
-                binding.toolbar.tvTitle.text = getString(it.title)
-                binding.bottomNavigation.selectedItemId = it.id
-                replaceFragment(it.fragment)
-            }
+            viewModel.navigationScreenFlow.collect{it.bind()}
         }
+    }
+
+    private fun NavigationItem.bind(){
+        binding.toolbar.tvTitle.text = getString(title)
+        binding.bottomNavigation.selectedItemId = id
+        replaceFragment(fragmentFactory, tag)
     }
 
     private fun setupBottomNavigation() {
@@ -40,9 +43,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragmentFactory: () -> Fragment, tag: String) {
         childFragmentManager.commit {
-            replace(R.id.mainContainer, fragment)
+            val fragment = childFragmentManager.findFragmentByTag(tag)
+            childFragmentManager.fragments.forEach { hide(it) }
+            if(fragment == null)
+                add(R.id.mainContainer, fragmentFactory(), tag)
+            else
+                show(fragment)
         }
     }
 
