@@ -11,8 +11,11 @@ data class LinkDTO(
             if(href == null) return null
             val start = href.indexOf("_cont=")
             if (start == -1) return null
-            var end = min(href.indexOf('&', start), href.indexOf('%',start))
-            if (end == -1) end = href.length
+            val amp = href.indexOf('&', start)
+            val per = href.indexOf('%', start)
+            var end = href.length
+            if(amp != -1)end = min(end, amp)
+            if(per != -1)end = min(end, per)
             return href.substring(start + 6, end)
         }
 }
