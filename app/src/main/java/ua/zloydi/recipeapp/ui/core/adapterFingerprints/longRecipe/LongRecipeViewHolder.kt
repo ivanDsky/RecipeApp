@@ -3,15 +3,16 @@ package ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.databinding.LayoutLongRecipeItemBinding
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeViewHolder
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
-class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding) :
+class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding,
+private val onClick: (RecipeItemUI) -> Unit) :
     RecipeViewHolder<LayoutLongRecipeItemBinding, RecipeItemUI>(binding) {
     override fun bind(item: RecipeItemUI) = with(binding){
         ivRecipePreview.transitionName = "ivRecipePreview$adapterPosition"
@@ -22,6 +23,8 @@ class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding) :
             tvTime.isVisible = true
             tvTime.text = root.resources.getString(R.string.time, item.time)
         }
+
+        root.setOnClickListener { onClick(item) }
 
         Glide.with(ivRecipePreview)
             .load(item.image)

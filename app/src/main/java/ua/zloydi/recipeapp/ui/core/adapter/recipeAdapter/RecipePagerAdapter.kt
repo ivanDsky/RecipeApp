@@ -5,30 +5,21 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
-import ua.zloydi.recipeapp.data.dto.RecipeDTO
-import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseAdapter
+import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
-private fun RecipeDTO.toRecipeItemUI() = RecipeItemUI(
-    label, image, totalTime, emptyList()
+private fun RecipeItemDTO.toRecipeItemUI() = RecipeItemUI(
+    id, label, image, totalTime, emptyList()
 )
 
 class RecipePagerAdapter(
     private val fingerprints: List<RecipeFingerprint<*, RecipeItemUI>>,
-    private val itemClickListener: BaseAdapter.OnItemClickListener? = null
-) : PagingDataAdapter<RecipeDTO, RecipeViewHolder<ViewBinding, RecipeItemUI>>(RecipeDiff()){
+) : PagingDataAdapter<RecipeItemDTO, RecipeViewHolder<ViewBinding, RecipeItemUI>>(RecipeDiff()){
     override fun onBindViewHolder(
         holder: RecipeViewHolder<ViewBinding, RecipeItemUI>,
         position: Int
     ) {
         holder.bind(getItem(position)?.toRecipeItemUI() ?: return)
-        if (itemClickListener != null)
-            holder.binding.root.setOnClickListener {
-                itemClickListener.onItemClick(
-                    holder.binding,
-                    position
-                )
-            }
     }
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)?.toRecipeItemUI() ?: throw IllegalArgumentException("No item at position: $position")
@@ -46,11 +37,11 @@ class RecipePagerAdapter(
             ?: throw IllegalArgumentException("View type not found: $viewType")
     }
 
-    private class RecipeDiff : DiffUtil.ItemCallback<RecipeDTO>() {
-        override fun areItemsTheSame(oldItem: RecipeDTO, newItem: RecipeDTO) =
+    private class RecipeDiff : DiffUtil.ItemCallback<RecipeItemDTO>() {
+        override fun areItemsTheSame(oldItem: RecipeItemDTO, newItem: RecipeItemDTO) =
             oldItem.image == newItem.image
 
-        override fun areContentsTheSame(oldItem: RecipeDTO, newItem: RecipeDTO) =
+        override fun areContentsTheSame(oldItem: RecipeItemDTO, newItem: RecipeItemDTO) =
             oldItem == newItem
     }
 }

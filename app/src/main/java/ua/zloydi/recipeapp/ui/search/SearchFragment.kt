@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import ua.zloydi.recipeapp.data.dto.RecipeDTO
+import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.data.error.ErrorProvider
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
@@ -20,10 +20,14 @@ import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
+import ua.zloydi.recipeapp.ui.main.MainFragment
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(){
-    private val viewModel: SearchFragmentViewModel by viewModels{
-        SearchFragmentViewModel.Factory(RecipeRepository(RetrofitProvider.service, ErrorProvider.service))
+    private val viewModel: SearchFragmentViewModel by viewModels {
+        SearchFragmentViewModel.Factory(
+            RecipeRepository(RetrofitProvider.service, ErrorProvider.service),
+            (parentFragment as MainFragment).childNavigation
+        )
     }
     override fun inflate(inflater: LayoutInflater) = FragmentSearchBinding.inflate(inflater)
 
@@ -45,8 +49,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
         setupAdapter()
     }
 
-    private fun updateFlow(flow: Flow<PagingData<RecipeDTO>>){
-        val adapter = RecipePagerAdapter(listOf(LongRecipeFingerprint))
+    private val fingerprint = LongRecipeFingerprint {
+        viewModel.openDetail(it)
+    }
+
+    private fun updateFlow(flow: Flow<PagingData<RecipeItemDTO>>){
+        val adapter = RecipePagerAdapter(listOf(fingerprint))
         binding.rvRecipes.adapter = adapter
         adapter.retry()
         lifecycleScope.launchWhenStarted {

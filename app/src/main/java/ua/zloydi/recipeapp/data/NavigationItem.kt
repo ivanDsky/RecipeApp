@@ -5,6 +5,9 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.ui.TestFragment
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.ui.data.RecipeUI
+import ua.zloydi.recipeapp.ui.detail.DetailFragment
 import ua.zloydi.recipeapp.ui.search.SearchFragment
 
 sealed interface NavigationItem{
@@ -32,5 +35,12 @@ sealed interface NavigationItem{
         override val id = R.id.bookmarksScreen
         override val tag = "Bookmarks"
         override val fragmentFactory = {TestFragment()}
+    }
+
+    class Detail(private val parent: NavigationItem, private val item: RecipeItemUI) : NavigationItem {
+        override val title = R.string.bookmarks
+        override val id = item.hashCode()
+        override val tag = "Detail"
+        override val fragmentFactory = {DetailFragment.create(item)}
     }
 }

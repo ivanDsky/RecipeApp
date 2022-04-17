@@ -3,20 +3,20 @@ package ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.databinding.LayoutLongRecipeItemBinding
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
 
-object LongRecipeFingerprint : RecipeFingerprint<LayoutLongRecipeItemBinding, RecipeItemUI>() {
+class LongRecipeFingerprint(private val onClick: (RecipeItemUI) -> Unit) : RecipeFingerprint<LayoutLongRecipeItemBinding, RecipeItemUI>() {
     override fun inflate(
         inflater: LayoutInflater,
         parent: ViewGroup
     ): LongRecipeViewHolder {
         val binding = LayoutLongRecipeItemBinding.inflate(inflater, parent, false)
         PaddingDecoratorFactory(parent.resources).apply(binding.rvLabels, 0f, 2f, false)
-        return LongRecipeViewHolder(binding)
+        return LongRecipeViewHolder(binding,onClick)
     }
 
     override fun compareItem(item: RecipeItemUI) =

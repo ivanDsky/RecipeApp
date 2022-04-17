@@ -4,7 +4,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ua.zloydi.recipeapp.App
-import ua.zloydi.recipeapp.data.retrofit.RetrofitConstants.BASE_URl
+import ua.zloydi.recipeapp.data.retrofit.RetrofitConstants.BASE_URL
 import ua.zloydi.recipeapp.utils.NetworkChecker
 
 
@@ -16,7 +16,7 @@ object RetrofitProvider {
 
     private val retrofit = Retrofit.Builder()
         .client(okClient)
-        .baseUrl(BASE_URl)
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

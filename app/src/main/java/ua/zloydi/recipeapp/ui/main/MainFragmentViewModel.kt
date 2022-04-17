@@ -7,24 +7,29 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ua.zloydi.recipeapp.data.NavigationItem
 import ua.zloydi.recipeapp.data.NavigationItem.*
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
 
-class MainFragmentViewModel : ViewModel(){
+class MainFragmentViewModel : ViewModel(), IChildNavigation{
     companion object{
         val defaultScreen = Search
         val screens = listOf(Search,Category,Bookmarks)
     }
 
-    private val _navigationScreenChannel = MutableStateFlow<NavigationItem>(defaultScreen)
-    val navigationScreenFlow : StateFlow<NavigationItem> get() = _navigationScreenChannel
+    private val _navigationScreenFlow = MutableStateFlow<NavigationItem>(defaultScreen)
+    val navigationScreenFlow : StateFlow<NavigationItem> get() = _navigationScreenFlow
 
     fun onMenuSelected(menuItem: MenuItem){
-        if(_navigationScreenChannel.value.id == menuItem.itemId)
+        if(_navigationScreenFlow.value.id == menuItem.itemId)
             return
 
         Log.d("Debug141", "onMenuSelected: ${menuItem.itemId}")
         screens.find { it.id == menuItem.itemId } ?.let {
-            _navigationScreenChannel.value = it
+            _navigationScreenFlow.value = it
         } ?: throw NoSuchElementException("No element with id: ${menuItem.itemId}")
+    }
+
+    override fun openDetail(item: RecipeItemUI) {
+        _navigationScreenFlow.value = Detail(navigationScreenFlow.value, item)
     }
 }

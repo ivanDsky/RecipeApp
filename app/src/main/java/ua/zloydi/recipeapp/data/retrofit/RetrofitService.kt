@@ -7,20 +7,21 @@ class RetrofitService(private val api: RecipeApi) {
             "uri",
             "label",
             "image",
-            "source",
-            "url",
-            "ingredients",
-            "calories",
             "totalTime",
-            "totalWeight",
             "cuisineType",
             "mealType",
             "dishType",
         )
+        private val DETAIL_FILTERS = arrayOf(
+            "uri",
+            "source",
+            "url",
+            "ingredients",
+        )
     }
 
     suspend fun query(
-        query: RecipeQuery,
+        query: RecipeQuery.Search,
         nextHash: String? = null
     ) = with(query) {
         api.queryFilters(
@@ -32,4 +33,12 @@ class RetrofitService(private val api: RecipeApi) {
             mealType = query.mealType?.label,
         )
     }
+
+    suspend fun query(
+        query: RecipeQuery.Recipe
+    ) = api.queryFilters(
+        id = query.id,
+        fields = DETAIL_FILTERS
+    )
+
 }

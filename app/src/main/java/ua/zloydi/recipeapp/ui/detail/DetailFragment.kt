@@ -1,6 +1,5 @@
 package ua.zloydi.recipeapp.ui.detail
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +7,14 @@ import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.transition.platform.MaterialContainerTransform
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.ui.data.IngredientUI
-import ua.zloydi.recipeapp.ui.data.RecipeUI
-import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
-import ua.zloydi.recipeapp.ui.data.filterType.DishUI
-import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
-import ua.zloydi.recipeapp.ui.data.filterType.MealUI
+import ua.zloydi.recipeapp.data.error.ErrorProvider
+import ua.zloydi.recipeapp.data.repository.RecipeRepository
+import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.ingredientAdapter.IngredientAdapter
@@ -27,26 +23,41 @@ import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
+import ua.zloydi.recipeapp.ui.data.IngredientUI
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
+import ua.zloydi.recipeapp.ui.data.filterType.DishUI
+import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
+import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 
 class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(){
     companion object{
         private const val RECIPE = "RECIPE"
-        fun create(recipe: RecipeUI): DetailFragment{
+        fun create(recipe: RecipeItemUI): DetailFragment{
             return DetailFragment().apply { arguments = bundleOf(RECIPE to recipe) }
         }
     }
     override fun inflate(inflater: LayoutInflater) = FragmentDetailBinding.inflate(inflater)
-    private val viewModel: DetailFragmentViewModel by viewModels()
+    private val viewModel: DetailFragmentViewModel by viewModels{
+        DetailFragmentViewModel.Factory(RecipeRepository(RetrofitProvider.service, ErrorProvider.service))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.recipe = getRecipe()
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            containerColor = Color.BLACK
-            drawingViewId = R.id.mainContainer
-            duration = 2000
+        lifecycleScope.launchWhenCreated {
+            val recipe = viewModel.getRecipeUI(getRecipe())
+            if (recipe == null)
+                requireActivity().onBackPressed()
+            else {
+                viewModel.recipe = recipe
+                bind()
+            }
         }
-        bind()
+//        sharedElementEnterTransition = MaterialContainerTransform().apply {
+//            containerColor = Color.BLACK
+//            drawingViewId = R.id.mainContainer
+//            duration = 2000
+//        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             parentFragmentManager.popBackStack()
         }
@@ -109,9 +120,9 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
         PaddingDecoratorFactory(resources).apply(rvLabels, 0f, 2f, false)
     }
 
-    private fun getRecipe(): RecipeUI {
+    private fun getRecipe(): RecipeItemUI {
         val obj = (arguments?.get(RECIPE) ?: throw IllegalStateException("Incorrect initialization"))
-        if(obj !is RecipeUI) throw TypeCastException("Incorrect parameter in RECIPE field")
+        if(obj !is RecipeItemUI) throw TypeCastException("Incorrect parameter in RECIPE field")
         return obj
     }
 }

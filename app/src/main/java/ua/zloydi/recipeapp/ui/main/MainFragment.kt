@@ -17,6 +17,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun inflate(inflater: LayoutInflater) = FragmentMainBinding.inflate(inflater)
 
     private val viewModel: MainFragmentViewModel by activityViewModels()
+    val childNavigation: IChildNavigation by lazy { viewModel }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,9 +48,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         childFragmentManager.commit {
             val fragment = childFragmentManager.findFragmentByTag(tag)
             childFragmentManager.fragments.forEach { hide(it) }
-            if(fragment == null)
+            if(fragment == null) {
+                if(tag == "Detail") addToBackStack(null)
                 add(R.id.mainContainer, fragmentFactory(), tag)
-            else
+            }else
                 show(fragment)
         }
     }
