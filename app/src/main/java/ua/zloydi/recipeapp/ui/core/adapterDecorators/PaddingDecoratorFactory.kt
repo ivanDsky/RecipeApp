@@ -25,4 +25,16 @@ class PaddingDecoratorFactory(res: Resources) {
                 )
             }
         }
+
+    fun apply(rv: RecyclerView, vertSpace: Float, horSpace: Float, sideSpace:Boolean = true){
+        val vS = vertSpace / 2f
+        val hS = horSpace / 2f
+        rv.addItemDecoration(create(hS, vS, hS, vS))
+        if(sideSpace) rv.setPadding(
+            rv.paddingStart + hS.toInt(),
+            rv.paddingTop + vS.toInt(),
+            rv.paddingEnd + hS.toInt(),
+            rv.paddingBottom + vS.toInt()
+        )
+    }
 }
