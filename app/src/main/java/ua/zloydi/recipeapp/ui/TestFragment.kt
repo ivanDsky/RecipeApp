@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,7 +16,7 @@ import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
-import ua.zloydi.recipeapp.ui.detail.DetailFragment
+import ua.zloydi.recipeapp.ui.main.MainFragment
 
 class TestFragment : BaseFragment<FragmentTestBinding>() {
     private val viewModel: TestFragmentVM by viewModels()
@@ -42,11 +41,7 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
                 }
             }
             val clickListener : (RecipeItemUI) -> Unit = {item ->
-                parentFragmentManager.commit {
-                    setReorderingAllowed(true)
-                    replace(R.id.mainContainer,DetailFragment.create(item))
-                    addToBackStack(null)
-                }
+                (parentFragment as MainFragment).childNavigation.openDetail(item)
             }
             adapter = RecipePagerAdapter(listOf(LongRecipeFingerprint(clickListener)))
             this.adapter = adapter

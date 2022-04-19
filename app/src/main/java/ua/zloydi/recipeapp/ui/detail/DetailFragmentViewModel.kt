@@ -12,10 +12,12 @@ import ua.zloydi.recipeapp.ui.data.RecipeUI
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
 import ua.zloydi.recipeapp.ui.data.filterType.DishUI
 import ua.zloydi.recipeapp.ui.data.filterType.MealUI
+import ua.zloydi.recipeapp.ui.main.IParentNavigation
 
 class DetailFragmentViewModel (
     private val repository: RecipeRepository,
-) : ViewModel(){
+    private val navigation: IParentNavigation
+) : ViewModel(), IParentNavigation by navigation{
     private var _recipe: RecipeUI? = null
     var recipe: RecipeUI
         get() = if (_recipe == null) throw UninitializedPropertyAccessException() else _recipe!!
@@ -48,10 +50,10 @@ class DetailFragmentViewModel (
     )
 
 
-    class Factory(private val repository: RecipeRepository) : ViewModelProvider.Factory{
+    class Factory(private val repository: RecipeRepository, private val navigation: IParentNavigation) : ViewModelProvider.Factory{
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if(modelClass.isAssignableFrom(DetailFragmentViewModel::class.java))
-                return DetailFragmentViewModel(repository) as T
+                return DetailFragmentViewModel(repository, navigation) as T
             else
                 throw TypeCastException()
         }

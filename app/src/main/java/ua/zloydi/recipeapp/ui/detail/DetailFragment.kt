@@ -29,6 +29,7 @@ import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
 import ua.zloydi.recipeapp.ui.data.filterType.DishUI
 import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
 import ua.zloydi.recipeapp.ui.data.filterType.MealUI
+import ua.zloydi.recipeapp.ui.main.MainFragment
 
 class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(){
     companion object{
@@ -39,7 +40,11 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
     }
     override fun inflate(inflater: LayoutInflater) = FragmentDetailBinding.inflate(inflater)
     private val viewModel: DetailFragmentViewModel by viewModels{
-        DetailFragmentViewModel.Factory(RecipeRepository(RetrofitProvider.service, ErrorProvider.service))
+        DetailFragmentViewModel.Factory(
+            RecipeRepository(RetrofitProvider.service,
+                ErrorProvider.service),
+            (parentFragment as MainFragment).parentNavigation
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +64,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
 //            duration = 2000
 //        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
-            parentFragmentManager.popBackStack()
+            viewModel.openParent()
         }
     }
 

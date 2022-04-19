@@ -15,13 +15,12 @@ import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.data.paging.RecipeSource
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.main.IChildNavigation
 
 class SearchFragmentViewModel(
     private val repository: RecipeRepository,
     private val navigation: IChildNavigation
-) : ViewModel() {
+) : ViewModel(), IChildNavigation by navigation {
     private val _stateFlow: MutableStateFlow<SearchState> = MutableStateFlow(SearchState.Empty)
     val stateFlow = _stateFlow.asStateFlow()
 
@@ -35,10 +34,6 @@ class SearchFragmentViewModel(
 
     private var pager: Pager<String, RecipeItemDTO>? = null
     private val pagerConfig = PagingConfig(20, 30, false, 60)
-
-    fun openDetail(recipeItemUI: RecipeItemUI){
-        navigation.openDetail(recipeItemUI)
-    }
 
     fun query(queryText: String?){
         if(queryText.isNullOrBlank())
