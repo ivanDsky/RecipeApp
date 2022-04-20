@@ -21,7 +21,7 @@ import ua.zloydi.recipeapp.ui.data.filterType.DishUI
 import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 
 class TestFragmentVM : ViewModel(){
-    private val repository = RecipeRepository(RetrofitProvider.service, ErrorProvider.service)
+    private val repository = RecipeProvider.repository
 
     val pager = Pager(PagingConfig(20,20,false,40),null){
         RecipeSource(repository,RecipeQuery.Search("", cuisineType = Cuisine.CentralEurope))

@@ -5,8 +5,10 @@ import retrofit2.Response
 import ua.zloydi.recipeapp.data.dto.QueryDTO
 import ua.zloydi.recipeapp.data.dto.recipes.RecipeDetailDTO
 import ua.zloydi.recipeapp.data.error.Error
+import ua.zloydi.recipeapp.data.error.ErrorProvider
 import ua.zloydi.recipeapp.data.error.ErrorService
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
+import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.data.retrofit.RetrofitService
 import java.io.IOException
 
@@ -44,4 +46,8 @@ class RecipeRepository(
             return null
         }
     }
+}
+
+object RecipeProvider{
+    val repository = RecipeRepository(RetrofitProvider.service, ErrorProvider.service)
 }

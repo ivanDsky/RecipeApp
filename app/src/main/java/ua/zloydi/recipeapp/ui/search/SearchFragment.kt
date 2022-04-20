@@ -25,7 +25,7 @@ import ua.zloydi.recipeapp.ui.main.MainFragment
 class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     private val viewModel: SearchFragmentViewModel by viewModels {
         SearchFragmentViewModel.Factory(
-            RecipeRepository(RetrofitProvider.service, ErrorProvider.service),
+            RecipeProvider.repository,
             (parentFragment as MainFragment).childNavigation
         )
     }
