@@ -11,10 +11,10 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.data.paging.RecipeSource
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.main.IChildNavigation
 
 class SearchFragmentViewModel(

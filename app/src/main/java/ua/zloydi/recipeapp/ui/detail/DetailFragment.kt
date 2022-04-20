@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.data.error.ErrorProvider
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
+import ua.zloydi.recipeapp.models.error.ErrorProvider
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.ingredientAdapter.IngredientAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter

@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.filter_types
+package ua.zloydi.recipeapp.models.filter_types
 
 abstract class FilterTypeMapper<T> where T : Enum<T>, T : FilterType{
     protected abstract fun values() : Array<T>

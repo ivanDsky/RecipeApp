@@ -8,13 +8,10 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
-import ua.zloydi.recipeapp.data.error.ErrorProvider
-import ua.zloydi.recipeapp.data.filter_types.*
 import ua.zloydi.recipeapp.data.paging.RecipeSource
-import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
-import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.models.filter_types.*
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
 import ua.zloydi.recipeapp.ui.data.filterType.DishUI

@@ -1,6 +1,6 @@
-package ua.zloydi.recipeapp.data.dto
+package ua.zloydi.recipeapp.models.dto
 
-import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 
 data class QueryDTO(
     val from: Int,

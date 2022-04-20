@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.filter_types
+package ua.zloydi.recipeapp.models.filter_types
 
 enum class Cuisine(override val label: String) : FilterType {
     American("American"),

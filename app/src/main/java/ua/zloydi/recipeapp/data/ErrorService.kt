@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.error
+package ua.zloydi.recipeapp.data
 
 import android.util.Log
 import kotlinx.coroutines.channels.Channel
@@ -13,4 +13,8 @@ class ErrorService {
     }
 
     fun getErrors(): ReceiveChannel<Error> = errorChannel
+}
+
+object ErrorProvider {
+    val service = ErrorService()
 }

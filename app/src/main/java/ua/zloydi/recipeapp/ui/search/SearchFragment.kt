@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
-import ua.zloydi.recipeapp.data.error.ErrorProvider
-import ua.zloydi.recipeapp.data.repository.RecipeRepository
-import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.databinding.FragmentSearchBinding
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory

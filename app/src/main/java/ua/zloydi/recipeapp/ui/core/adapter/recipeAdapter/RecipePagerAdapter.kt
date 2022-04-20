@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
-import ua.zloydi.recipeapp.data.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
 private fun RecipeItemDTO.toRecipeItemUI() = RecipeItemUI(

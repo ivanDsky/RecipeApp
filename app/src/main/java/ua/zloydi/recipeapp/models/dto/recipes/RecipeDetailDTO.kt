@@ -1,6 +1,6 @@
-package ua.zloydi.recipeapp.data.dto.recipes
+package ua.zloydi.recipeapp.models.dto.recipes
 
-import ua.zloydi.recipeapp.data.dto.IngredientDTO
+import ua.zloydi.recipeapp.models.dto.IngredientDTO
 
 data class RecipeDetailDTO(
     val uri: String? = null,

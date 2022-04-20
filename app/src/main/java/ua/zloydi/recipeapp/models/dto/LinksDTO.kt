@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.dto
+package ua.zloydi.recipeapp.models.dto
 
 data class LinksDTO(
     val self: LinkDTO? = null,

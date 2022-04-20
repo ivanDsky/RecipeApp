@@ -4,11 +4,11 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ua.zloydi.recipeapp.data.dto.HitDTO
-import ua.zloydi.recipeapp.data.dto.QueryDTO
-import ua.zloydi.recipeapp.data.dto.recipes.RecipeDetailDTO
 import ua.zloydi.recipeapp.data.retrofit.RetrofitConstants.QUERY_PREFIX
 import ua.zloydi.recipeapp.data.retrofit.RetrofitConstants.RECIPES
+import ua.zloydi.recipeapp.models.dto.HitDTO
+import ua.zloydi.recipeapp.models.dto.QueryDTO
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
 
 interface RecipeApi {
     @GET("$RECIPES?$QUERY_PREFIX")

@@ -2,10 +2,10 @@ package ua.zloydi.recipeapp.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ua.zloydi.recipeapp.data.dto.IngredientDTO
-import ua.zloydi.recipeapp.data.dto.recipes.RecipeDetailDTO
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
+import ua.zloydi.recipeapp.models.dto.IngredientDTO
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
 import ua.zloydi.recipeapp.ui.data.IngredientUI
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.RecipeUI

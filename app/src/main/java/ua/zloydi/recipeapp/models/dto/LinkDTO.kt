@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.dto
+package ua.zloydi.recipeapp.models.dto
 
 import kotlin.math.min
 

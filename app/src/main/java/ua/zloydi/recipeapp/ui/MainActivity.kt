@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.data.error.ErrorProvider
+import ua.zloydi.recipeapp.models.error.ErrorProvider
 import ua.zloydi.recipeapp.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {

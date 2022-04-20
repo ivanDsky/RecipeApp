@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.dto.recipes
+package ua.zloydi.recipeapp.models.dto.recipes
 
 data class RecipeItemDTO(
     val uri: String? = null,

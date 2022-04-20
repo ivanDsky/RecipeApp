@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.dto
+package ua.zloydi.recipeapp.models.dto
 
 data class HitDTO<T>(
     val recipe: T,
