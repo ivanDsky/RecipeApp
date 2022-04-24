@@ -5,24 +5,19 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
-import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
-
-private fun RecipeItemDTO.toRecipeItemUI() = RecipeItemUI(
-    id, label, image, totalTime, emptyList()
-)
 
 class RecipePagerAdapter(
     private val fingerprints: List<RecipeFingerprint<*, RecipeItemUI>>,
-) : PagingDataAdapter<RecipeItemDTO, RecipeViewHolder<ViewBinding, RecipeItemUI>>(RecipeDiff()){
+) : PagingDataAdapter<RecipeItemUI, RecipeViewHolder<ViewBinding, RecipeItemUI>>(RecipeDiff()){
     override fun onBindViewHolder(
         holder: RecipeViewHolder<ViewBinding, RecipeItemUI>,
         position: Int
     ) {
-        holder.bind(getItem(position)?.toRecipeItemUI() ?: return)
+        holder.bind(getItem(position) ?: return)
     }
     override fun getItemViewType(position: Int): Int {
-        val item = getItem(position)?.toRecipeItemUI() ?: throw IllegalArgumentException("No item at position: $position")
+        val item = getItem(position) ?: throw IllegalArgumentException("No item at position: $position")
         return fingerprints.find { it.compareItem(item) }?.getViewType()
             ?: throw IllegalArgumentException("View type not found: $item")
     }
@@ -37,11 +32,11 @@ class RecipePagerAdapter(
             ?: throw IllegalArgumentException("View type not found: $viewType")
     }
 
-    private class RecipeDiff : DiffUtil.ItemCallback<RecipeItemDTO>() {
-        override fun areItemsTheSame(oldItem: RecipeItemDTO, newItem: RecipeItemDTO) =
+    private class RecipeDiff : DiffUtil.ItemCallback<RecipeItemUI>() {
+        override fun areItemsTheSame(oldItem: RecipeItemUI, newItem: RecipeItemUI) =
             oldItem.image == newItem.image
 
-        override fun areContentsTheSame(oldItem: RecipeItemDTO, newItem: RecipeItemDTO) =
+        override fun areContentsTheSame(oldItem: RecipeItemUI, newItem: RecipeItemUI) =
             oldItem == newItem
     }
 }

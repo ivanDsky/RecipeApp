@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.databinding.FragmentSearchBinding
-import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(){
@@ -46,11 +47,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
         setupAdapter()
     }
 
-    private val fingerprint = LongRecipeFingerprint {
-        viewModel.openDetail(it)
-    }
+    private val fingerprint = LongRecipeFingerprint()
 
-    private fun updateFlow(flow: Flow<PagingData<RecipeItemDTO>>){
+    private fun updateFlow(flow: Flow<PagingData<RecipeItemUI>>){
         val adapter = RecipePagerAdapter(listOf(fingerprint))
         binding.rvRecipes.adapter = adapter
         adapter.retry()

@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ua.zloydi.recipeapp.R
+import ua.zloydi.recipeapp.data.ErrorProvider
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
-import ua.zloydi.recipeapp.models.error.ErrorProvider
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.ingredientAdapter.IngredientAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
@@ -24,7 +25,6 @@ import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
 import ua.zloydi.recipeapp.ui.data.IngredientUI
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
 import ua.zloydi.recipeapp.ui.data.filterType.DishUI
 import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
@@ -34,7 +34,7 @@ import ua.zloydi.recipeapp.ui.main.MainFragment
 class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(){
     companion object{
         private const val RECIPE = "RECIPE"
-        fun create(recipe: RecipeItemUI): DetailFragment{
+        fun create(recipe: RecipeItemDTO): DetailFragment{
             return DetailFragment().apply { arguments = bundleOf(RECIPE to recipe) }
         }
     }
@@ -125,9 +125,9 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
         PaddingDecoratorFactory(resources).apply(rvLabels, 0f, 2f, false)
     }
 
-    private fun getRecipe(): RecipeItemUI {
+    private fun getRecipe(): RecipeItemDTO {
         val obj = (arguments?.get(RECIPE) ?: throw IllegalStateException("Incorrect initialization"))
-        if(obj !is RecipeItemUI) throw TypeCastException("Incorrect parameter in RECIPE field")
+        if(obj !is RecipeItemDTO) throw TypeCastException("Incorrect parameter in RECIPE field")
         return obj
     }
 }

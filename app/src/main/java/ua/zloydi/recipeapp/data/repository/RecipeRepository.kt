@@ -2,14 +2,14 @@ package ua.zloydi.recipeapp.data.repository
 
 import android.util.Log
 import retrofit2.Response
+import ua.zloydi.recipeapp.data.ErrorProvider
+import ua.zloydi.recipeapp.data.ErrorService
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.data.retrofit.RetrofitService
 import ua.zloydi.recipeapp.models.dto.QueryDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
 import ua.zloydi.recipeapp.models.error.Error
-import ua.zloydi.recipeapp.models.error.ErrorProvider
-import ua.zloydi.recipeapp.models.error.ErrorService
 import java.io.IOException
 
 class RecipeRepository(

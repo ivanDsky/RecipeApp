@@ -7,5 +7,6 @@ data class RecipeItemUI(
     val title: String? = null,
     val image: String? = null,
     val time: Float? = null,
-    val types: List<FilterTypeUI>
+    val types: List<FilterTypeUI>,
+    val onClick: () -> Unit
 ) : java.io.Serializable

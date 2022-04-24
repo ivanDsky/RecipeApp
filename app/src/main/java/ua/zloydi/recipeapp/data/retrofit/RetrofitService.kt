@@ -40,5 +40,4 @@ class RetrofitService(private val api: RecipeApi) {
         id = query.id,
         fields = DETAIL_FILTERS
     )
-
 }

@@ -8,7 +8,7 @@ data class RecipeItemDTO(
     val cuisineType: Array<String>? = null,
     val mealType: Array<String>? = null,
     val dishType: Array<String>? = null,
-) {
+) : java.io.Serializable{
     val id
         get() = uri?.substringAfterLast("#recipe_")
     override fun equals(other: Any?): Boolean {

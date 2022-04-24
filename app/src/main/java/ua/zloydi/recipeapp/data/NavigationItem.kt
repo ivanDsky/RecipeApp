@@ -4,8 +4,11 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import ua.zloydi.recipeapp.R
+import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.TestFragment
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.ui.categories.list.CategoriesFragment
+import ua.zloydi.recipeapp.ui.categories.search.CategorySearchFragment
 import ua.zloydi.recipeapp.ui.detail.DetailFragment
 import ua.zloydi.recipeapp.ui.search.SearchFragment
 
@@ -25,7 +28,7 @@ sealed class MenuItem : AddItem(){
 
 class RemoveItem(val addItem : AddItem) : NavigationItem
 
-abstract class ActionItem : NavigationItem{
+abstract class NavigationActionItem{
     abstract val actions : List<NavigationItem>
 }
 
@@ -40,7 +43,7 @@ object Category : MenuItem(){
     override val title = R.string.category
     override val id = R.id.categoryScreen
     override val tag = "Category"
-    override val fragmentFactory = { TestFragment() }
+    override val fragmentFactory = { CategoriesFragment() }
 }
 
 object Bookmarks : MenuItem() {
@@ -52,11 +55,16 @@ object Bookmarks : MenuItem() {
 
 abstract class ChildItem(val parent: NavigationItem) : AddItem()
 
-class PopToParentItem(childItem: ChildItem) : ActionItem(){
+class PopToParentItem(childItem: ChildItem) : NavigationActionItem(){
     override val actions = listOf(RemoveItem(childItem), childItem.parent)
 }
 
-class Detail(parent: NavigationItem, private val item: RecipeItemUI) : ChildItem(parent) {
+class Detail(parent: NavigationItem, private val item: RecipeItemDTO) : ChildItem(parent) {
     override val tag = "Detail"
     override val fragmentFactory = { DetailFragment.create(item)}
+}
+
+class CategoryItem(parent: NavigationItem, private val item: RecipeQuery.Category) : ChildItem(parent) {
+    override val tag = "CategoryItem"
+    override val fragmentFactory = { CategorySearchFragment.create(item)}
 }

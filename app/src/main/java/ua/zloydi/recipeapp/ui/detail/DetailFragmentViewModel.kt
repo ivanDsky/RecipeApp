@@ -4,15 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
-import ua.zloydi.recipeapp.models.dto.IngredientDTO
-import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
-import ua.zloydi.recipeapp.ui.data.IngredientUI
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.data.RecipeUI
-import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
-import ua.zloydi.recipeapp.ui.data.filterType.DishUI
-import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.ui.main.IParentNavigation
+import ua.zloydi.recipeapp.ui.mappers.toUI
 
 class DetailFragmentViewModel (
     private val repository: RecipeRepository,
@@ -26,29 +21,10 @@ class DetailFragmentViewModel (
         }
 
 
-    suspend fun getRecipeUI(itemUI: RecipeItemUI): RecipeUI?{
+    suspend fun getRecipeUI(itemUI: RecipeItemDTO): RecipeUI?{
         return repository.query(RecipeQuery.Recipe(itemUI.id?:return null))
             ?.toUI(itemUI)
     }
-
-    private fun RecipeDetailDTO.toUI(itemUI: RecipeItemUI) = RecipeUI(
-        title = itemUI.title,
-        image = itemUI.image,
-        source = source,
-        description = null,
-        url = url,
-        ingredients = ingredients?.map { it.toUI() }?.toTypedArray(),
-        calories = null,
-        totalTime = itemUI.time,
-        cuisineType = itemUI.types.filterIsInstance<CuisineUI>().toTypedArray(),
-        mealType = itemUI.types.filterIsInstance<MealUI>().toTypedArray(),
-        dishType = itemUI.types.filterIsInstance<DishUI>().toTypedArray(),
-    )
-
-    private fun IngredientDTO.toUI() = IngredientUI(
-        food, text, measure, image
-    )
-
 
     class Factory(private val repository: RecipeRepository, private val navigation: IParentNavigation) : ViewModelProvider.Factory{
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

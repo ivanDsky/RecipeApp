@@ -4,18 +4,18 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import ua.zloydi.recipeapp.data.paging.RecipeSource
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.main.IChildNavigation
+import ua.zloydi.recipeapp.ui.mappers.toUI
 
 class SearchFragmentViewModel(
     private val repository: RecipeRepository,
@@ -23,14 +23,6 @@ class SearchFragmentViewModel(
 ) : ViewModel(), IChildNavigation by navigation {
     private val _stateFlow: MutableStateFlow<SearchState> = MutableStateFlow(SearchState.Empty)
     val stateFlow = _stateFlow.asStateFlow()
-
-    var x = 1
-
-    override fun onCleared() {
-        super.onCleared()
-        x++
-        Log.d("Debug141", "onCleared: cleared $x")
-    }
 
     private var pager: Pager<String, RecipeItemDTO>? = null
     private val pagerConfig = PagingConfig(20, 30, false, 60)
@@ -46,8 +38,15 @@ class SearchFragmentViewModel(
         Log.d("Debug141", "sendQuery: $queryText")
         val apiQuery = RecipeQuery.Search(queryText)
         pager = Pager(pagerConfig, pagingSourceFactory = {RecipeSource(repository,apiQuery)})
-        _stateFlow.value = SearchState.Response(pager!!.flow.cachedIn(viewModelScope))
+        _stateFlow.value = SearchState.Response(getUIFlow().cachedIn(viewModelScope))
     }
+
+    private fun getUIFlow() = pager!!.flow.map { pagingData ->
+        pagingData.map { it.toUI{
+            navigation.openDetail(it)
+        }}
+    }
+
     init {
         sendQuery("App")
     }
@@ -64,7 +63,7 @@ class SearchFragmentViewModel(
 
 
 sealed interface SearchState{
-    class Response(val flow: Flow<PagingData<RecipeItemDTO>>) : SearchState
+    class Response(val flow: Flow<PagingData<RecipeItemUI>>) : SearchState
     class IncorrectInput(val message: String) : SearchState
     object Empty: SearchState
 }

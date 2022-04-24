@@ -5,6 +5,10 @@ import ua.zloydi.recipeapp.models.filter_types.Dish
 import ua.zloydi.recipeapp.models.filter_types.Meal
 
 sealed class RecipeQuery {
+    data class Category(
+        val dishType: Dish
+    ) : RecipeQuery(), java.io.Serializable
+
     data class Search(
         val query: String,
         val cuisineType: Cuisine? = null,
@@ -17,3 +21,7 @@ sealed class RecipeQuery {
     ) : RecipeQuery()
 }
 
+fun RecipeQuery.Category.toSearch() = RecipeQuery.Search(
+    query = "",
+    dishType = dishType
+)

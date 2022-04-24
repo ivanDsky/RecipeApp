@@ -11,8 +11,7 @@ import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
-class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding,
-private val onClick: (RecipeItemUI) -> Unit) :
+class LongRecipeViewHolder(binding: LayoutLongRecipeItemBinding) :
     RecipeViewHolder<LayoutLongRecipeItemBinding, RecipeItemUI>(binding) {
     override fun bind(item: RecipeItemUI) = with(binding){
         ivRecipePreview.transitionName = "ivRecipePreview$adapterPosition"
@@ -24,7 +23,7 @@ private val onClick: (RecipeItemUI) -> Unit) :
             tvTime.text = root.resources.getString(R.string.time, item.time)
         }
 
-        root.setOnClickListener { onClick(item) }
+        root.setOnClickListener { item.onClick()}
 
         Glide.with(ivRecipePreview)
             .load(item.image)

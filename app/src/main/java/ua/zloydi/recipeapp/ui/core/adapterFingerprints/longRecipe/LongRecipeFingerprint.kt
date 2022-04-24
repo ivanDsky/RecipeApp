@@ -9,14 +9,14 @@ import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
 
-class LongRecipeFingerprint(private val onClick: (RecipeItemUI) -> Unit) : RecipeFingerprint<LayoutLongRecipeItemBinding, RecipeItemUI>() {
+class LongRecipeFingerprint() : RecipeFingerprint<LayoutLongRecipeItemBinding, RecipeItemUI>() {
     override fun inflate(
         inflater: LayoutInflater,
         parent: ViewGroup
     ): LongRecipeViewHolder {
         val binding = LayoutLongRecipeItemBinding.inflate(inflater, parent, false)
         PaddingDecoratorFactory(parent.resources).apply(binding.rvLabels, 0f, 2f, false)
-        return LongRecipeViewHolder(binding,onClick)
+        return LongRecipeViewHolder(binding)
     }
 
     override fun compareItem(item: RecipeItemUI) =
