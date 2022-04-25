@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutIngredientBinding
-import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 import ua.zloydi.recipeapp.ui.data.IngredientUI
 import ua.zloydi.recipeapp.utils.firstCaps
 
 class IngredientAdapter :
-    BaseAdapter<IngredientUI>(listOf(IngredientFingerprint) as List<BaseFingerprint<*, IngredientUI>>) {
-    override val Diff: DiffUtil.ItemCallback<IngredientUI> = IngredientDiff()
+    BaseDifferNotifyAdapter<IngredientUI>(listOf(IngredientFingerprint) as List<BaseFingerprint<*, IngredientUI>>) {
+    override val diff: DiffUtil.ItemCallback<IngredientUI> = IngredientDiff()
 
     private class IngredientDiff : DiffUtil.ItemCallback<IngredientUI>(){
         override fun areItemsTheSame(oldItem: IngredientUI, newItem: IngredientUI) =

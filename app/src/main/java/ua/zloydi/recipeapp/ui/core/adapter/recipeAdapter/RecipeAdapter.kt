@@ -2,7 +2,7 @@ package ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
-import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
@@ -10,11 +10,11 @@ import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 class RecipeAdapter(
     fingerprints: List<RecipeFingerprint<*, RecipeItemUI>>
 ) :
-    BaseAdapter<RecipeItemUI>(
+    BaseDifferNotifyAdapter<RecipeItemUI>(
         fingerprints as List<BaseFingerprint<*, RecipeItemUI>>,
     ) {
 
-    override val Diff: DiffUtil.ItemCallback<RecipeItemUI> = RecipeDiff()
+    override val diff: DiffUtil.ItemCallback<RecipeItemUI> = RecipeDiff()
 
     private class RecipeDiff : DiffUtil.ItemCallback<RecipeItemUI>() {
         override fun areItemsTheSame(oldItem: RecipeItemUI, newItem: RecipeItemUI) =
@@ -25,6 +25,6 @@ class RecipeAdapter(
     }
 }
 
-abstract class RecipeFingerprint<VB : ViewBinding, RI : RecipeItemUI> : BaseFingerprint<VB, RI>()
-abstract class RecipeViewHolder<VB : ViewBinding, RI : RecipeItemUI>(binding: VB) :
+abstract class RecipeFingerprint<out VB : ViewBinding, RI : RecipeItemUI> : BaseFingerprint<VB, RI>()
+abstract class RecipeViewHolder<out VB : ViewBinding, RI : RecipeItemUI>(binding: VB) :
     BaseViewHolder<VB, RI>(binding)

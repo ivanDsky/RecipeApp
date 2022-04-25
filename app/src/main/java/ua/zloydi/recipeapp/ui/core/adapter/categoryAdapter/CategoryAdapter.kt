@@ -9,13 +9,13 @@ import com.bumptech.glide.Glide
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutCategoryItemBinding
 import ua.zloydi.recipeapp.ui.categories.list.CategoryUI
-import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 
 class CategoryAdapter(fingerprint: CategoryFingerprint) :
-    BaseAdapter<CategoryUI>(listOf(fingerprint) as List<BaseFingerprint<*, CategoryUI>>) {
-    override val Diff: DiffUtil.ItemCallback<CategoryUI> = CategoryDiff()
+    BaseDifferNotifyAdapter<CategoryUI>(listOf(fingerprint)) {
+    override val diff: DiffUtil.ItemCallback<CategoryUI> = CategoryDiff()
 
     private class CategoryDiff : DiffUtil.ItemCallback<CategoryUI>(){
         override fun areItemsTheSame(oldItem: CategoryUI, newItem: CategoryUI) =
@@ -25,7 +25,7 @@ class CategoryAdapter(fingerprint: CategoryFingerprint) :
     }
 }
 
-class CategoryFingerprint : BaseFingerprint<LayoutCategoryItemBinding, CategoryUI>() {
+object CategoryFingerprint : BaseFingerprint<LayoutCategoryItemBinding, CategoryUI>() {
     override fun inflate(
         inflater: LayoutInflater,
         parent: ViewGroup,

@@ -6,7 +6,7 @@ import ua.zloydi.recipeapp.models.filter_types.Dish
 
 class CategoryRepository {
     fun getCategories(): List<Category>{
-        return Dish.values().map { Category(it, R.drawable.category) }
+        return Dish.values.map { Category(it, R.drawable.category) }
     }
 }
 

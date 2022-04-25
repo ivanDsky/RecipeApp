@@ -28,9 +28,9 @@ class RetrofitService(private val api: RecipeApi) {
             query = this.query,
             fields = DEFAULT_FILTERS,
             nextHash = nextHash,
-            cuisineType = query.cuisineType.map { it.label },
-            dishType = query.dishType.map { it.label },
-            mealType = query.mealType.map { it.label },
+            cuisineType = query.filter.cuisines.map { it.label },
+            dishType = query.filter.categories.map { it.label },
+            mealType = query.filter.meals.map { it.label },
         )
     }
 

@@ -5,4 +5,6 @@
     <string name="bookmarks">Bookmarks</string>
     <string name="time">%.0f min</string>
     <string name="filter">Filter</string>
+    <string name="meal">Meal</string>
+    <string name="cuisine">Cuisine</string>
 </resources>

@@ -38,7 +38,7 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>(){
     }
 
     private fun bindStable() = with(binding){
-        adapter = CategoryAdapter(CategoryFingerprint())
+        adapter = CategoryAdapter(CategoryFingerprint)
         rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
         rvCategories.adapter = adapter
         PaddingDecoratorFactory(resources).apply(rvCategories,4f,8f)

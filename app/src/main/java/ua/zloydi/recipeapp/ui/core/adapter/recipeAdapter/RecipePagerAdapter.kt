@@ -1,36 +1,34 @@
 package ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.FingerprintAdapterManagement
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 
 class RecipePagerAdapter(
-    private val fingerprints: List<RecipeFingerprint<*, RecipeItemUI>>,
-) : PagingDataAdapter<RecipeItemUI, RecipeViewHolder<ViewBinding, RecipeItemUI>>(RecipeDiff()){
+    private val fingerprints: List<RecipeFingerprint<ViewBinding, RecipeItemUI>>,
+) : PagingDataAdapter<RecipeItemUI, BaseViewHolder<ViewBinding, RecipeItemUI>>(RecipeDiff()){
+    private val fingerprintAdapterManagement =
+        object : FingerprintAdapterManagement<RecipeItemUI>(fingerprints){
+            override fun getItem(position: Int) =
+                this@RecipePagerAdapter.getItem(position) ?: throw IllegalArgumentException()
+        }
+
     override fun onBindViewHolder(
-        holder: RecipeViewHolder<ViewBinding, RecipeItemUI>,
-        position: Int
-    ) {
-        holder.bind(getItem(position) ?: return)
-    }
-    override fun getItemViewType(position: Int): Int {
-        val item = getItem(position) ?: throw IllegalArgumentException("No item at position: $position")
-        return fingerprints.find { it.compareItem(item) }?.getViewType()
-            ?: throw IllegalArgumentException("View type not found: $item")
-    }
+        holder: BaseViewHolder<ViewBinding, RecipeItemUI>,
+        position: Int,
+    ) = fingerprintAdapterManagement.onBindViewHolder(holder, position)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int
-    ): RecipeViewHolder<ViewBinding, RecipeItemUI> {
-        val inflater = LayoutInflater.from(parent.context)
-        return fingerprints.find { it.getViewType() == viewType }
-            ?.let { it.inflate(inflater, parent) as RecipeViewHolder<ViewBinding, RecipeItemUI> }
-            ?: throw IllegalArgumentException("View type not found: $viewType")
-    }
+        viewType: Int,
+    ) = fingerprintAdapterManagement.onCreateViewHolder(parent, viewType)
+
+    override fun getItemViewType(position: Int)
+        = fingerprintAdapterManagement.getItemViewType(position)
 
     private class RecipeDiff : DiffUtil.ItemCallback<RecipeItemUI>() {
         override fun areItemsTheSame(oldItem: RecipeItemUI, newItem: RecipeItemUI) =

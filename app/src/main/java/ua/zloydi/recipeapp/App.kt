@@ -1,6 +1,9 @@
 package ua.zloydi.recipeapp
 
 import android.app.Application
+import ua.zloydi.recipeapp.models.filter_types.Cuisine
+import ua.zloydi.recipeapp.models.filter_types.Dish
+import ua.zloydi.recipeapp.models.filter_types.Meal
 
 class App : Application(){
     companion object{
@@ -10,6 +13,14 @@ class App : Application(){
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        filterTypeInitialization()
+    }
+
+    private fun filterTypeInitialization(){
+        Dish.values
+        Meal.values
+        Cuisine.values
     }
 
 }

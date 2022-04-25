@@ -1,8 +1,7 @@
 package ua.zloydi.recipeapp.data.retrofit
 
-import ua.zloydi.recipeapp.models.filter_types.Cuisine
 import ua.zloydi.recipeapp.models.filter_types.Dish
-import ua.zloydi.recipeapp.models.filter_types.Meal
+import ua.zloydi.recipeapp.models.filter_types.Filter
 
 sealed class RecipeQuery {
     data class Category(
@@ -11,25 +10,8 @@ sealed class RecipeQuery {
 
     data class Search(
         val query: String,
-        val cuisineType: List<Cuisine> = emptyList(),
-        val mealType: List<Meal> = emptyList(),
-        val dishType: List<Dish> = emptyList(),
-    ) : RecipeQuery() {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as Search
-
-            if (query != other.query) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            return query.hashCode()
-        }
-    }
+        val filter: Filter,
+    ) : RecipeQuery()
 
     data class Recipe(
         val id: String
@@ -38,5 +20,5 @@ sealed class RecipeQuery {
 
 fun RecipeQuery.Category.toSearch() = RecipeQuery.Search(
     query = "",
-    dishType = listOf(dishType)
+    filter = Filter(categories = listOf(dishType))
 )

@@ -1,46 +1,39 @@
 package ua.zloydi.recipeapp.ui.core.adapter.baseAdapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 abstract class BaseAdapter<IM>(
-    private val fingerprints: List<BaseFingerprint<*, IM>>,
+    private val fingerprints: List<BaseFingerprint<ViewBinding, IM>>,
 ) :
-    RecyclerView.Adapter<BaseViewHolder<ViewBinding, IM>>(){
-    protected abstract val Diff: DiffUtil.ItemCallback<IM>
-    private val differ = AsyncListDiffer(this, Diff)
-
-    override fun getItemViewType(position: Int): Int {
-        val item = differ.currentList[position]
-        return fingerprints.find { it.compareItem(item) }?.getViewType()
-            ?: throw IllegalArgumentException("View type not found: $item")
-    }
+    RecyclerView.Adapter<BaseViewHolder<ViewBinding, IM>>(),
+    AdapterUpdater<IM>,
+    AdapterManagement<IM>
+{
+    private val fingerprintAdapterManagement =
+        object : FingerprintAdapterManagement<IM>(fingerprints){
+            override fun getItem(position: Int) = items[position]
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<ViewBinding, IM> {
-        val inflater = LayoutInflater.from(parent.context)
-        return fingerprints.find { it.getViewType() == viewType }
-            ?.let { it as BaseFingerprint<ViewBinding, IM> }
-            ?.inflate(inflater, parent)
-            ?: throw IllegalArgumentException("View type not found: $viewType")
-    }
+    ) = fingerprintAdapterManagement.onCreateViewHolder(parent, viewType)
 
-    override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, IM>, position: Int) {
-        holder.bind(getItem(position))
-    }
+    override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, IM>, position: Int)
+        = fingerprintAdapterManagement.onBindViewHolder(holder, position)
 
-    fun getItem(position: Int) = differ.currentList[position]
+    override fun onBindViewHolder(
+        holder: BaseViewHolder<ViewBinding, IM>,
+        position: Int,
+        payloads: MutableList<Any>
+    ) = fingerprintAdapterManagement.onBindViewHolder(holder, position, payloads)
 
-    override fun getItemCount() = differ.currentList.size
+    override fun getItem(position: Int) = fingerprintAdapterManagement.getItem(position)
 
-    fun setItems(newItems: List<IM>) {
-        differ.submitList(newItems)
-        notifyDataSetChanged()
-    }
+    override fun getItemViewType(position: Int)
+        = fingerprintAdapterManagement.getItemViewType(position)
+
+    override fun getItemCount() = items.size
 }

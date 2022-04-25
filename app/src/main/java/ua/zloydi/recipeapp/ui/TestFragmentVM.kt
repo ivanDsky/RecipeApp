@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.map
 import ua.zloydi.recipeapp.data.paging.RecipeSource
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
-import ua.zloydi.recipeapp.models.filter_types.Cuisine
+import ua.zloydi.recipeapp.models.filter_types.Dish
+import ua.zloydi.recipeapp.models.filter_types.Filter
 import ua.zloydi.recipeapp.ui.main.IChildNavigation
 import ua.zloydi.recipeapp.ui.mappers.toUI
 
@@ -20,7 +21,7 @@ class TestFragmentVM(
     private val childNavigation: IChildNavigation,
 ) : ViewModel(){
     private val pager = Pager(PagingConfig(20,20,false,40),null){
-        RecipeSource(repository,RecipeQuery.Search("", cuisineType = listOf(Cuisine.CentralEurope)))
+        RecipeSource(repository,RecipeQuery.Search("", filter = Filter(categories = listOf(Dish.AlcoholCocktail))))
     }
     val flow = pager.flow.map {pagingData ->
         pagingData.map { it.toUI {

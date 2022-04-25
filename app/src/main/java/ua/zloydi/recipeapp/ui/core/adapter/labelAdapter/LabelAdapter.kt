@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import ua.zloydi.recipeapp.databinding.LayoutLabelBinding
-import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
 
 class LabelAdapter(fingerprints: List<LabelFingerprint>) :
-    BaseAdapter<FilterTypeUI>(fingerprints as List<BaseFingerprint<*, FilterTypeUI>>) {
-    override val Diff: DiffUtil.ItemCallback<FilterTypeUI> = LabelDiff()
+    BaseDifferNotifyAdapter<FilterTypeUI>(fingerprints as List<BaseFingerprint<*, FilterTypeUI>>) {
+    override val diff: DiffUtil.ItemCallback<FilterTypeUI> = LabelDiff()
 
     private class LabelDiff : DiffUtil.ItemCallback<FilterTypeUI>(){
         override fun areItemsTheSame(oldItem: FilterTypeUI, newItem: FilterTypeUI) =
