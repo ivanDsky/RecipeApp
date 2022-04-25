@@ -3,7 +3,7 @@ package ua.zloydi.recipeapp.data.retrofit
 class RetrofitService(private val api: RecipeApi) {
 
     companion object {
-        private val DEFAULT_FILTERS = arrayOf(
+        private val DEFAULT_FILTERS = listOf(
             "uri",
             "label",
             "image",
@@ -12,7 +12,7 @@ class RetrofitService(private val api: RecipeApi) {
             "mealType",
             "dishType",
         )
-        private val DETAIL_FILTERS = arrayOf(
+        private val DETAIL_FILTERS = listOf(
             "uri",
             "source",
             "url",
@@ -28,9 +28,9 @@ class RetrofitService(private val api: RecipeApi) {
             query = this.query,
             fields = DEFAULT_FILTERS,
             nextHash = nextHash,
-            cuisineType = query.cuisineType?.label,
-            dishType = query.dishType?.label,
-            mealType = query.mealType?.label,
+            cuisineType = query.cuisineType.map { it.label },
+            dishType = query.dishType.map { it.label },
+            mealType = query.mealType.map { it.label },
         )
     }
 

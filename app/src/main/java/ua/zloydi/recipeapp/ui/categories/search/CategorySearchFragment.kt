@@ -14,6 +14,7 @@ import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.databinding.FragmentCategorySearchBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
+import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
@@ -56,6 +57,7 @@ class CategorySearchFragment private constructor(): BaseFragment<FragmentCategor
 
     private fun bindStable() = with(binding){
         adapter = RecipePagerAdapter(listOf(LongRecipeFingerprint()))
+        PaddingDecoratorFactory(resources).apply(rvItems,8f,4f)
         rvItems.layoutManager = GridLayoutManager(requireContext(), 2)
         rvItems.adapter = adapter
     }

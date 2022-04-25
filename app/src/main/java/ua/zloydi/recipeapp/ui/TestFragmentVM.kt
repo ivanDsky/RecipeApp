@@ -20,7 +20,7 @@ class TestFragmentVM(
     private val childNavigation: IChildNavigation,
 ) : ViewModel(){
     private val pager = Pager(PagingConfig(20,20,false,40),null){
-        RecipeSource(repository,RecipeQuery.Search("", cuisineType = Cuisine.CentralEurope))
+        RecipeSource(repository,RecipeQuery.Search("", cuisineType = listOf(Cuisine.CentralEurope)))
     }
     val flow = pager.flow.map {pagingData ->
         pagingData.map { it.toUI {

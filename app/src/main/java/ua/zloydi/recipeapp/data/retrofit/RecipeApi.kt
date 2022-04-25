@@ -14,17 +14,17 @@ interface RecipeApi {
     @GET("$RECIPES?$QUERY_PREFIX")
     suspend fun queryFilters(
         @Query("q") query: String,
-        @Query("field") fields: Array<String>,
+        @Query("field") fields: List<String>,
         @Query("_cont") nextHash: String? = null,
-        @Query("cuisineType") cuisineType: String? = null,
-        @Query("mealType") mealType: String? = null,
-        @Query("dishType") dishType: String? = null,
+        @Query("cuisineType") cuisineType: List<String>,
+        @Query("mealType") mealType: List<String>,
+        @Query("dishType") dishType: List<String>,
     ): Response<QueryDTO>
 
     @GET("$RECIPES/{id}/?$QUERY_PREFIX")
     suspend fun queryFilters(
         @Path("id") id: String,
-        @Query("field") fields: Array<String>,
+        @Query("field") fields: List<String>,
     ): Response<HitDTO<RecipeDetailDTO>>
 
 }
