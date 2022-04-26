@@ -24,9 +24,9 @@ class DetailFragmentViewModel(
         val detailRecipe = repository.query(
             RecipeQuery.Recipe(recipe.id ?: return@async null)
         ) ?: return@async null
-        val categories = recipe.dishType.toUI(Dish.mapper,::DishUI){ Filter(categories = it) }
-        val meals = recipe.mealType.toUI(Meal.mapper,::MealUI){ Filter(meals = it) }
-        val cuisines = recipe.cuisineType.toUI(Cuisine.mapper,::CuisineUI){ Filter(cuisines = it) }
+        val categories = detailRecipe.dishType.toUI(Dish.mapper,::DishUI){ Filter(categories = it) }
+        val meals = detailRecipe.mealType.toUI(Meal.mapper,::MealUI){ Filter(meals = it) }
+        val cuisines = detailRecipe.cuisineType.toUI(Cuisine.mapper,::CuisineUI){ Filter(cuisines = it) }
         detailRecipe.toUI(recipe, categories, meals, cuisines)
     }
 

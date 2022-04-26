@@ -8,15 +8,15 @@ class RetrofitService(private val api: RecipeApi) {
             "label",
             "image",
             "totalTime",
-            "cuisineType",
-            "mealType",
-            "dishType",
         )
         private val DETAIL_FILTERS = listOf(
             "uri",
             "source",
             "url",
             "ingredients",
+            "cuisineType",
+            "mealType",
+            "dishType",
         )
     }
 
