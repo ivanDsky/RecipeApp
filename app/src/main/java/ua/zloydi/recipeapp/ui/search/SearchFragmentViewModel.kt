@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.data.ErrorProvider
+import ua.zloydi.recipeapp.data.local.SettingsRepository
 import ua.zloydi.recipeapp.data.paging.RecipeSource
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
@@ -25,10 +26,13 @@ import ua.zloydi.recipeapp.ui.mappers.toUI
 
 class SearchFragmentViewModel(
     searchFilter: SearchFilter?,
+    private val settings: SettingsRepository,
     private val repository: RecipeRepository,
     private val navigation: IChildNavigation,
 ) : ViewModel(), IChildNavigation by navigation {
-    private fun getDefaultFilter() = SearchFilter(filter = Filter(meals = listOf(Meal.Dinner)))
+
+    private fun getDefaultFilter() =
+        settings.getSearchFilter() ?: SearchFilter(filter = Filter(meals = listOf(Meal.Dinner)))
     private val _stateFlow: MutableStateFlow<SearchFilter> =
         MutableStateFlow(searchFilter ?: getDefaultFilter())
     val stateFlow = _stateFlow.asStateFlow()
@@ -54,6 +58,7 @@ class SearchFragmentViewModel(
         }
 
         _stateFlow.value = searchFilter
+        launch { settings.putSearchFilter(searchFilter) }
 
         val apiQuery = RecipeQuery.Search(searchFilter)
         pager = Pager(pagerConfig, pagingSourceFactory = { RecipeSource(repository, apiQuery) })
@@ -75,12 +80,13 @@ class SearchFragmentViewModel(
 
     class Factory(
         private val searchFilter: SearchFilter?,
+        private val settings: SettingsRepository,
         private val repository: RecipeRepository,
         private val navigation: IChildNavigation,
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SearchFragmentViewModel::class.java))
-                return SearchFragmentViewModel(searchFilter, repository, navigation) as T
+                return SearchFragmentViewModel(searchFilter,settings, repository, navigation) as T
             else
                 throw TypeCastException()
         }

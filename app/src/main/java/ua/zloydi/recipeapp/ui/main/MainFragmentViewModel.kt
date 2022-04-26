@@ -19,7 +19,7 @@ import android.view.MenuItem as AndroidMenuItem
 class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
     companion object{
         val screens = listOf(Search(), Category, Bookmarks)
-        val defaultScreen = screens[0]
+        val defaultScreen = screens[1]
     }
 
     private val _navigationActions = Channel<NavigationItem>()

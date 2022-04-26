@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import ua.zloydi.recipeapp.data.local.SettingsProvider
 import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.databinding.FragmentSearchBinding
 import ua.zloydi.recipeapp.models.filter_types.Filter
@@ -44,6 +45,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     private val viewModel: SearchFragmentViewModel by viewModels {
         SearchFragmentViewModel.Factory(
             arguments?.get(QUERY) as? SearchFilter,
+            SettingsProvider.repository,
             RecipeProvider.repository,
             (parentFragment as MainFragment).childNavigation
         )

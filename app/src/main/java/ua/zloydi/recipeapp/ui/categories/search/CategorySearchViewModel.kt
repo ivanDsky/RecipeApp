@@ -22,7 +22,7 @@ class CategorySearchViewModel(
     childNavigation: IChildNavigation,
 ) : ViewModel(), IParentNavigation by parenNavigation{
 
-    private val pagerConfig = PagingConfig(20, 30, false, 60)
+    private val pagerConfig = PagingConfig(20, 10, false, 10)
     private var pager: Pager<String, RecipeItemDTO> =
         Pager(pagerConfig, pagingSourceFactory = {RecipeSource(repository, searchCategory.toSearch())})
 

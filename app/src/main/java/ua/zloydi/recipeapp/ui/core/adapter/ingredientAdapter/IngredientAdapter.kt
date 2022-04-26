@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutIngredientBinding
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
@@ -46,6 +47,7 @@ class IngredientViewHolder(binding: LayoutIngredientBinding) :
 
         Glide.with(ivIngredient)
             .load(item.image)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .into(ivIngredient)
     }
 

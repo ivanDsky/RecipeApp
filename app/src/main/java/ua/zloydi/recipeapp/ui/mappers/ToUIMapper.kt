@@ -3,6 +3,7 @@ package ua.zloydi.recipeapp.ui.mappers
 import ua.zloydi.recipeapp.models.dto.IngredientDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.models.filter_types.Dish
 import ua.zloydi.recipeapp.ui.data.IngredientUI
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.RecipeUI
@@ -15,7 +16,7 @@ fun RecipeItemDTO.toUI(onClick: () -> Unit) = RecipeItemUI(
     title = label,
     image = image,
     time = totalTime,
-    types = emptyList(),
+    types = this.dishType.map { DishUI(Dish.mapper[it].label){} },
     onClick = onClick
 )
 

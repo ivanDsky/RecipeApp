@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutCategoryItemBinding
 import ua.zloydi.recipeapp.ui.categories.list.CategoryUI
@@ -43,6 +44,7 @@ class CategoryViewHolder(binding: LayoutCategoryItemBinding) :
 
         Glide.with(ivRecipePreview)
             .load(item.icon)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .into(ivRecipePreview)
 
         root.setOnClickListener { item.onClick() }

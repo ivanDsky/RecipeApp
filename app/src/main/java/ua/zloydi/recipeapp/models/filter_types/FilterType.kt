@@ -1,10 +1,12 @@
 package ua.zloydi.recipeapp.models.filter_types
 
+import ua.zloydi.recipeapp.utils.firstCaps
+
 sealed interface FilterType : java.io.Serializable{
     val label: String
 }
 
-class Mapper<T : FilterType>(values: List<T>){
+class Mapper<T : FilterType>(values: List<T>, private val factory: ((String) -> T)? = null){
     private val stringToType: HashMap<String, T> = hashMapOf()
     private val typeToString: HashMap<T, String> = hashMapOf()
     init {
@@ -13,34 +15,34 @@ class Mapper<T : FilterType>(values: List<T>){
             typeToString[it] = it.label
         }
     }
-    operator fun get(index: String) = stringToType[index] ?: throw IllegalArgumentException("Unknown type name $index")
+    operator fun get(index: String) = stringToType[index] ?: factory?.invoke(index.firstCaps()) ?: throw IllegalArgumentException("Unknown type name $index")
     operator fun get(index: T) = typeToString[index] ?: throw IllegalArgumentException("Unknown type")
 }
 
-private inline fun <reified T> values() = T::class.sealedSubclasses
-    .mapNotNull { it.objectInstance }
+private inline fun <reified T> values() : List<T> = T::class.nestedClasses
+    .mapNotNull { it.objectInstance as? T }
 
-sealed class Dish(override val label: String) : FilterType {
+open class Dish(override val label: String) : FilterType {
     object AlcoholCocktail : Dish("Alcohol-cocktail")
     object BiscuitsAndCookies : Dish("Biscuits and cookies")
     object Bread : Dish("Bread")
     object Cereals : Dish("Cereals")
     object CondimentsAndSauces : Dish("Condiments and sauces")
+    object Desserts : Dish("Dessert")
     object Drinks : Dish("Drinks")
-    object Desserts : Dish("Desserts")
-    object Egg : Dish("Egg")
     object MainCourse : Dish("Main course")
     object Omelet : Dish("Omelet")
-    object Pancake : Dish("Pancake")
+    object Pancakes : Dish("Pancake")
     object Preps : Dish("Preps")
     object Preserve : Dish("Preserve")
     object Salad : Dish("Salad")
     object Sandwiches : Dish("Sandwiches")
     object Soup : Dish("Soup")
+    object SpecialOccasions : Dish("Special occasions")
     object Starter : Dish("Starter")
     companion object{
         val values = values<Dish>()
-        val mapper = Mapper(values)
+        val mapper = Mapper(values, ::Dish)
     }
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -54,7 +56,7 @@ sealed class Dish(override val label: String) : FilterType {
     override fun hashCode() = label.hashCode()
 }
 
-sealed class Cuisine(override val label: String) : FilterType {
+open class Cuisine(override val label: String) : FilterType {
     object American : Cuisine("American")
     object Asian : Cuisine("Asian")
     object British : Cuisine("British")
@@ -67,6 +69,7 @@ sealed class Cuisine(override val label: String) : FilterType {
     object Italian : Cuisine("Italian")
     object Japanese : Cuisine("Japanese")
     object Kosher : Cuisine("Kosher")
+    object Korean : Cuisine("Korean")
     object Mediterranean : Cuisine("Mediterranean")
     object Mexican : Cuisine("Mexican")
     object MiddleEastern : Cuisine("Middle Eastern")
@@ -76,7 +79,7 @@ sealed class Cuisine(override val label: String) : FilterType {
     object World : Cuisine("World")
     companion object{
         val values = values<Cuisine>()
-        val mapper = Mapper(values)
+        val mapper = Mapper(values, ::Cuisine)
     }
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

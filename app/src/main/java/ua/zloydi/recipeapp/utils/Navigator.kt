@@ -1,10 +1,7 @@
 package ua.zloydi.recipeapp.utils
 
 import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
+import androidx.fragment.app.*
 import ua.zloydi.recipeapp.data.AddItem
 import ua.zloydi.recipeapp.data.NavigationItem
 import ua.zloydi.recipeapp.data.RemoveItem
@@ -28,7 +25,7 @@ class Navigator(
     private fun<F : Fragment> get(addItem: AddItem<F>): F? =
         fragmentManager.findFragmentByTag(addItem.tag) as F?
 
-    private fun addItem(addItem: AddItem<*>) = fragmentManager.commit {
+    private fun addItem(addItem: AddItem<*>) = fragmentManager.commitNow(allowStateLoss = true) {
         hideAll()
         val fragment = get(addItem)
         if (fragment != null) show(fragment) else add(addItem)
