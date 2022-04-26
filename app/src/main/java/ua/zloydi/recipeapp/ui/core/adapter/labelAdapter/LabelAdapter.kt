@@ -34,5 +34,6 @@ abstract class LabelViewHolder(binding: LayoutLabelBinding) :
     BaseViewHolder<LayoutLabelBinding, FilterTypeUI>(binding){
     override fun bind(item: FilterTypeUI) = with(binding){
         root.text = item.name
+        root.setOnClickListener { item.onClick() }
     }
 }

@@ -2,6 +2,7 @@ package ua.zloydi.recipeapp.ui.main
 
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.models.filter_types.SearchFilter
 
 interface IChildNavigation {
     fun openDetail(item: RecipeItemDTO)
@@ -10,4 +11,5 @@ interface IChildNavigation {
 
 interface IParentNavigation {
     fun openParent()
+    fun openSearch(searchFilter: SearchFilter)
 }

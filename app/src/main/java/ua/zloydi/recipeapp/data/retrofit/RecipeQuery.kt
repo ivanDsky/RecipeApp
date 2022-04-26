@@ -2,6 +2,7 @@ package ua.zloydi.recipeapp.data.retrofit
 
 import ua.zloydi.recipeapp.models.filter_types.Dish
 import ua.zloydi.recipeapp.models.filter_types.Filter
+import ua.zloydi.recipeapp.models.filter_types.SearchFilter
 
 sealed class RecipeQuery {
     data class Category(
@@ -9,8 +10,7 @@ sealed class RecipeQuery {
     ) : RecipeQuery(), java.io.Serializable
 
     data class Search(
-        val query: String,
-        val filter: Filter,
+        val searchFilter: SearchFilter
     ) : RecipeQuery()
 
     data class Recipe(
@@ -19,6 +19,5 @@ sealed class RecipeQuery {
 }
 
 fun RecipeQuery.Category.toSearch() = RecipeQuery.Search(
-    query = "",
-    filter = Filter(categories = listOf(dishType))
+    SearchFilter(filter = Filter(categories = listOf(dishType)))
 )

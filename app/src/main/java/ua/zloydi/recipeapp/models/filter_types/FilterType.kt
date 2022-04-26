@@ -1,6 +1,6 @@
 package ua.zloydi.recipeapp.models.filter_types
 
-sealed interface FilterType{
+sealed interface FilterType : java.io.Serializable{
     val label: String
 }
 
@@ -73,6 +73,7 @@ sealed class Cuisine(override val label: String) : FilterType {
     object Nordic : Cuisine("Nordic")
     object SouthAmerican : Cuisine("South American")
     object SouthEastAsian : Cuisine("South East Asian")
+    object World : Cuisine("World")
     companion object{
         val values = values<Cuisine>()
         val mapper = Mapper(values)

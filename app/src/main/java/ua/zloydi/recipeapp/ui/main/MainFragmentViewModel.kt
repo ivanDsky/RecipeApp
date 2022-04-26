@@ -12,18 +12,19 @@ import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.data.*
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.models.filter_types.SearchFilter
 import android.view.MenuItem as AndroidMenuItem
 
 
 class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
     companion object{
-        val defaultScreen = Search
-        val screens = listOf(Search, Category, Bookmarks)
+        val screens = listOf(Search(), Category, Bookmarks)
+        val defaultScreen = screens[0]
     }
 
     private val _navigationActions = Channel<NavigationItem>()
     val navigationActions = _navigationActions.consumeAsFlow()
-    private val _currentScreenFlow = MutableStateFlow<AddItem>(defaultScreen)
+    private val _currentScreenFlow = MutableStateFlow<AddItem<*>>(defaultScreen)
     val currentScreenFlow = _currentScreenFlow.asStateFlow()
 
     init {
@@ -44,8 +45,13 @@ class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
         } ?: throw NoSuchElementException("No element with id: ${menuItem.itemId}")
     }
 
-    private fun sendNavigationAction(actionItem: NavigationActionItem) = actionItem.actions.forEach{
-        _navigationActions.trySendBlocking(it)
+    private fun sendNavigationAction(actionItem: NavigationActionItem){
+        actionItem.actions?.forEach {
+            if (it is NavigationItem)
+                _navigationActions.trySendBlocking(it)
+            else
+                sendNavigationAction(it)
+        }
     }
 
     override fun openDetail(item: RecipeItemDTO) {
@@ -61,10 +67,13 @@ class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
         sendNavigationAction(PopToParentItem(current))
     }
 
-    private fun popToMenu(){
-        while (currentScreenFlow.value is ChildItem)
-            openParent()
+    override fun openSearch(searchFilter: SearchFilter) {
+        sendNavigationAction(GoToSearch(currentScreenFlow.value, Search(searchFilter)))
     }
 
-    fun navigationSelect(item: AddItem) {_currentScreenFlow.value = item}
+    private fun popToMenu(){
+        sendNavigationAction(PopBackStack(currentScreenFlow.value))
+    }
+
+    fun navigationSelect(item: AddItem<*>) {_currentScreenFlow.value = item}
 }

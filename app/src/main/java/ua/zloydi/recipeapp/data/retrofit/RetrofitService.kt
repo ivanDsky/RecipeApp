@@ -25,12 +25,12 @@ class RetrofitService(private val api: RecipeApi) {
         nextHash: String? = null
     ) = with(query) {
         api.queryFilters(
-            query = this.query,
+            query = searchFilter.search,
             fields = DEFAULT_FILTERS,
             nextHash = nextHash,
-            cuisineType = query.filter.cuisines.map { it.label },
-            dishType = query.filter.categories.map { it.label },
-            mealType = query.filter.meals.map { it.label },
+            cuisineType = searchFilter.filter.cuisines.map { it.label },
+            dishType = searchFilter.filter.categories.map { it.label },
+            mealType = searchFilter.filter.meals.map { it.label },
         )
     }
 

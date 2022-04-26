@@ -34,16 +34,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             launch {
                 viewModel.navigationActions.collect {
                     navigator.bindNavigation(it)
-                    if (it is AddItem) viewModel.navigationSelect(it)
+                    if (it is AddItem<*>) viewModel.navigationSelect(it)
                 }
             }
             launch {
-                viewModel.currentScreenFlow.filterIsInstance<MenuItem>().collect(::bindMenu)
+                viewModel.currentScreenFlow.filterIsInstance<MenuItem<*>>().collect(::bindMenu)
             }
         }
     }
 
-    private fun bindMenu(item: MenuItem){
+    private fun bindMenu(item: MenuItem<*>){
         binding.toolbar.tvTitle.text = getString(item.title)
         binding.bottomNavigation.selectedItemId = item.id
     }
