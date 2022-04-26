@@ -30,6 +30,7 @@ data class FilterSelectable<out T : FilterType>(
 
 sealed class Action{
     data class Select(val type: FilterType, val position: Int) : Action()
+    object UnselectAll : Action()
 }
 
 class FilterViewModel(filter: Filter) : ViewModel() {
@@ -95,6 +96,29 @@ class FilterViewModel(filter: Filter) : ViewModel() {
     private fun<T : FilterType> List<FilterSelectable<T>>.selected() =
         filter { it.isSelected }
         .map { it.filter }
+
+    fun reset() = viewModelScope.launch(Dispatchers.Default){
+        categories.unselect()
+        meals.unselect()
+        cuisines.unselect()
+        with(_state.value) {
+            categories.unselect()
+            meals.unselect()
+            cuisines.unselect()
+        }
+        _actions.send(Action.UnselectAll)
+    }
+
+    private fun<T : FilterType> MutableList<FilterSelectable<T>>.unselect(){
+        for (index in indices)
+            this[index] = this[index].copy(isSelected = false)
+    }
+
+    @JvmName("unselectFilterUI")
+    private fun MutableList<FilterUI>.unselect(){
+        for (index in indices)
+            this[index] = this[index].copy(isSelected = false)
+    }
 
     class Factory(
         private val filter: Filter

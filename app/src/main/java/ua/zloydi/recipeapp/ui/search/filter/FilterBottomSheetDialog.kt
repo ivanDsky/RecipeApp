@@ -67,6 +67,7 @@ class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment()
 
     private fun bindStable() = with(binding){
         btnFilter.setOnClickListener { setResult(viewModel.getFilter()) }
+        btnReset.setOnClickListener { viewModel.reset() }
 
         fun RecyclerView.bindAdapter(filterAdapter: FilterAdapter){
             adapter = filterAdapter
@@ -98,6 +99,11 @@ class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment()
                 is Meal -> filterMealAdapter
             }
             adapter?.notifyItemChanged(action.position, Unit)
+        }
+        Action.UnselectAll -> {
+            filterCategoryAdapter?.notifyDataSetChanged()
+            filterMealAdapter?.notifyDataSetChanged()
+            filterCuisineAdapter?.notifyDataSetChanged()
         }
     }
 

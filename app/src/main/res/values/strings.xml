@@ -7,4 +7,5 @@
     <string name="filter">Filter</string>
     <string name="meal">Meal</string>
     <string name="cuisine">Cuisine</string>
+    <string name="reset">Reset</string>
 </resources>

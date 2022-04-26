@@ -52,6 +52,20 @@
         app:layout_constraintTop_toBottomOf="@id/filterMeal" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnReset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:backgroundTint="?colorSecondary"
+        android:text="@string/reset"
+        android:textColor="?colorOnSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnFilter"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintHorizontal_weight="3"
         android:id="@+id/btnFilter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -61,6 +75,6 @@
         android:textColor="?colorOnSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toEndOf="@id/btnReset"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

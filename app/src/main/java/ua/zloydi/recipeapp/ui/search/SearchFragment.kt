@@ -7,13 +7,14 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -25,12 +26,20 @@ import ua.zloydi.recipeapp.databinding.FragmentSearchBinding
 import ua.zloydi.recipeapp.models.filter_types.Filter
 import ua.zloydi.recipeapp.models.filter_types.SearchFilter
 import ua.zloydi.recipeapp.ui.core.BaseFragment
+import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
+import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
+import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
+import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
+import ua.zloydi.recipeapp.ui.data.filterType.DishUI
+import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 import ua.zloydi.recipeapp.ui.search.filter.FilterBottomSheetDialog
+import kotlin.properties.Delegates
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     companion object{
@@ -59,23 +68,26 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
             launch { viewModel.searchFlow.filterNotNull().collect(::updateFlow) }
         }
 
-        with(binding.layoutSearch){
-            btnFilter.setOnClickListener { filter() }
-            btnSearch.setOnClickListener { search(etQuery) }
-        }
-
         bindStable()
     }
 
+    private var adapter: LabelAdapter by Delegates.notNull()
+
     private fun bindState(state: SearchFilter) = with(binding.layoutSearch){
         etQuery.setText(state.search)
+        val cuisines = state.filter.cuisines.map { CuisineUI(it.label){} }
+        val meals = state.filter.meals.map { MealUI(it.label){} }
+        val categories = state.filter.categories.map { DishUI(it.label){} }
+        val items = categories+meals+cuisines
+        adapter.setItems(items)
+        btnReset.isVisible = items.isNotEmpty()
     }
 
     private fun filter(){
         val listener = FragmentResultListener{ _, result ->
             viewModel.filter(
                 result[FilterBottomSheetDialog.FILTERS] as? Filter ?: return@FragmentResultListener,
-                binding.layoutSearch.etQuery.text?.toString() ?: ""
+                getQueryText()
             )
         }
         childFragmentManager.setFragmentResultListener(
@@ -87,10 +99,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
             .show(childFragmentManager, null)
     }
 
-    private fun search(editText: EditText) {
-        viewModel.query(editText.text?.toString())
+    private fun search() {
+        viewModel.query(getQueryText())
         closeKeyboard()
     }
+
+    private fun getQueryText() = binding.layoutSearch.etQuery.text?.toString() ?: ""
 
     private val fingerprint = LongRecipeFingerprint()
 
@@ -110,16 +124,31 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
         rvRecipes.layoutManager = GridLayoutManager(requireContext(),2)
         PaddingDecoratorFactory(resources).apply(rvRecipes,8f,4f)
 
-        layoutSearch.etQuery.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode != KeyEvent.KEYCODE_ENTER) return@setOnKeyListener false
-            search(layoutSearch.etQuery)
-            true
+        with(binding.layoutSearch){
+            btnFilter.setOnClickListener { filter() }
+            btnSearch.setOnClickListener { search() }
+            btnReset.setOnClickListener { viewModel.filter(Filter(), getQueryText()) }
+
+            etQuery.setOnKeyListener { _, keyCode, _ ->
+                if (keyCode != KeyEvent.KEYCODE_ENTER) return@setOnKeyListener false
+                search()
+                true
+            }
+
+            etQuery.setOnFocusChangeListener { _, hasFocus -> if(!hasFocus) closeKeyboard() }
+
+            adapter = LabelAdapter(listOf(DishFingerprint,MealFingerprint,CuisineFingerprint))
+            rvLabels.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            PaddingDecoratorFactory(resources).apply(rvLabels, 0f,2f)
+            rvLabels.adapter = adapter
         }
     }
 
+
+    private val manager by lazy { requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager }
     private fun closeKeyboard(){
-        val inputManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(binding.layoutSearch.etQuery.windowToken, 0)
+        manager.hideSoftInputFromWindow(binding.layoutSearch.etQuery.windowToken, 0)
         binding.layoutSearch.etQuery.clearFocus()
     }
 

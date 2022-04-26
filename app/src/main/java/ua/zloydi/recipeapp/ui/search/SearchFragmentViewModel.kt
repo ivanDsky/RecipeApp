@@ -43,8 +43,8 @@ class SearchFragmentViewModel(
     private var pager: Pager<String, RecipeItemDTO>? = null
     private val pagerConfig = PagingConfig(20, 30, false, 60)
 
-    fun query(queryText: String?) = viewModelScope.launch(Dispatchers.IO) {
-        sendQuery(SearchFilter(queryText?:"", _stateFlow.value.filter))
+    fun query(queryText: String) = viewModelScope.launch(Dispatchers.IO) {
+        sendQuery(SearchFilter(queryText, _stateFlow.value.filter))
     }
 
     fun filter(filter: Filter, queryText: String = _stateFlow.value.search) {
