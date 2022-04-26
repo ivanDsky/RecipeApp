@@ -6,7 +6,7 @@ data class RecipeDetailDTO(
     val uri: String? = null,
     val source: String? = null,
     val url: String? = null,
-    val ingredients: Array<IngredientDTO>? = null,
+    val ingredients: List<IngredientDTO>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

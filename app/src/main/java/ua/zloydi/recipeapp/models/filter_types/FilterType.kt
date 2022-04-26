@@ -9,12 +9,12 @@ class Mapper<T : FilterType>(values: List<T>){
     private val typeToString: HashMap<T, String> = hashMapOf()
     init {
         values.forEach {
-            stringToType[it.label] = it
+            stringToType[it.label.lowercase()] = it
             typeToString[it] = it.label
         }
     }
-    operator fun get(index: String) = stringToType[index] ?: IllegalArgumentException("Unknown type name")
-    operator fun get(index: T) = typeToString[index] ?: IllegalArgumentException("Unknown type")
+    operator fun get(index: String) = stringToType[index] ?: throw IllegalArgumentException("Unknown type name $index")
+    operator fun get(index: T) = typeToString[index] ?: throw IllegalArgumentException("Unknown type")
 }
 
 private inline fun <reified T> values() = T::class.sealedSubclasses

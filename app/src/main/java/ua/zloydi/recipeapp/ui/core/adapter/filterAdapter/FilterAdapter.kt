@@ -11,26 +11,42 @@ import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 import ua.zloydi.recipeapp.ui.search.filter.FilterUI
 import ua.zloydi.recipeapp.utils.getThemeColor
 
-class FilterAdapter : BaseManuallyNotifyAdapter<FilterUI>(listOf(FilterFingerprint))
+class FilterAdapter(fingerprint: FilterFingerprint) : BaseManuallyNotifyAdapter<FilterUI>(
+    listOf(fingerprint)
+)
 
-object FilterFingerprint : BaseFingerprint<LayoutLabelBinding, FilterUI>() {
+sealed class FilterFingerprint : BaseFingerprint<LayoutLabelBinding, FilterUI>() {
     override fun inflate(
         inflater: LayoutInflater,
-        parent: ViewGroup,
-    ) = FilterViewHolder(LayoutLabelBinding.inflate(inflater, parent, false))
-
+        parent: ViewGroup
+    ) = inflate(LayoutLabelBinding.inflate(inflater, parent, false))
+    abstract val inflate : (binding: LayoutLabelBinding) -> FilterViewHolder
     override fun compareItem(item: FilterUI) = true
 
-    override fun getViewType() = R.layout.layout_label
+    object Cuisine : FilterFingerprint(){
+        override val inflate = FilterViewHolder::Cuisine
+        override fun getViewType() = 0
+    }
+
+    object Meal : FilterFingerprint(){
+        override val inflate = FilterViewHolder::Meal
+        override fun getViewType() = 1
+    }
+
+    object Category : FilterFingerprint(){
+        override val inflate = FilterViewHolder::Category
+        override fun getViewType() = 2
+    }
 }
 
-class FilterViewHolder(binding: LayoutLabelBinding) :
+sealed class FilterViewHolder(binding: LayoutLabelBinding) :
     BaseViewHolder<LayoutLabelBinding, FilterUI>(binding){
+    private val selectedColor = com.google.android.material.R.attr.colorSecondary
+    abstract val unselectedColor: Int
     override fun bind(item: FilterUI): Unit = with(binding.root){
         text = item.name
         val color = context.getThemeColor(
-            if (item.isSelected) com.google.android.material.R.attr.colorSecondary
-            else com.google.android.material.R.attr.colorSecondaryVariant
+            if (item.isSelected) selectedColor else unselectedColor
         )
         backgroundTintList = ColorStateList.valueOf(color)
         setOnClickListener { item.onClick() }
@@ -39,10 +55,21 @@ class FilterViewHolder(binding: LayoutLabelBinding) :
     override fun bind(item: FilterUI, payloads: MutableList<Any>) {
         if(payloads.isNotEmpty()){
             val color = binding.root.context.getThemeColor(
-                if (item.isSelected) com.google.android.material.R.attr.colorSecondary
-                else com.google.android.material.R.attr.colorSecondaryVariant
+                if (item.isSelected) selectedColor else unselectedColor
             )
             binding.root.backgroundTintList = ColorStateList.valueOf(color)
         } else super.bind(item, payloads)
+    }
+
+    class Cuisine(binding: LayoutLabelBinding) : FilterViewHolder(binding){
+        override val unselectedColor = R.attr.colorSecondaryTone1
+    }
+
+    class Meal(binding: LayoutLabelBinding) : FilterViewHolder(binding){
+        override val unselectedColor = R.attr.colorSecondaryTone2
+    }
+
+    class Category(binding: LayoutLabelBinding) : FilterViewHolder(binding){
+        override val unselectedColor = R.attr.colorSecondaryTone3
     }
 }

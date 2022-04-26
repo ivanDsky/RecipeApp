@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,13 +20,14 @@ import ua.zloydi.recipeapp.models.filter_types.Dish
 import ua.zloydi.recipeapp.models.filter_types.Filter
 import ua.zloydi.recipeapp.models.filter_types.Meal
 import ua.zloydi.recipeapp.ui.core.adapter.filterAdapter.FilterAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.filterAdapter.FilterFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 
 class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment() {
     companion object{
         const val FILTERS = "FILTERS"
-        fun create(filter: Filter) = FilterBottomSheetDialog().also {
-            it.arguments = Bundle().also { it.putSerializable(FILTERS, filter) }
+        fun create(filter: Filter) = FilterBottomSheetDialog().apply {
+            arguments = bundleOf(FILTERS to filter)
         }
     }
     private var _binding: DialogFilterBinding? = null
@@ -71,13 +73,13 @@ class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment()
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             PaddingDecoratorFactory(resources).apply(this, 0f, 4f)
         }
-        filterCategoryAdapter = FilterAdapter()
+        filterCategoryAdapter = FilterAdapter(FilterFingerprint.Category)
         filterCategory.tvTitle.text = getString(R.string.category)
         filterCategory.rvItems.bindAdapter(filterCategoryAdapter!!)
-        filterMealAdapter = FilterAdapter()
+        filterMealAdapter = FilterAdapter(FilterFingerprint.Meal)
         filterMeal.tvTitle.text = getString(R.string.meal)
         filterMeal.rvItems.bindAdapter(filterMealAdapter!!)
-        filterCuisineAdapter = FilterAdapter()
+        filterCuisineAdapter = FilterAdapter(FilterFingerprint.Cuisine)
         filterCuisine.tvTitle.text = getString(R.string.cuisine)
         filterCuisine.rvItems.bindAdapter(filterCuisineAdapter!!)
     }

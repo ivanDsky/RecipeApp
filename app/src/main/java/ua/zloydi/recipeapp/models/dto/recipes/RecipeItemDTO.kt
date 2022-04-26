@@ -5,9 +5,9 @@ data class RecipeItemDTO(
     val label: String? = null,
     val image: String? = null,
     val totalTime: Float? = null,
-    val cuisineType: Array<String>? = null,
-    val mealType: Array<String>? = null,
-    val dishType: Array<String>? = null,
+    val cuisineType: List<String>,
+    val mealType: List<String>,
+    val dishType: List<String>,
 ) : java.io.Serializable{
     val id
         get() = uri?.substringAfterLast("#recipe_")

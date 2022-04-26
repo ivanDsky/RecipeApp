@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ua.zloydi.recipeapp.R
-import ua.zloydi.recipeapp.data.ErrorProvider
-import ua.zloydi.recipeapp.data.repository.RecipeRepository
-import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
+import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.core.BaseFragment
@@ -25,9 +23,9 @@ import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
 import ua.zloydi.recipeapp.ui.data.IngredientUI
+import ua.zloydi.recipeapp.ui.data.RecipeUI
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
 import ua.zloydi.recipeapp.ui.data.filterType.DishUI
-import ua.zloydi.recipeapp.ui.data.filterType.FilterTypeUI
 import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 
@@ -41,8 +39,8 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
     override fun inflate(inflater: LayoutInflater) = FragmentDetailBinding.inflate(inflater)
     private val viewModel: DetailFragmentViewModel by viewModels{
         DetailFragmentViewModel.Factory(
-            RecipeRepository(RetrofitProvider.service,
-                ErrorProvider.service),
+            requireArguments()[RECIPE] as RecipeItemDTO,
+            RecipeProvider.repository,
             (parentFragment as MainFragment).parentNavigation
         )
     }
@@ -50,27 +48,21 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenCreated {
-            val recipe = viewModel.getRecipeUI(getRecipe())
+            val recipe = viewModel.recipeUI.await()
             if (recipe == null)
                 requireActivity().onBackPressed()
             else {
-                viewModel.recipe = recipe
-                bind()
+                bind(recipe)
             }
         }
-//        sharedElementEnterTransition = MaterialContainerTransform().apply {
-//            containerColor = Color.BLACK
-//            drawingViewId = R.id.mainContainer
-//            duration = 2000
-//        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             viewModel.openParent()
         }
     }
 
-    private fun bind() =
+    private fun bind(recipe: RecipeUI) =
         with(binding){
-        with(viewModel.recipe) {
+        with(recipe) {
             Glide.with(ivRecipePreview)
                 .load(image)
                 .into(ivRecipePreview)
@@ -85,7 +77,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
             }
             tvSource.text = url
 
-            createLabels(rvLabels,cuisineType, dishType, mealType)
+            createLabels(rvLabels, cuisineType, dishType, mealType)
             createIngredients(rvIngredients, ingredients)
 
             description?.let {
@@ -96,38 +88,29 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
             }
         }}
 
-    private fun createIngredients(rvIngredients: RecyclerView, ingredients: Array<IngredientUI>?) {
+    private fun createIngredients(rvIngredients: RecyclerView, ingredients: List<IngredientUI>) {
         rvIngredients.layoutManager = LinearLayoutManager(requireContext())
         val adapter = IngredientAdapter()
         rvIngredients.adapter = adapter
         PaddingDecoratorFactory(resources).apply(rvIngredients,2f, 0f, false)
-        adapter.setItems(ingredients?.toList() ?: emptyList())
+        adapter.setItems(ingredients)
     }
 
     private fun createLabels(
         rvLabels: RecyclerView,
-        cuisineType: Array<CuisineUI>?,
-        dishType: Array<DishUI>?,
-        mealType: Array<MealUI>?
+        cuisineType: List<CuisineUI>,
+        dishType: List<DishUI>,
+        mealType: List<MealUI>
     ) {
         rvLabels.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        var items = emptyArray<FilterTypeUI>()
-        if(cuisineType != null) items += cuisineType
-        if(dishType != null) items += dishType
-        if(mealType != null) items += mealType
+        val items = dishType + mealType + cuisineType
 
-        val adapter = LabelAdapter(listOf(CuisineFingerprint, DishFingerprint, MealFingerprint))
+        val adapter = LabelAdapter(listOf(DishFingerprint, MealFingerprint, CuisineFingerprint))
         rvLabels.adapter = adapter
-        adapter.setItems(items.asList())
+        adapter.setItems(items)
 
         PaddingDecoratorFactory(resources).apply(rvLabels, 0f, 2f, false)
-    }
-
-    private fun getRecipe(): RecipeItemDTO {
-        val obj = (arguments?.get(RECIPE) ?: throw IllegalStateException("Incorrect initialization"))
-        if(obj !is RecipeItemDTO) throw TypeCastException("Incorrect parameter in RECIPE field")
-        return obj
     }
 }
