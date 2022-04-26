@@ -18,13 +18,13 @@ import android.view.MenuItem as AndroidMenuItem
 
 class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
     companion object{
-        val screens = listOf(Search(), Category, Bookmarks)
+        val screens = listOf<AddItem<*>>(Search(), Category, Bookmarks)
         val defaultScreen = screens[1]
     }
 
     private val _navigationActions = Channel<NavigationItem>()
     val navigationActions = _navigationActions.consumeAsFlow()
-    private val _currentScreenFlow = MutableStateFlow<AddItem<*>>(defaultScreen)
+    private val _currentScreenFlow = MutableStateFlow(defaultScreen)
     val currentScreenFlow = _currentScreenFlow.asStateFlow()
 
     init {
@@ -40,7 +40,7 @@ class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
             return
 
         Log.d("Debug141", "onMenuSelected: ${menuItem.itemId}")
-        screens.find { it.id == menuItem.itemId } ?.let {
+        screens.find { (it as MenuItem).id == menuItem.itemId } ?.let {
             _navigationActions.trySendBlocking(it)
         } ?: throw NoSuchElementException("No element with id: ${menuItem.itemId}")
     }

@@ -1,7 +1,6 @@
 package ua.zloydi.recipeapp.data
 
 import androidx.annotation.IdRes
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
@@ -12,6 +11,7 @@ import ua.zloydi.recipeapp.ui.categories.list.CategoriesFragment
 import ua.zloydi.recipeapp.ui.categories.search.CategorySearchFragment
 import ua.zloydi.recipeapp.ui.detail.DetailFragment
 import ua.zloydi.recipeapp.ui.search.SearchFragment
+import ua.zloydi.recipeapp.utils.StringItem
 
 sealed interface NavigationItem : NavigationActionItem
 
@@ -20,12 +20,13 @@ sealed class AddItem<out F : Fragment> : NavigationItem {
     abstract val fragmentFactory: () -> F
 }
 
-sealed class MenuItem<out F : Fragment> : AddItem<F>() {
-    @get:IdRes
-    abstract val id: Int
+sealed interface TitleItem {
+    val title: StringItem
+}
 
-    @get:StringRes
-    abstract val title: Int
+sealed interface MenuItem {
+    @get:IdRes
+    val id: Int
 }
 
 abstract class SendItem<F : Fragment>(val addItem: AddItem<F>, val send: F.() -> Unit) : NavigationItem
@@ -37,22 +38,22 @@ interface NavigationActionItem {
         get() = null
 }
 
-class Search(val searchFilter: SearchFilter? = null) : MenuItem<SearchFragment>() {
-    override val title = R.string.main_screen
+class Search(val searchFilter: SearchFilter? = null) : AddItem<SearchFragment>(), TitleItem, MenuItem {
+    override val title = StringItem.Res(R.string.main_screen)
     override val id = R.id.mainScreen
     override val tag = "Search"
     override val fragmentFactory = { SearchFragment.create(searchFilter) }
 }
 
-object Category : MenuItem<CategoriesFragment>() {
-    override val title = R.string.category
+object Category : AddItem<CategoriesFragment>(), TitleItem, MenuItem {
+    override val title = StringItem.Res(R.string.category)
     override val id = R.id.categoryScreen
     override val tag = "Category"
     override val fragmentFactory = { CategoriesFragment() }
 }
 
-object Bookmarks : MenuItem<TestFragment>() {
-    override val title = R.string.bookmarks
+object Bookmarks : AddItem<TestFragment>(), TitleItem, MenuItem {
+    override val title = StringItem.Res(R.string.bookmarks)
     override val id = R.id.bookmarksScreen
     override val tag = "Bookmarks"
     override val fragmentFactory = { TestFragment() }
@@ -83,13 +84,15 @@ class GoToSearch(current: AddItem<*>, search: Search) : NavigationActionItem{
     override val actions = listOf(PopBackStack(current), search, SearchSend(search))
 }
 class Detail(parent: AddItem<*>, private val item: RecipeItemDTO) :
-    ChildItem<DetailFragment>(parent) {
+    ChildItem<DetailFragment>(parent), TitleItem {
+    override val title = StringItem.String(item.label?:"")
     override val tag = "Detail"
     override val fragmentFactory = { DetailFragment.create(item) }
 }
 
 class CategoryItem(parent: AddItem<*>, private val item: RecipeQuery.Category) :
-    ChildItem<CategorySearchFragment>(parent) {
+    ChildItem<CategorySearchFragment>(parent), TitleItem {
+    override val title = StringItem.String(item.dishType.label)
     override val tag = "CategoryItem"
     override val fragmentFactory = { CategorySearchFragment.create(item) }
 }
