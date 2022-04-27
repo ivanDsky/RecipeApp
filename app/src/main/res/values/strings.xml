@@ -8,4 +8,5 @@
     <string name="meal">Meal</string>
     <string name="cuisine">Cuisine</string>
     <string name="reset">Reset</string>
+    <string name="retry">Retry</string>
 </resources>

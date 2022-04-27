@@ -14,8 +14,10 @@ import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.databinding.FragmentTestBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RetryAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
+import ua.zloydi.recipeapp.ui.core.adapterLayoutManagers.RetrySpanSizeLookup
 import ua.zloydi.recipeapp.ui.main.MainFragment
 
 class TestFragment : BaseFragment<FragmentTestBinding>() {
@@ -34,15 +36,16 @@ class TestFragment : BaseFragment<FragmentTestBinding>() {
         setupAdapter()
     }
 
-    private lateinit var adapter: RecipePagerAdapter
-
     private fun setupAdapter() {
         with(binding.rvRecipes) {
-            layoutManager = GridLayoutManager(requireContext(),2)
-            this@TestFragment.adapter = RecipePagerAdapter(listOf(LongRecipeFingerprint()))
-            adapter = this@TestFragment.adapter
+            val adapter = RecipePagerAdapter(listOf(LongRecipeFingerprint()))
+            val concatAdapter = adapter.withLoadStateFooter(RetryAdapter(adapter))
+            layoutManager = GridLayoutManager(requireContext(),2).also {
+                it.spanSizeLookup = RetrySpanSizeLookup(2){concatAdapter.itemCount}
+            }
+            this.adapter = concatAdapter
             lifecycleScope.launchWhenStarted {
-                viewModel.flow.collect {this@TestFragment.adapter.submitData(it)}
+                viewModel.flow.collect { adapter.submitData(it)}
             }
             PaddingDecoratorFactory(resources).apply(this, 8f, 8f)
             doOnPreDraw { startPostponedEnterTransition() }

@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.Flow
@@ -28,11 +29,13 @@ import ua.zloydi.recipeapp.models.filter_types.SearchFilter
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RetryAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
+import ua.zloydi.recipeapp.ui.core.adapterLayoutManagers.RetrySpanSizeLookup
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
 import ua.zloydi.recipeapp.ui.data.filterType.DishUI
@@ -107,10 +110,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     private fun getQueryText() = binding.layoutSearch.etQuery.text?.toString() ?: ""
 
     private val fingerprint = LongRecipeFingerprint()
+    private var searchAdapter: ConcatAdapter? = null
 
     private fun updateFlow(flow: Flow<PagingData<RecipeItemUI>>){
         val adapter = RecipePagerAdapter(listOf(fingerprint))
-        binding.rvRecipes.adapter = adapter
+        searchAdapter = adapter.withLoadStateFooter(RetryAdapter(adapter))
+        binding.rvRecipes.adapter = searchAdapter
         adapter.retry()
         lifecycleScope.launchWhenStarted {
             Log.d("Debug141", "updateFlow")
@@ -121,7 +126,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     }
 
     private fun bindStable() = with(binding){
-        rvRecipes.layoutManager = GridLayoutManager(requireContext(),2)
+        rvRecipes.layoutManager = GridLayoutManager(requireContext(), 2).also {
+            it.spanSizeLookup = RetrySpanSizeLookup(2) { searchAdapter?.itemCount }
+        }
         PaddingDecoratorFactory(resources).apply(rvRecipes,8f,4f)
 
         with(binding.layoutSearch){
