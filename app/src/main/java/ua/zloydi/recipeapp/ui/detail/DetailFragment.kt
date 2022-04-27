@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.R
+import ua.zloydi.recipeapp.data.local.bookmarks.BookmarksProvider
 import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
@@ -40,6 +42,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
     private val viewModel: DetailFragmentViewModel by viewModels{
         DetailFragmentViewModel.Factory(
             requireArguments()[RECIPE] as RecipeItemDTO,
+            BookmarksProvider.database,
             RecipeProvider.repository,
             (parentFragment as MainFragment).parentNavigation
         )
@@ -54,6 +57,9 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
             else {
                 bind(recipe)
             }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.isBookmarked.collect(::bindBookmark)
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             viewModel.openParent()
@@ -86,7 +92,15 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
             } ?: run {
                 tvDescription.isVisible = false
             }
+
+            btnBookmark.setOnClickListener { viewModel.changeBookmark() }
         }}
+
+    private fun bindBookmark(isBookmarked: Boolean){
+        binding.btnBookmark.setImageResource(
+            if (isBookmarked) R.drawable.bookmarked else R.drawable.bookmark
+        )
+    }
 
     private fun createIngredients(rvIngredients: RecyclerView, ingredients: List<IngredientUI>) {
         rvIngredients.layoutManager = LinearLayoutManager(requireContext())

@@ -16,6 +16,10 @@ sealed class RecipeQuery {
     data class Recipe(
         val id: String
     ) : RecipeQuery()
+
+    data class RecipeItem(
+        val id: String
+    ) : RecipeQuery()
 }
 
 fun RecipeQuery.Category.toSearch() = RecipeQuery.Search(

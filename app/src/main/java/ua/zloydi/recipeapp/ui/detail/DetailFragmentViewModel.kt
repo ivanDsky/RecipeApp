@@ -5,6 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import ua.zloydi.recipeapp.data.local.bookmarks.BookmarkDatabase
+import ua.zloydi.recipeapp.data.local.bookmarks.insert
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
@@ -16,13 +20,17 @@ import ua.zloydi.recipeapp.ui.main.IParentNavigation
 import ua.zloydi.recipeapp.ui.mappers.toUI
 
 class DetailFragmentViewModel(
-    recipe: RecipeItemDTO,
+    private val recipe: RecipeItemDTO,
+    private val bookmarkDatabase: BookmarkDatabase,
     private val repository: RecipeRepository,
     private val navigation: IParentNavigation,
 ) : ViewModel(), IParentNavigation by navigation {
+    private val id = recipe.id
+    val isBookmarked = bookmarkDatabase.bookmark().isBookmarked(id)
+
     val recipeUI = viewModelScope.async(Dispatchers.IO){
         val detailRecipe = repository.query(
-            RecipeQuery.Recipe(recipe.id ?: return@async null)
+            RecipeQuery.Recipe(id)
         ) ?: return@async null
         val categories = detailRecipe.dishType.toUI(Dish.mapper,::DishUI){ Filter(categories = it) }
         val meals = detailRecipe.mealType.toUI(Meal.mapper,::MealUI){ Filter(meals = it) }
@@ -42,15 +50,26 @@ class DetailFragmentViewModel(
             }
         }
 
+    fun changeBookmark() = viewModelScope.launch(Dispatchers.IO){
+        val isBookmarked = isBookmarked.first()
+        if(isBookmarked) {
+            bookmarkDatabase.bookmark().delete(id)
+            bookmarkDatabase.recipeItem().delete(id)
+        }else{
+            bookmarkDatabase.bookmark().insert(id)
+            bookmarkDatabase.recipeItem().insert(recipe)
+        }
+    }
 
     class Factory(
         private val recipe: RecipeItemDTO,
+        private val bookmarkDatabase: BookmarkDatabase,
         private val repository: RecipeRepository,
         private val navigation: IParentNavigation,
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(DetailFragmentViewModel::class.java))
-                return DetailFragmentViewModel(recipe, repository, navigation) as T
+                return DetailFragmentViewModel(recipe, bookmarkDatabase, repository, navigation) as T
             else
                 throw TypeCastException()
         }

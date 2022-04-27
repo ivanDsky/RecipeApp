@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.data.repository.CategoryProvider
 import ua.zloydi.recipeapp.data.repository.RecipeProvider
-import ua.zloydi.recipeapp.databinding.FragmentCategoriesBinding
+import ua.zloydi.recipeapp.databinding.FragmentRecyclerViewBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.categoryAdapter.CategoryAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.categoryAdapter.CategoryFingerprint
@@ -17,7 +17,7 @@ import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.main.MainFragment
 import kotlin.properties.Delegates
 
-class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>(){
+class CategoriesFragment : BaseFragment<FragmentRecyclerViewBinding>(){
     private val viewModel: CategoriesFragmentViewModel by viewModels {
         CategoriesFragmentViewModel.Factory(
             RecipeProvider.repository,
@@ -25,7 +25,7 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>(){
             (parentFragment as MainFragment).childNavigation
         )
     }
-    override fun inflate(inflater: LayoutInflater) = FragmentCategoriesBinding.inflate(inflater)
+    override fun inflate(inflater: LayoutInflater) = FragmentRecyclerViewBinding.inflate(inflater)
 
     private var adapter: CategoryAdapter by Delegates.notNull()
 
@@ -39,9 +39,9 @@ class CategoriesFragment : BaseFragment<FragmentCategoriesBinding>(){
 
     private fun bindStable() = with(binding){
         adapter = CategoryAdapter(CategoryFingerprint)
-        rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
-        rvCategories.adapter = adapter
-        PaddingDecoratorFactory(resources).apply(rvCategories,4f,8f)
+        rvItems.layoutManager = GridLayoutManager(requireContext(), 2)
+        rvItems.adapter = adapter
+        PaddingDecoratorFactory(resources).apply(rvItems,4f,8f)
     }
 
     private fun bindState(state: CategoryState) {

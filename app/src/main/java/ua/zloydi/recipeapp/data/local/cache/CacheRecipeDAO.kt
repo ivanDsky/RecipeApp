@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.local.room
+package ua.zloydi.recipeapp.data.local.cache
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -14,7 +14,7 @@ interface CacheRecipeDAO {
     suspend fun query(key: String): RecipeDetailDTO?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(cacheQuery: CacheRecipe)
+    suspend fun insert(cacheRecipe: CacheRecipe)
 }
 
 suspend fun CacheRecipeDAO.insert(id: String, recipeDetailDTO: RecipeDetailDTO) =

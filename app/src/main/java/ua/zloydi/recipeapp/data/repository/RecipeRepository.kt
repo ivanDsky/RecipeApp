@@ -4,10 +4,10 @@ import android.util.Log
 import retrofit2.Response
 import ua.zloydi.recipeapp.data.ErrorProvider
 import ua.zloydi.recipeapp.data.ErrorService
-import ua.zloydi.recipeapp.data.local.room.CacheRecipeDatabase
-import ua.zloydi.recipeapp.data.local.room.CacheRecipeProvider
-import ua.zloydi.recipeapp.data.local.room.insert
-import ua.zloydi.recipeapp.data.local.room.query
+import ua.zloydi.recipeapp.data.local.cache.CacheDatabase
+import ua.zloydi.recipeapp.data.local.cache.CacheProvider
+import ua.zloydi.recipeapp.data.local.cache.insert
+import ua.zloydi.recipeapp.data.local.cache.query
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.data.retrofit.RetrofitService
@@ -19,7 +19,7 @@ import java.net.SocketTimeoutException
 
 class RecipeRepository(
     private val retrofitService: RetrofitService,
-    private val database: CacheRecipeDatabase,
+    private val database: CacheDatabase,
     private val errorService: ErrorService
 ) {
     private suspend fun submitErrorMessage(message: String?) {
@@ -69,6 +69,6 @@ class RecipeRepository(
 
 object RecipeProvider {
     val repository = RecipeRepository(RetrofitProvider.service,
-        CacheRecipeProvider.database,
+        CacheProvider.database,
         ErrorProvider.service)
 }

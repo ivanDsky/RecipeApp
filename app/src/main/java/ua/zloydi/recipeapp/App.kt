@@ -1,7 +1,7 @@
 package ua.zloydi.recipeapp
 
 import android.app.Application
-import ua.zloydi.recipeapp.data.local.room.CacheRecipeProvider
+import ua.zloydi.recipeapp.data.local.cache.CacheProvider
 import ua.zloydi.recipeapp.models.filter_types.Cuisine
 import ua.zloydi.recipeapp.models.filter_types.Dish
 import ua.zloydi.recipeapp.models.filter_types.Meal
@@ -22,7 +22,7 @@ class App : Application(){
         Dish.values
         Meal.values
         Cuisine.values
-        CacheRecipeProvider.database
+        CacheProvider.database
     }
 
 }

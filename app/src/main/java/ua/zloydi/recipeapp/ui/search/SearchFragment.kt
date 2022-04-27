@@ -34,7 +34,7 @@ import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
+import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.RecipeFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterLayoutManagers.RetrySpanSizeLookup
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
@@ -109,7 +109,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
 
     private fun getQueryText() = binding.layoutSearch.etQuery.text?.toString() ?: ""
 
-    private val fingerprint = LongRecipeFingerprint()
+    private val fingerprint = RecipeFingerprint()
     private var searchAdapter: ConcatAdapter? = null
 
     private fun updateFlow(flow: Flow<PagingData<RecipeItemUI>>){

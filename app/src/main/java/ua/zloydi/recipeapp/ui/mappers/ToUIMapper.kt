@@ -18,7 +18,12 @@ fun RecipeItemDTO.toUI(onClick: () -> Unit) = RecipeItemUI(
     onClick = onClick
 )
 
-fun RecipeDetailDTO.toUI(item: RecipeItemDTO, dishes: List<DishUI>, meals: List<MealUI>, cuisines: List<CuisineUI>) = RecipeUI(
+fun RecipeDetailDTO.toUI(
+    item: RecipeItemDTO,
+    dishes: List<DishUI>,
+    meals: List<MealUI>,
+    cuisines: List<CuisineUI>,
+) = RecipeUI(
     title = item.label,
     image = item.image,
     source = source,

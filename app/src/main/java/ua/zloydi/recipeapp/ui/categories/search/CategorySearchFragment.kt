@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
-import ua.zloydi.recipeapp.databinding.FragmentCategorySearchBinding
+import ua.zloydi.recipeapp.databinding.FragmentRecyclerViewBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RetryAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.LongRecipeFingerprint
+import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.RecipeFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterLayoutManagers.RetrySpanSizeLookup
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 import kotlin.properties.Delegates
 
-class CategorySearchFragment private constructor(): BaseFragment<FragmentCategorySearchBinding>() {
+class CategorySearchFragment : BaseFragment<FragmentRecyclerViewBinding>() {
     companion object{
         const val CATEGORY = "CATEGORY"
 
@@ -32,7 +32,7 @@ class CategorySearchFragment private constructor(): BaseFragment<FragmentCategor
         }
     }
 
-    override fun inflate(inflater: LayoutInflater) = FragmentCategorySearchBinding.inflate(inflater)
+    override fun inflate(inflater: LayoutInflater) = FragmentRecyclerViewBinding.inflate(inflater)
     private val viewModel: CategorySearchViewModel by viewModels {
         val parentFragment = (parentFragment as MainFragment)
         CategorySearchViewModel.Factory(RecipeProvider.repository,
@@ -60,7 +60,7 @@ class CategorySearchFragment private constructor(): BaseFragment<FragmentCategor
     }
 
     private fun bindStable() = with(binding){
-        adapter = RecipePagerAdapter(listOf(LongRecipeFingerprint()))
+        adapter = RecipePagerAdapter(listOf(RecipeFingerprint()))
         concatAdapter = adapter.withLoadStateFooter(RetryAdapter(adapter))
         PaddingDecoratorFactory(resources).apply(rvItems,8f,4f)
         rvItems.layoutManager = GridLayoutManager(requireContext(), 2).also {

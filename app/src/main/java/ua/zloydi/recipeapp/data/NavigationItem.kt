@@ -6,7 +6,7 @@ import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.models.filter_types.SearchFilter
-import ua.zloydi.recipeapp.ui.TestFragment
+import ua.zloydi.recipeapp.ui.bookmarks.BookmarkFragment
 import ua.zloydi.recipeapp.ui.categories.list.CategoriesFragment
 import ua.zloydi.recipeapp.ui.categories.search.CategorySearchFragment
 import ua.zloydi.recipeapp.ui.detail.DetailFragment
@@ -52,11 +52,11 @@ object Category : AddItem<CategoriesFragment>(), TitleItem, MenuItem {
     override val fragmentFactory = { CategoriesFragment() }
 }
 
-object Bookmarks : AddItem<TestFragment>(), TitleItem, MenuItem {
+object Bookmarks : AddItem<BookmarkFragment>(), TitleItem, MenuItem {
     override val title = StringItem.Res(R.string.bookmarks)
     override val id = R.id.bookmarksScreen
     override val tag = "Bookmarks"
-    override val fragmentFactory = { TestFragment() }
+    override val fragmentFactory = { BookmarkFragment() }
 }
 
 abstract class ChildItem<out F : Fragment>(val parent: AddItem<*>) : AddItem<F>()

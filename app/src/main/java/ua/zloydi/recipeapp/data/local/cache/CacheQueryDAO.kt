@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.data.local.room
+package ua.zloydi.recipeapp.data.local.cache
 
 import androidx.room.Dao
 import androidx.room.Insert
