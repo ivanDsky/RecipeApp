@@ -7,7 +7,7 @@ import androidx.room.Query
 import ua.zloydi.recipeapp.models.dto.QueryDTO
 import ua.zloydi.recipeapp.models.entity.CacheQuery
 import ua.zloydi.recipeapp.models.entity.toCache
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 
 @Dao
 interface CacheQueryDAO {

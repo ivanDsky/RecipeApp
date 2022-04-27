@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 import ua.zloydi.recipeapp.ui.bookmarks.BookmarkFragment
 import ua.zloydi.recipeapp.ui.categories.list.CategoriesFragment
 import ua.zloydi.recipeapp.ui.categories.search.CategorySearchFragment

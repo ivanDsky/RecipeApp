@@ -12,10 +12,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -24,17 +27,17 @@ import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.data.local.SettingsProvider
 import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.databinding.FragmentSearchBinding
-import ua.zloydi.recipeapp.models.filter_types.Filter
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.Filter
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 import ua.zloydi.recipeapp.ui.core.BaseFragment
+import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.CuisineFingerprint
+import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.MealFingerprint
+import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipePagerAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RetryAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.RecipeFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterLayoutManagers.RetrySpanSizeLookup
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
@@ -42,6 +45,7 @@ import ua.zloydi.recipeapp.ui.data.filterType.DishUI
 import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 import ua.zloydi.recipeapp.ui.search.filter.FilterBottomSheetDialog
+import ua.zloydi.recipeapp.utils.setLoading
 import kotlin.properties.Delegates
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(){
@@ -114,8 +118,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
 
     private fun updateFlow(flow: Flow<PagingData<RecipeItemUI>>){
         val adapter = RecipePagerAdapter(listOf(fingerprint))
+        adapter.addLoadStateListener {
+            binding.layoutRecyclerView.setLoading(it.refresh == LoadState.Loading)
+        }
         searchAdapter = adapter.withLoadStateFooter(RetryAdapter(adapter))
-        binding.rvRecipes.adapter = searchAdapter
+        binding.layoutRecyclerView.rvItems.adapter = searchAdapter
         adapter.retry()
         lifecycleScope.launchWhenStarted {
             Log.d("Debug141", "updateFlow")
@@ -125,13 +132,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
         }
     }
 
-    private fun bindStable() = with(binding){
-        rvRecipes.layoutManager = GridLayoutManager(requireContext(), 2).also {
-            it.spanSizeLookup = RetrySpanSizeLookup(2) { searchAdapter?.itemCount }
+    private fun bindStable() {
+        with(binding.layoutRecyclerView) {
+            rvItems.layoutManager = GridLayoutManager(requireContext(), 2).also {
+                it.spanSizeLookup = RetrySpanSizeLookup(2) { searchAdapter?.itemCount }
+            }
+            PaddingDecoratorFactory(resources).apply(rvItems, 8f, 4f)
         }
-        PaddingDecoratorFactory(resources).apply(rvRecipes,8f,4f)
 
-        with(binding.layoutSearch){
+        with(binding.layoutSearch) {
             btnFilter.setOnClickListener { filter() }
             btnSearch.setOnClickListener { search() }
             btnReset.setOnClickListener { viewModel.filter(Filter(), getQueryText()) }
@@ -142,16 +151,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
                 true
             }
 
-            etQuery.setOnFocusChangeListener { _, hasFocus -> if(!hasFocus) closeKeyboard() }
+            etQuery.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) closeKeyboard() }
 
-            adapter = LabelAdapter(listOf(DishFingerprint,MealFingerprint,CuisineFingerprint))
+            adapter = LabelAdapter(listOf(DishFingerprint, MealFingerprint, CuisineFingerprint))
             rvLabels.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            PaddingDecoratorFactory(resources).apply(rvLabels, 0f,2f)
+                FlexboxLayoutManager(requireContext(), FlexDirection.ROW, FlexWrap.WRAP)
+            PaddingDecoratorFactory(resources).apply(rvLabels, 4f, 2f)
             rvLabels.adapter = adapter
         }
     }
-
 
     private val manager by lazy { requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager }
     private fun closeKeyboard(){

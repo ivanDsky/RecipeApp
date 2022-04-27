@@ -2,7 +2,7 @@ package ua.zloydi.recipeapp.ui.main
 
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 
 interface IChildNavigation {
     fun openDetail(item: RecipeItemDTO)

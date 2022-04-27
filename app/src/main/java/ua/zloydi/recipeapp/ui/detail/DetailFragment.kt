@@ -1,6 +1,8 @@
 package ua.zloydi.recipeapp.ui.detail
 
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.addCallback
@@ -9,8 +11,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.local.bookmarks.BookmarksProvider
@@ -19,17 +23,14 @@ import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.ingredientAdapter.IngredientAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.CuisineFingerprint
+import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.MealFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.CuisineFingerprint
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.DishFingerprint
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.label.MealFingerprint
-import ua.zloydi.recipeapp.ui.data.IngredientUI
 import ua.zloydi.recipeapp.ui.data.RecipeUI
-import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
-import ua.zloydi.recipeapp.ui.data.filterType.DishUI
-import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
+import kotlin.properties.Delegates
 
 class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(){
     companion object{
@@ -50,6 +51,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindStable(viewModel.recipe.label)
         lifecycleScope.launchWhenCreated {
             val recipe = viewModel.recipeUI.await()
             if (recipe == null)
@@ -66,14 +68,36 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
         }
     }
 
+    private var ingredientAdapter: IngredientAdapter by Delegates.notNull()
+    private var labelAdapter: LabelAdapter by Delegates.notNull()
+
+    private fun bindStable(title: String?) = with(binding){
+        if (title != null) tvTitle.text = title
+        shimmerTitle.startShimmer()
+        shimmerRecipePreview.startShimmer()
+
+        rvIngredients.layoutManager = LinearLayoutManager(requireContext())
+        ingredientAdapter = IngredientAdapter()
+        rvIngredients.adapter = ingredientAdapter
+        PaddingDecoratorFactory(resources).apply(rvIngredients,2f, 0f, false)
+
+        rvLabels.layoutManager =
+            FlexboxLayoutManager(requireContext(), FlexDirection.ROW, FlexWrap.WRAP)
+        labelAdapter = LabelAdapter(listOf(DishFingerprint, MealFingerprint, CuisineFingerprint))
+        rvLabels.adapter = labelAdapter
+        PaddingDecoratorFactory(resources).apply(rvLabels, 4f, 2f, false)
+    }
+
     private fun bind(recipe: RecipeUI) =
         with(binding){
         with(recipe) {
             Glide.with(ivRecipePreview)
                 .load(image)
                 .into(ivRecipePreview)
+            shimmerRecipePreview.hideShimmer()
 
             tvTitle.text = title
+            shimmerTitle.hideShimmer()
 
             if(totalTime != null && totalTime in 1f..240f){
                 tvTime.text = getString(R.string.time, totalTime)
@@ -81,50 +105,22 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
             }else{
                 tvTime.isVisible = false
             }
-            tvSource.text = url
 
-            createLabels(rvLabels, cuisineType, dishType, mealType)
-            createIngredients(rvIngredients, ingredients)
+            tvSource.text = Html.fromHtml(getString(R.string.link, url))
+            tvSource.movementMethod = LinkMovementMethod()
+            tvSource.isVisible = true
 
-            description?.let {
-                tvDescription.text = it
-                tvDescription.isVisible = true
-            } ?: run {
-                tvDescription.isVisible = false
-            }
+            labelAdapter.setItems(dishType + mealType + cuisineType)
+            rvLabels.isVisible = true
+            ingredientAdapter.setItems(ingredients)
 
             btnBookmark.setOnClickListener { viewModel.changeBookmark() }
+            btnBookmark.isVisible = true
         }}
 
     private fun bindBookmark(isBookmarked: Boolean){
         binding.btnBookmark.setImageResource(
             if (isBookmarked) R.drawable.bookmarked else R.drawable.bookmark
         )
-    }
-
-    private fun createIngredients(rvIngredients: RecyclerView, ingredients: List<IngredientUI>) {
-        rvIngredients.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = IngredientAdapter()
-        rvIngredients.adapter = adapter
-        PaddingDecoratorFactory(resources).apply(rvIngredients,2f, 0f, false)
-        adapter.setItems(ingredients)
-    }
-
-    private fun createLabels(
-        rvLabels: RecyclerView,
-        cuisineType: List<CuisineUI>,
-        dishType: List<DishUI>,
-        mealType: List<MealUI>
-    ) {
-        rvLabels.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        val items = dishType + mealType + cuisineType
-
-        val adapter = LabelAdapter(listOf(DishFingerprint, MealFingerprint, CuisineFingerprint))
-        rvLabels.adapter = adapter
-        adapter.setItems(items)
-
-        PaddingDecoratorFactory(resources).apply(rvLabels, 0f, 2f, false)
     }
 }

@@ -6,12 +6,10 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutCategoryItemBinding
 import ua.zloydi.recipeapp.ui.categories.list.CategoryUI
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
-import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseStaticFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 
 class CategoryAdapter(fingerprint: CategoryFingerprint) :
@@ -26,15 +24,9 @@ class CategoryAdapter(fingerprint: CategoryFingerprint) :
     }
 }
 
-object CategoryFingerprint : BaseFingerprint<LayoutCategoryItemBinding, CategoryUI>() {
-    override fun inflate(
-        inflater: LayoutInflater,
-        parent: ViewGroup,
-    ) = CategoryViewHolder(LayoutCategoryItemBinding.inflate(inflater, parent, false))
-
-    override fun compareItem(item: CategoryUI) = true
-
-    override fun getViewType() = R.layout.layout_category_item
+object CategoryFingerprint : BaseStaticFingerprint<LayoutCategoryItemBinding, CategoryUI>() {
+    override fun inflate(inflater: LayoutInflater, parent: ViewGroup) =
+        CategoryViewHolder(LayoutCategoryItemBinding.inflate(inflater, parent, false))
 }
 
 class CategoryViewHolder(binding: LayoutCategoryItemBinding) :
@@ -44,7 +36,6 @@ class CategoryViewHolder(binding: LayoutCategoryItemBinding) :
 
         Glide.with(ivRecipePreview)
             .load(item.icon)
-            .diskCacheStrategy(DiskCacheStrategy.DATA)
             .into(ivRecipePreview)
 
         root.setOnClickListener { item.onClick() }

@@ -2,9 +2,9 @@ package ua.zloydi.recipeapp
 
 import android.app.Application
 import ua.zloydi.recipeapp.data.local.cache.CacheProvider
-import ua.zloydi.recipeapp.models.filter_types.Cuisine
-import ua.zloydi.recipeapp.models.filter_types.Dish
-import ua.zloydi.recipeapp.models.filter_types.Meal
+import ua.zloydi.recipeapp.models.filterTypes.Cuisine
+import ua.zloydi.recipeapp.models.filterTypes.Dish
+import ua.zloydi.recipeapp.models.filterTypes.Meal
 
 class App : Application(){
     companion object{

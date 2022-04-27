@@ -4,7 +4,7 @@
     android:paddingHorizontal="@dimen/_6sdp"
     android:textColor="?colorOnSecondary"
     android:background="@drawable/bg_label"
-    android:backgroundTint="?colorSecondaryVariant"
+    android:backgroundTint="?colorSecondary"
     android:textSize="@dimen/_12ssp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">

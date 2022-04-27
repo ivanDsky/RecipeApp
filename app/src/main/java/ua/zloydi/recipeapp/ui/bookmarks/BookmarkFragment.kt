@@ -10,10 +10,9 @@ import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.data.local.bookmarks.BookmarksProvider
 import ua.zloydi.recipeapp.databinding.FragmentRecyclerViewBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
-import ua.zloydi.recipeapp.ui.core.adapter.recipeAdapter.RecipeAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.bookmarkAdapter.BookmarkAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
-import ua.zloydi.recipeapp.ui.core.adapterFingerprints.longRecipe.RecipeFingerprint
-import ua.zloydi.recipeapp.ui.data.RecipeItemUI
+import ua.zloydi.recipeapp.ui.data.BookmarkUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 import kotlin.properties.Delegates
 
@@ -35,16 +34,16 @@ class BookmarkFragment : BaseFragment<FragmentRecyclerViewBinding>() {
         }
     }
 
-    private var adapter: RecipeAdapter by Delegates.notNull()
+    private var adapter: BookmarkAdapter by Delegates.notNull()
 
     private fun bindStable() = with(binding){
-        adapter = RecipeAdapter(listOf(RecipeFingerprint()))
+        adapter = BookmarkAdapter()
         rvItems.adapter = adapter
         rvItems.layoutManager = LinearLayoutManager(requireContext())
         PaddingDecoratorFactory(resources).apply(rvItems, 4f, 8f)
     }
 
-    private fun bindBookmarks(bookmarks: List<RecipeItemUI>) {
+    private fun bindBookmarks(bookmarks: List<BookmarkUI>) {
         adapter.setItems(bookmarks)
     }
 }

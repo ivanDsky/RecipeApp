@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
-import ua.zloydi.recipeapp.models.filter_types.*
+import ua.zloydi.recipeapp.models.filterTypes.*
 
 data class FilterUI(
     val name: String,

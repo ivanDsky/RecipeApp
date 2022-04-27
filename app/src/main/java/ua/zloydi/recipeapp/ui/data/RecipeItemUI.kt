@@ -6,4 +6,4 @@ data class RecipeItemUI(
     val image: String? = null,
     val time: Float? = null,
     val onClick: () -> Unit
-) : java.io.Serializable
+)

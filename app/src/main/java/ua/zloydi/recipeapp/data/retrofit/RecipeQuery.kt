@@ -1,8 +1,8 @@
 package ua.zloydi.recipeapp.data.retrofit
 
-import ua.zloydi.recipeapp.models.filter_types.Dish
-import ua.zloydi.recipeapp.models.filter_types.Filter
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.Dish
+import ua.zloydi.recipeapp.models.filterTypes.Filter
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 
 sealed class RecipeQuery {
     data class Category(

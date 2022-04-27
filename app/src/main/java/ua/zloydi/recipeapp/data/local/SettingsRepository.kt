@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.core.content.edit
 import ua.zloydi.recipeapp.App
-import ua.zloydi.recipeapp.models.filter_types.*
+import ua.zloydi.recipeapp.models.filterTypes.*
 
 private const val SETTINGS = "SETTINGS"
 private const val QUERY = "QUERY"

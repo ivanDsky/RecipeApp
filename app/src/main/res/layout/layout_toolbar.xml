@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?colorPrimaryVariant"
+    android:background="?colorPrimary"
     android:orientation="horizontal"
     android:paddingHorizontal="@dimen/_16sdp"
     android:paddingVertical="@dimen/_4sdp">
@@ -13,7 +13,7 @@
         android:layout_width="@dimen/_24sdp"
         android:layout_height="@dimen/_24sdp"
         android:layout_gravity="center"
-        app:tint="?colorSecondaryVariant"
+        app:tint="?colorSecondary"
         android:src="@drawable/burger" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -31,7 +31,7 @@
         android:layout_width="@dimen/_24sdp"
         android:layout_height="@dimen/_24sdp"
         android:layout_gravity="center"
-        app:tint="?colorSecondaryVariant"
+        app:tint="?colorSecondary"
         android:src="@drawable/settings" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

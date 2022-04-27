@@ -2,7 +2,7 @@ package ua.zloydi.recipeapp.data.repository
 
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.models.Category
-import ua.zloydi.recipeapp.models.filter_types.Dish
+import ua.zloydi.recipeapp.models.filterTypes.Dish
 
 private val drawables = intArrayOf(
     R.drawable.alcohol_cocktail,

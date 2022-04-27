@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ua.zloydi.recipeapp.models.dto.QueryDTO
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 
 @Entity(tableName = "query")
 data class CacheQuery(

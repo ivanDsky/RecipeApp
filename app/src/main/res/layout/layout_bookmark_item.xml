@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_card"
-    android:backgroundTint="?colorPrimary"
     android:padding="@dimen/_8sdp">
 
     <androidx.cardview.widget.CardView
@@ -14,7 +13,7 @@
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="0dp"
-        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintDimensionRatio="24:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,6 +25,24 @@
             android:scaleType="centerCrop"
             android:src="@drawable/settings" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTime"
+            android:padding="@dimen/_3sdp"
+            android:background="@drawable/bg_time"
+            android:layout_gravity="bottom|start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBookmark"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_gravity="top|end"
+            android:background="@drawable/bg_bookmark"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/bookmarked"
+            app:tint="?colorSecondary" />
+
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -36,7 +53,6 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/app_name"
-        android:gravity="center"
         android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -12,7 +12,7 @@ import ua.zloydi.recipeapp.data.local.bookmarks.insert
 import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
-import ua.zloydi.recipeapp.models.filter_types.*
+import ua.zloydi.recipeapp.models.filterTypes.*
 import ua.zloydi.recipeapp.ui.data.filterType.CuisineUI
 import ua.zloydi.recipeapp.ui.data.filterType.DishUI
 import ua.zloydi.recipeapp.ui.data.filterType.MealUI
@@ -20,7 +20,7 @@ import ua.zloydi.recipeapp.ui.main.IParentNavigation
 import ua.zloydi.recipeapp.ui.mappers.toUI
 
 class DetailFragmentViewModel(
-    private val recipe: RecipeItemDTO,
+    val recipe: RecipeItemDTO,
     private val bookmarkDatabase: BookmarkDatabase,
     private val repository: RecipeRepository,
     private val navigation: IParentNavigation,

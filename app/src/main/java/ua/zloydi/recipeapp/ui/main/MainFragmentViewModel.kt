@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.data.*
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 import android.view.MenuItem as AndroidMenuItem
 
 
 class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
     companion object{
         val screens = listOf<AddItem<*>>(Search(), Category, Bookmarks)
-        val defaultScreen = screens[1]
+        val defaultScreen = screens[0]
     }
 
     private val _navigationActions = Channel<NavigationItem>()

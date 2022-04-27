@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_card"
+    android:backgroundTint="?colorPrimary"
     android:padding="@dimen/_8sdp">
 
     <androidx.cardview.widget.CardView
@@ -27,18 +28,19 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTime"
-            android:padding="@dimen/_3sdp"
-            android:background="@drawable/bg_time"
-            android:layout_gravity="bottom|start"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:background="@drawable/bg_time"
+            android:backgroundTint="?colorPrimary"
+            android:padding="@dimen/_3sdp"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_marginTop="@dimen/_8sdp"
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/app_name"
@@ -47,19 +49,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivRecipePreviewCard" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLabels"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:orientation="horizontal"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

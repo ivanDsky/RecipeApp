@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.models.filter_types
+package ua.zloydi.recipeapp.models.filterTypes
 
 data class Filter(
     val categories: List<Dish> = emptyList(),

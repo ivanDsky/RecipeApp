@@ -9,4 +9,6 @@
     <string name="cuisine">Cuisine</string>
     <string name="reset">Reset</string>
     <string name="retry">Retry</string>
+    <string name="recipe">Recipe</string>
+    <string name="link">&lt;a href=%s>Visit site&lt;/a></string>
 </resources>

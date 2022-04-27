@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_label"
-    android:backgroundTint="?colorSecondaryVariant"
+    android:backgroundTint="?colorPrimary"
     android:paddingHorizontal="@dimen/_8sdp"
     android:paddingVertical="@dimen/_4sdp">
 
@@ -23,7 +23,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="?colorOnSecondary"
+        android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_12ssp"
         app:layout_constraintEnd_toStartOf="@id/tvMeasure"
         app:layout_constraintStart_toEndOf="@id/ivIngredient"
@@ -36,7 +36,7 @@
         android:ellipsize="end"
         android:maxLength="20"
         android:singleLine="true"
-        android:textColor="?colorOnSecondary"
+        android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +47,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_4sdp"
-        android:textColor="?colorOnSecondary"
+        android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivIngredient"

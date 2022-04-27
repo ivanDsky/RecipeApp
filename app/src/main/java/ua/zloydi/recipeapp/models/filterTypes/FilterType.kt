@@ -1,4 +1,4 @@
-package ua.zloydi.recipeapp.models.filter_types
+package ua.zloydi.recipeapp.models.filterTypes
 
 import ua.zloydi.recipeapp.utils.firstCaps
 

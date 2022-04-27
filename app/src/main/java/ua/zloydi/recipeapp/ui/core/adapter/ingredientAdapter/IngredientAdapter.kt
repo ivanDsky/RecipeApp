@@ -7,10 +7,10 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutIngredientBinding
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseStaticFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 import ua.zloydi.recipeapp.ui.data.IngredientUI
 import ua.zloydi.recipeapp.utils.firstCaps
@@ -27,15 +27,11 @@ class IngredientAdapter :
     }
 }
 
-object IngredientFingerprint : BaseFingerprint<LayoutIngredientBinding, IngredientUI>() {
+object IngredientFingerprint : BaseStaticFingerprint<LayoutIngredientBinding, IngredientUI>() {
     override fun inflate(
         inflater: LayoutInflater,
         parent: ViewGroup
     ) = IngredientViewHolder(LayoutIngredientBinding.inflate(inflater, parent, false))
-
-    override fun compareItem(item: IngredientUI) = true
-
-    override fun getViewType() = R.layout.layout_ingredient
 }
 
 class IngredientViewHolder(binding: LayoutIngredientBinding) :

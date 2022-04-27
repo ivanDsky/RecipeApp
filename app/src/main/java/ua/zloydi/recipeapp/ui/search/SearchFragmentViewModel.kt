@@ -17,9 +17,9 @@ import ua.zloydi.recipeapp.data.repository.RecipeRepository
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 import ua.zloydi.recipeapp.models.error.Error
-import ua.zloydi.recipeapp.models.filter_types.Filter
-import ua.zloydi.recipeapp.models.filter_types.Meal
-import ua.zloydi.recipeapp.models.filter_types.SearchFilter
+import ua.zloydi.recipeapp.models.filterTypes.Filter
+import ua.zloydi.recipeapp.models.filterTypes.Meal
+import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.main.IChildNavigation
 import ua.zloydi.recipeapp.ui.mappers.toUI
@@ -41,7 +41,7 @@ class SearchFragmentViewModel(
     val searchFlow = _searchFlow.asStateFlow()
 
     private var pager: Pager<String, RecipeItemDTO>? = null
-    private val pagerConfig = PagingConfig(20, 30, false, 60)
+    private val pagerConfig = PagingConfig(20, 30, true, 60)
 
     fun query(queryText: String) = viewModelScope.launch(Dispatchers.IO) {
         sendQuery(SearchFilter(queryText, _stateFlow.value.filter))

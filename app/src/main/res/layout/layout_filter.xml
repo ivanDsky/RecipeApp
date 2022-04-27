@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textColor="?colorOnPrimaryVariant"
+        android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_12ssp"/>
 
     <androidx.recyclerview.widget.RecyclerView

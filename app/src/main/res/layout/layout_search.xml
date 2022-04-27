@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?colorBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_4sdp"
-        android:backgroundTint="?colorPrimary"
+        android:backgroundTint="?colorSecondary"
         android:textColor="?colorOnPrimary"
         app:layout_constraintEnd_toStartOf="@id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +23,7 @@
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/_4sdp"
         android:src="@drawable/search"
-        android:tint="?colorPrimary"
+        android:tint="?colorSecondary"
         app:layout_constraintBottom_toBottomOf="@id/etQuery"
         app:layout_constraintEnd_toStartOf="@id/btnFilter"
         app:layout_constraintTop_toTopOf="@id/etQuery" />
@@ -34,7 +35,7 @@
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/_4sdp"
         android:src="@drawable/filter"
-        android:tint="?colorPrimary"
+        android:tint="?colorSecondary"
         app:layout_constraintBottom_toBottomOf="@id/etQuery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/etQuery" />
@@ -46,7 +47,7 @@
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/_4sdp"
         android:src="@drawable/close"
-        android:tint="?colorPrimary"
+        android:tint="?colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etQuery" />

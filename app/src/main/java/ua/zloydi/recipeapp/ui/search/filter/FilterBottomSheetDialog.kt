@@ -8,20 +8,23 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.DialogFilterBinding
-import ua.zloydi.recipeapp.models.filter_types.Cuisine
-import ua.zloydi.recipeapp.models.filter_types.Dish
-import ua.zloydi.recipeapp.models.filter_types.Filter
-import ua.zloydi.recipeapp.models.filter_types.Meal
+import ua.zloydi.recipeapp.models.filterTypes.Cuisine
+import ua.zloydi.recipeapp.models.filterTypes.Dish
+import ua.zloydi.recipeapp.models.filterTypes.Filter
+import ua.zloydi.recipeapp.models.filterTypes.Meal
 import ua.zloydi.recipeapp.ui.core.adapter.filterAdapter.FilterAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.filterAdapter.FilterFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
+import kotlin.properties.Delegates
 
 class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment() {
     companion object{
@@ -61,9 +64,9 @@ class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment()
         }
     }
 
-    private var filterCategoryAdapter: FilterAdapter? = null
-    private var filterMealAdapter: FilterAdapter? = null
-    private var filterCuisineAdapter: FilterAdapter? = null
+    private var filterCategoryAdapter: FilterAdapter by Delegates.notNull()
+    private var filterMealAdapter: FilterAdapter by Delegates.notNull()
+    private var filterCuisineAdapter: FilterAdapter by Delegates.notNull()
 
     private fun bindStable() = with(binding){
         btnFilter.setOnClickListener { setResult(viewModel.getFilter()) }
@@ -71,24 +74,24 @@ class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment()
 
         fun RecyclerView.bindAdapter(filterAdapter: FilterAdapter){
             adapter = filterAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            PaddingDecoratorFactory(resources).apply(this, 0f, 4f)
+            layoutManager = FlexboxLayoutManager(requireContext(), FlexDirection.ROW, FlexWrap.WRAP)
+            PaddingDecoratorFactory(resources).apply(this, 4f, 4f)
         }
         filterCategoryAdapter = FilterAdapter(FilterFingerprint.Category)
         filterCategory.tvTitle.text = getString(R.string.category)
-        filterCategory.rvItems.bindAdapter(filterCategoryAdapter!!)
+        filterCategory.rvItems.bindAdapter(filterCategoryAdapter)
         filterMealAdapter = FilterAdapter(FilterFingerprint.Meal)
         filterMeal.tvTitle.text = getString(R.string.meal)
-        filterMeal.rvItems.bindAdapter(filterMealAdapter!!)
+        filterMeal.rvItems.bindAdapter(filterMealAdapter)
         filterCuisineAdapter = FilterAdapter(FilterFingerprint.Cuisine)
         filterCuisine.tvTitle.text = getString(R.string.cuisine)
-        filterCuisine.rvItems.bindAdapter(filterCuisineAdapter!!)
+        filterCuisine.rvItems.bindAdapter(filterCuisineAdapter)
     }
 
     private fun bindState(state: FilterState) {
-        filterCategoryAdapter?.setItems(state.categories)
-        filterMealAdapter?.setItems(state.meals)
-        filterCuisineAdapter?.setItems(state.cuisines)
+        filterCategoryAdapter.setItems(state.categories)
+        filterMealAdapter.setItems(state.meals)
+        filterCuisineAdapter.setItems(state.cuisines)
     }
 
     private fun bindAction(action: Action) = when(action){
@@ -98,12 +101,12 @@ class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment()
                 is Dish -> filterCategoryAdapter
                 is Meal -> filterMealAdapter
             }
-            adapter?.notifyItemChanged(action.position, Unit)
+            adapter.notifyItemChanged(action.position, Unit)
         }
         Action.UnselectAll -> {
-            filterCategoryAdapter?.notifyDataSetChanged()
-            filterMealAdapter?.notifyDataSetChanged()
-            filterCuisineAdapter?.notifyDataSetChanged()
+            filterCategoryAdapter.notifyDataSetChanged()
+            filterMealAdapter.notifyDataSetChanged()
+            filterCuisineAdapter.notifyDataSetChanged()
         }
     }
 

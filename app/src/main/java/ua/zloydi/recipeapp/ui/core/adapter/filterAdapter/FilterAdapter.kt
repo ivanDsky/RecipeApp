@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutLabelBinding
-import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseManuallyNotifyAdapter
+import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseStaticFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseViewHolder
 import ua.zloydi.recipeapp.ui.search.filter.FilterUI
 import ua.zloydi.recipeapp.utils.getThemeColor
@@ -15,7 +15,7 @@ class FilterAdapter(fingerprint: FilterFingerprint) : BaseManuallyNotifyAdapter<
     listOf(fingerprint)
 )
 
-sealed class FilterFingerprint : BaseFingerprint<LayoutLabelBinding, FilterUI>() {
+sealed class FilterFingerprint : BaseStaticFingerprint<LayoutLabelBinding, FilterUI>() {
     override fun inflate(
         inflater: LayoutInflater,
         parent: ViewGroup
@@ -25,23 +25,20 @@ sealed class FilterFingerprint : BaseFingerprint<LayoutLabelBinding, FilterUI>()
 
     object Cuisine : FilterFingerprint(){
         override val inflate = FilterViewHolder::Cuisine
-        override fun getViewType() = 0
     }
 
     object Meal : FilterFingerprint(){
         override val inflate = FilterViewHolder::Meal
-        override fun getViewType() = 1
     }
 
     object Category : FilterFingerprint(){
         override val inflate = FilterViewHolder::Category
-        override fun getViewType() = 2
     }
 }
 
 sealed class FilterViewHolder(binding: LayoutLabelBinding) :
     BaseViewHolder<LayoutLabelBinding, FilterUI>(binding){
-    private val selectedColor = com.google.android.material.R.attr.colorSecondary
+    private val selectedColor = com.google.android.material.R.attr.colorSecondaryVariant
     abstract val unselectedColor: Int
     override fun bind(item: FilterUI): Unit = with(binding.root){
         text = item.name
