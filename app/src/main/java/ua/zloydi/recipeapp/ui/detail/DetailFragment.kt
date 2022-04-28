@@ -113,6 +113,7 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
             labelAdapter.setItems(dishType + mealType + cuisineType)
             rvLabels.isVisible = true
             ingredientAdapter.setItems(ingredients)
+            rvIngredients.isVisible = true
 
             btnBookmark.setOnClickListener { viewModel.changeBookmark() }
             btnBookmark.isVisible = true

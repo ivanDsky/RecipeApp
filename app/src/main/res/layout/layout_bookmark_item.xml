@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_card"
+    android:backgroundTint="?colorPrimary"
     android:padding="@dimen/_8sdp">
 
     <androidx.cardview.widget.CardView
@@ -27,11 +28,12 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTime"
-            android:padding="@dimen/_3sdp"
-            android:background="@drawable/bg_time"
-            android:layout_gravity="bottom|start"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:background="@drawable/bg_time"
+            android:backgroundTint="?colorPrimary"
+            android:padding="@dimen/_3sdp" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnBookmark"
@@ -39,6 +41,7 @@
             android:layout_height="@dimen/_32sdp"
             android:layout_gravity="top|end"
             android:background="@drawable/bg_bookmark"
+            android:backgroundTint="?colorPrimary"
             android:padding="@dimen/_2sdp"
             android:src="@drawable/bookmarked"
             app:tint="?colorSecondary" />
@@ -46,10 +49,10 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_marginTop="@dimen/_8sdp"
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/app_name"
