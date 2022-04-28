@@ -6,7 +6,6 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.flow.collect
@@ -21,7 +20,7 @@ import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.core.adapterLayoutManagers.RetrySpanSizeLookup
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
-import ua.zloydi.recipeapp.utils.setLoading
+import ua.zloydi.recipeapp.utils.setState
 import kotlin.properties.Delegates
 
 class CategorySearchFragment : BaseFragment<FragmentRecyclerViewBinding>() {
@@ -62,12 +61,14 @@ class CategorySearchFragment : BaseFragment<FragmentRecyclerViewBinding>() {
     private fun bindStable() = with(binding){
         adapter = RecipePagerAdapter(listOf(RecipeFingerprint()))
         adapter.addLoadStateListener {
-            binding.setLoading(it.refresh == LoadState.Loading)
+            binding.setState(it, adapter)
         }
         val concatAdapter = adapter.withLoadStateFooter(RetryAdapter(adapter))
         PaddingDecoratorFactory(resources).apply(rvItems,8f,4f)
         rvItems.layoutManager = GridLayoutManager(requireContext(), 2).also {
-            it.spanSizeLookup = RetrySpanSizeLookup(2){concatAdapter.itemCount}
+            it.spanSizeLookup = RetrySpanSizeLookup(2) {pos ->
+                pos == concatAdapter.itemCount - 1 && concatAdapter.adapters.last().itemCount > 0
+            }
         }
         rvItems.adapter = concatAdapter
     }

@@ -6,11 +6,14 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutRetryBinding
 
 class RetryAdapter(
     private val adapter: RecipePagerAdapter
 ) : LoadStateAdapter<RetryAdapter.RetryItemViewHolder>() {
+
+    override fun getStateViewType(loadState: LoadState) = R.layout.layout_retry
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) =
         RetryItemViewHolder(

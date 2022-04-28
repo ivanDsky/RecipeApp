@@ -49,7 +49,10 @@ class RecipeRepository(
             val response = query()
             if (!response.isSuccessful) {
                 Log.e("Debug141", "query: ${response.raw()}")
-                submitErrorMessage("Error code = ${response.code()}")
+                if (response.code() == 429)
+                    submitErrorMessage("End of queries, try later")
+                else
+                    submitErrorMessage("Error code = ${response.code()}")
                 return null
             }
             if (response.body() == null) {

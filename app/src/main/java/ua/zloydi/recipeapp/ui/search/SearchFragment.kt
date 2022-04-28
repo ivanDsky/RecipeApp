@@ -12,7 +12,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
@@ -45,7 +44,7 @@ import ua.zloydi.recipeapp.ui.data.filterType.DishUI
 import ua.zloydi.recipeapp.ui.data.filterType.MealUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 import ua.zloydi.recipeapp.ui.search.filter.FilterBottomSheetDialog
-import ua.zloydi.recipeapp.utils.setLoading
+import ua.zloydi.recipeapp.utils.setState
 import kotlin.properties.Delegates
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(){
@@ -114,12 +113,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     private fun getQueryText() = binding.layoutSearch.etQuery.text?.toString() ?: ""
 
     private val fingerprint = RecipeFingerprint()
-    private var searchAdapter: ConcatAdapter? = null
+    private var searchAdapter: ConcatAdapter by Delegates.notNull()
+
 
     private fun updateFlow(flow: Flow<PagingData<RecipeItemUI>>){
         val adapter = RecipePagerAdapter(listOf(fingerprint))
         adapter.addLoadStateListener {
-            binding.layoutRecyclerView.setLoading(it.refresh == LoadState.Loading)
+            binding.layoutRecyclerView.setState(it, adapter)
         }
         searchAdapter = adapter.withLoadStateFooter(RetryAdapter(adapter))
         binding.layoutRecyclerView.rvItems.adapter = searchAdapter
@@ -135,7 +135,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     private fun bindStable() {
         with(binding.layoutRecyclerView) {
             rvItems.layoutManager = GridLayoutManager(requireContext(), 2).also {
-                it.spanSizeLookup = RetrySpanSizeLookup(2) { searchAdapter?.itemCount }
+                it.spanSizeLookup = RetrySpanSizeLookup(2) {pos ->
+                    pos == searchAdapter.itemCount - 1 && searchAdapter.adapters.last().itemCount > 0
+                }
             }
             PaddingDecoratorFactory(resources).apply(rvItems, 8f, 4f)
         }

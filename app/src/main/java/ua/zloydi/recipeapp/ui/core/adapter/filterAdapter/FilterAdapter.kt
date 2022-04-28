@@ -38,7 +38,7 @@ sealed class FilterFingerprint : BaseStaticFingerprint<LayoutLabelBinding, Filte
 
 sealed class FilterViewHolder(binding: LayoutLabelBinding) :
     BaseViewHolder<LayoutLabelBinding, FilterUI>(binding){
-    private val selectedColor = com.google.android.material.R.attr.colorSecondaryVariant
+    private val selectedColor = com.google.android.material.R.attr.colorSecondary
     abstract val unselectedColor: Int
     override fun bind(item: FilterUI): Unit = with(binding.root){
         text = item.name

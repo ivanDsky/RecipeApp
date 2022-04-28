@@ -10,12 +10,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loadingView"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/actionView"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading" />
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lotti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/tvText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/something_went_wrong"
+            android:textColor="?colorOnPrimary"
+            android:textSize="@dimen/_16ssp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRetry"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:paddingHorizontal="@dimen/_24sdp"
+            android:paddingVertical="@dimen/_8sdp"
+            android:text="@string/retry"
+            android:textColor="?colorOnSecondary"
+            android:textSize="@dimen/_14ssp"
+            app:backgroundTint="?colorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>

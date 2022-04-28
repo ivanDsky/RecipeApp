@@ -14,6 +14,8 @@ import ua.zloydi.recipeapp.ui.core.adapter.bookmarkAdapter.BookmarkAdapter
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.data.BookmarkUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
+import ua.zloydi.recipeapp.utils.SearchRecycler
+import ua.zloydi.recipeapp.utils.setState
 import kotlin.properties.Delegates
 
 class BookmarkFragment : BaseFragment<FragmentRecyclerViewBinding>() {
@@ -44,6 +46,9 @@ class BookmarkFragment : BaseFragment<FragmentRecyclerViewBinding>() {
     }
 
     private fun bindBookmarks(bookmarks: List<BookmarkUI>) {
+        binding.setState(
+            if (bookmarks.isEmpty()) SearchRecycler.Empty else SearchRecycler.Content
+        )
         adapter.setItems(bookmarks)
     }
 }

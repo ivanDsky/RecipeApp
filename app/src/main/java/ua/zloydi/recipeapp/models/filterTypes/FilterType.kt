@@ -6,7 +6,7 @@ sealed interface FilterType : java.io.Serializable{
     val label: String
 }
 
-class Mapper<T : FilterType>(values: List<T>, private val factory: ((String) -> T)? = null){
+class Mapper<T : FilterType>(values: List<T>, private val factory: (String) -> T){
     private val stringToType: HashMap<String, T> = hashMapOf()
     private val typeToString: HashMap<T, String> = hashMapOf()
     init {
@@ -15,7 +15,7 @@ class Mapper<T : FilterType>(values: List<T>, private val factory: ((String) -> 
             typeToString[it] = it.label
         }
     }
-    operator fun get(index: String) = stringToType[index] ?: factory?.invoke(index.firstCaps()) ?: throw IllegalArgumentException("Unknown type name $index")
+    operator fun get(index: String) = stringToType[index] ?: factory.invoke(index.firstCaps())
     operator fun get(index: T) = typeToString[index] ?: throw IllegalArgumentException("Unknown type")
 }
 
@@ -93,15 +93,16 @@ open class Cuisine(override val label: String) : FilterType {
     override fun hashCode() = label.hashCode()
 }
 
-sealed class Meal(override val label: String) : FilterType {
+open class Meal(override val label: String) : FilterType {
     object Breakfast : Meal("Breakfast")
+    object Brunch : Meal("Brunch")
     object Lunch : Meal("Lunch")
     object Dinner : Meal("Dinner")
     object Snack : Meal("Snack")
     object Teatime : Meal("Teatime")
     companion object{
         val values = values<Meal>()
-        val mapper = Mapper(values)
+        val mapper = Mapper(values, ::Meal)
     }
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

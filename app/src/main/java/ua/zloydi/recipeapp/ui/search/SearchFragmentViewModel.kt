@@ -41,7 +41,7 @@ class SearchFragmentViewModel(
     val searchFlow = _searchFlow.asStateFlow()
 
     private var pager: Pager<String, RecipeItemDTO>? = null
-    private val pagerConfig = PagingConfig(20, 30, true, 60)
+    private val pagerConfig = PagingConfig(20, 30, false, 60)
 
     fun query(queryText: String) = viewModelScope.launch(Dispatchers.IO) {
         sendQuery(SearchFilter(queryText, _stateFlow.value.filter))
@@ -53,7 +53,7 @@ class SearchFragmentViewModel(
 
     fun sendQuery(searchFilter: SearchFilter) = viewModelScope.launch(Dispatchers.IO){
         if(searchFilter.isEmpty()) {
-            ErrorProvider.service.submitError(Error.MessageError("No filters and query"))
+            ErrorProvider.service.submitError(Error.MessageError("Query and filter can't be empty"))
             return@launch
         }
 

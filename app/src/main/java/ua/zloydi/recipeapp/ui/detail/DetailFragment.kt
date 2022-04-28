@@ -1,5 +1,6 @@
 package ua.zloydi.recipeapp.ui.detail
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -12,6 +13,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -30,6 +35,7 @@ import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.MealFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import ua.zloydi.recipeapp.ui.data.RecipeUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
+import ua.zloydi.recipeapp.utils.CookingTime
 import kotlin.properties.Delegates
 
 class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(){
@@ -93,18 +99,29 @@ class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(
         with(recipe) {
             Glide.with(ivRecipePreview)
                 .load(image)
+                .addListener(object : RequestListener<Drawable>{
+                    override fun onLoadFailed(
+                        e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean,
+                    ): Boolean {
+                        shimmerRecipePreview.hideShimmer()
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?, model: Any?, target: Target<Drawable>?,
+                        dataSource: DataSource?, isFirstResource: Boolean,
+                    ): Boolean {
+                        shimmerRecipePreview.hideShimmer()
+                        return false
+                    }
+                })
+                .placeholder(R.drawable.logo)
                 .into(ivRecipePreview)
-            shimmerRecipePreview.hideShimmer()
 
             tvTitle.text = title
             shimmerTitle.hideShimmer()
 
-            if(totalTime != null && totalTime in 1f..240f){
-                tvTime.text = getString(R.string.time, totalTime)
-                tvTime.isVisible = true
-            }else{
-                tvTime.isVisible = false
-            }
+            CookingTime.setTime(tvTime, totalTime)
 
             tvSource.text = Html.fromHtml(getString(R.string.link, url))
             tvSource.movementMethod = LinkMovementMethod()

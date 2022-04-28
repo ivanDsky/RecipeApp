@@ -1,5 +1,7 @@
 package ua.zloydi.recipeapp.ui.main
 
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import ua.zloydi.recipeapp.data.AddItem
 import ua.zloydi.recipeapp.data.MenuItem
 import ua.zloydi.recipeapp.data.TitleItem
 import ua.zloydi.recipeapp.databinding.FragmentMainBinding
+import ua.zloydi.recipeapp.receivers.NoInternetReceiver
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.utils.Navigator
 import ua.zloydi.recipeapp.utils.StringItem
@@ -22,6 +25,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     private val viewModel: MainFragmentViewModel by activityViewModels()
     private val navigator: Navigator by lazy { Navigator(childFragmentManager, R.id.mainContainer) }
+    private val receiver = NoInternetReceiver()
     val childNavigation: IChildNavigation by lazy { viewModel }
     val parentNavigation: IParentNavigation by lazy { viewModel }
 
@@ -29,6 +33,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setupBottomNavigation()
         setupNavigation()
+        setupInternetChange()
+    }
+
+    override fun onDestroyView() {
+        requireActivity().unregisterReceiver(receiver)
+        super.onDestroyView()
+    }
+
+    private fun setupInternetChange() {
+        requireActivity().registerReceiver(receiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        lifecycleScope.launchWhenStarted {
+            receiver.isInternetConnected.collect(::setInternetConnection)
+        }
     }
 
     private fun setupNavigation() {
@@ -63,6 +80,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 }
         }
         binding.toolbar.tvTitle.isVisible = item is TitleItem
+    }
+
+    private fun setInternetConnection(isInternetConnected: Boolean){
+        binding.toolbar.tvNoInternetConnection.isVisible = !isInternetConnected
     }
 
     private fun setupBottomNavigation() {

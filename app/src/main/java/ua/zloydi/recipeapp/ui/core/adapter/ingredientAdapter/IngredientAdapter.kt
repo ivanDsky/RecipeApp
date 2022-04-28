@@ -7,6 +7,8 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.databinding.LayoutIngredientBinding
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseDifferNotifyAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.baseAdapter.BaseFingerprint
@@ -43,6 +45,8 @@ class IngredientViewHolder(binding: LayoutIngredientBinding) :
 
         Glide.with(ivIngredient)
             .load(item.image)
+            .placeholder(R.drawable.logo_transparent)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .diskCacheStrategy(DiskCacheStrategy.DATA)
             .into(ivIngredient)
     }

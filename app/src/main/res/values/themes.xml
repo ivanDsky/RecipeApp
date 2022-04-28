@@ -11,8 +11,8 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/orange_light</item>
         <item name="colorPrimaryVariant">@color/orange_dark</item>
-        <item name="colorOnPrimary">@color/gray_light</item>
-        <item name="colorOnPrimaryVariant">@color/gray_dark</item>
+        <item name="colorOnPrimary">@color/gray_dark</item>
+        <item name="colorOnPrimaryVariant">@color/gray_light</item>
         <item name="colorBackground">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue_dark</item>
