@@ -16,4 +16,5 @@
     <string name="empty">No items</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="time_over_2hr"><![CDATA[> 240 min]]></string>
+    <string name="double_press">Press one more time to exit</string>
 </resources>

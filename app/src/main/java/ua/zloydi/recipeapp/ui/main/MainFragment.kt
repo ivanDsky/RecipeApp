@@ -5,9 +5,12 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.R
@@ -34,6 +37,26 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         setupBottomNavigation()
         setupNavigation()
         setupInternetChange()
+        setupBackpressed()
+    }
+
+    private var doublePressed = false
+
+    private fun setupBackpressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+            if (doublePressed) {
+                isEnabled = false
+                requireActivity().onBackPressed()
+                isEnabled = true
+            } else {
+                doublePressed = true
+                Toast.makeText(requireContext(),R.string.double_press,Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    delay(900)
+                    doublePressed = false
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

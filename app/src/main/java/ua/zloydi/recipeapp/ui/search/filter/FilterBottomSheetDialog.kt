@@ -26,7 +26,7 @@ import ua.zloydi.recipeapp.ui.core.adapter.filterAdapter.FilterFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
 import kotlin.properties.Delegates
 
-class FilterBottomSheetDialog private constructor(): BottomSheetDialogFragment() {
+class FilterBottomSheetDialog: BottomSheetDialogFragment() {
     companion object{
         const val FILTERS = "FILTERS"
         fun create(filter: Filter) = FilterBottomSheetDialog().apply {

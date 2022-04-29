@@ -9,7 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentResultListener
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
@@ -90,19 +90,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
     }
 
     private fun filter(){
-        val listener = FragmentResultListener{ _, result ->
+        val dialog = FilterBottomSheetDialog.create(viewModel.stateFlow.value.filter)
+        dialog.show(childFragmentManager, null)
+        dialog.setFragmentResultListener(FilterBottomSheetDialog.FILTERS){ _, result ->
             viewModel.filter(
-                result[FilterBottomSheetDialog.FILTERS] as? Filter ?: return@FragmentResultListener,
+                result[FilterBottomSheetDialog.FILTERS] as? Filter
+                    ?: return@setFragmentResultListener,
                 getQueryText()
             )
         }
-        childFragmentManager.setFragmentResultListener(
-            FilterBottomSheetDialog.FILTERS,
-            viewLifecycleOwner,
-            listener
-        )
-        FilterBottomSheetDialog.create(viewModel.stateFlow.value.filter)
-            .show(childFragmentManager, null)
     }
 
     private fun search() {
@@ -143,7 +139,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(){
         }
 
         with(binding.layoutSearch) {
-            btnFilter.setOnClickListener { filter() }
+            btnFilter.setOnClickListener {
+                it.isClickable = false
+                filter()
+                it.postDelayed({it.isClickable = true}, 150)
+            }
             btnSearch.setOnClickListener { search() }
             btnReset.setOnClickListener { viewModel.filter(Filter(), getQueryText()) }
 

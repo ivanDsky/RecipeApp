@@ -38,7 +38,7 @@ import ua.zloydi.recipeapp.ui.main.MainFragment
 import ua.zloydi.recipeapp.utils.CookingTime
 import kotlin.properties.Delegates
 
-class DetailFragment private constructor(): BaseFragment<FragmentDetailBinding>(){
+class DetailFragment : BaseFragment<FragmentDetailBinding>(){
     companion object{
         private const val RECIPE = "RECIPE"
         fun create(recipe: RecipeItemDTO): DetailFragment{

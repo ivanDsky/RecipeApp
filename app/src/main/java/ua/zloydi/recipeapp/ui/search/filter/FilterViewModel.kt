@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.models.filterTypes.*
 
@@ -85,7 +85,7 @@ class FilterViewModel(filter: Filter) : ViewModel() {
         }
 
     val state = _state.asStateFlow()
-    val actions = _actions.consumeAsFlow()
+    val actions = _actions.receiveAsFlow()
 
     fun getFilter() = Filter(
         categories = categories.selected(),

@@ -9,6 +9,7 @@ import android.net.NetworkCapabilities
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -23,6 +24,7 @@ class NoInternetReceiver : BroadcastReceiver() {
             connectivityManager =
                 context.getSystemService(Activity.CONNECTIVITY_SERVICE) as ConnectivityManager
         scope.launch {
+            delay(350) // For syncing internet changing
             _isInternedConnected.send(connectivityManager.isOnline())
         }
     }

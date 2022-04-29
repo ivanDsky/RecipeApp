@@ -7,7 +7,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.data.*
 import ua.zloydi.recipeapp.data.retrofit.RecipeQuery
@@ -23,7 +23,7 @@ class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
     }
 
     private val _navigationActions = Channel<NavigationItem>()
-    val navigationActions = _navigationActions.consumeAsFlow()
+    val navigationActions = _navigationActions.receiveAsFlow()
     private val _currentScreenFlow = MutableStateFlow(defaultScreen)
     val currentScreenFlow = _currentScreenFlow.asStateFlow()
 
