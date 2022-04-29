@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.AddItem
+import ua.zloydi.recipeapp.data.ChildItem
 import ua.zloydi.recipeapp.data.MenuItem
 import ua.zloydi.recipeapp.data.TitleItem
 import ua.zloydi.recipeapp.databinding.FragmentMainBinding
@@ -43,6 +45,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private var doublePressed = false
 
     private fun setupBackpressed() {
+        val backPressWait = 3000L
+        binding.toolbar.btnBack.setOnClickListener { requireActivity().onBackPressed() }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
             if (doublePressed) {
                 isEnabled = false
@@ -52,7 +56,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 doublePressed = true
                 Toast.makeText(requireContext(),R.string.double_press,Toast.LENGTH_SHORT).show()
                 lifecycleScope.launch {
-                    delay(900)
+                    delay(backPressWait)
                     doublePressed = false
                 }
             }
@@ -83,9 +87,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.currentScreenFlow.collect{
                     bindMenu(it)
                     bindTitle(it)
+                    bindBackButton(it)
                 }
             }
         }
+    }
+
+    private fun bindBackButton(item: AddItem<*>) {
+        binding.toolbar.btnBack.isInvisible = item !is ChildItem<*>
     }
 
     private fun bindMenu(item: AddItem<*>){
