@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1016371164308",
+    "project_id": "recipeapp-1a013",
+    "storage_bucket": "recipeapp-1a013.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016371164308:android:2f965d2c678a403f107081",
+        "android_client_info": {
+          "package_name": "ua.zloydi.recipeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016371164308-8qshk6vhb5cl54drm2r60vf09o1lmrv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg941zTpGxBFpQqJGW9cXwPYaIB1VN3tE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016371164308-8qshk6vhb5cl54drm2r60vf09o1lmrv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
