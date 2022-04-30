@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Recipe App</string>
     <string name="main_screen">Main Screen</string>
+    <string name="search">Search</string>
     <string name="category">Category</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="time">%.0f min</string>

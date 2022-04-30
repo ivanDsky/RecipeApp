@@ -18,6 +18,7 @@ class RetrofitService(private val api: RecipeApi) {
             "mealType",
             "dishType",
         )
+        private val FULL_FILTERS = DEFAULT_FILTERS + DETAIL_FILTERS.drop(1)
     }
 
     suspend fun query(
@@ -39,5 +40,12 @@ class RetrofitService(private val api: RecipeApi) {
     ) = api.queryFilters(
         id = query.id,
         fields = DETAIL_FILTERS
+    )
+
+    suspend fun query(
+        query: RecipeQuery.RecipeItem
+    ) = api.queryFullFilters(
+        id = query.id,
+        fields = FULL_FILTERS
     )
 }

@@ -13,6 +13,7 @@ import ua.zloydi.recipeapp.data.retrofit.RetrofitProvider
 import ua.zloydi.recipeapp.data.retrofit.RetrofitService
 import ua.zloydi.recipeapp.models.dto.QueryDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeFullDTO
 import ua.zloydi.recipeapp.models.error.Error
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -27,11 +28,25 @@ class RecipeRepository(
     }
 
     suspend fun query(query: RecipeQuery.Recipe) : RecipeDetailDTO?{
-        val offline = database.recipe().query(query.id)
+        val offline = database.recipeDetail().query(query.id)
         if (offline != null) return offline
         val online = query{retrofitService.query(query)}?.recipe
-        if (online != null)database.recipe().insert(query.id, online)
+        if (online != null)database.recipeDetail().insert(query.id, online)
         return online
+    }
+
+    suspend fun query(query: RecipeQuery.RecipeItem) : RecipeFullDTO?{
+        val offlineItem = database.recipeItem().query(query.id)
+        if (offlineItem == null){
+            val online = query { retrofitService.query(query) }?.recipe
+            if (online != null) {
+                database.recipeItem().insert(online.itemDTO)
+                database.recipeDetail().insert(query.id, online.detailDTO)
+            }
+            return online
+        }
+        val detail = query(RecipeQuery.Recipe(query.id)) ?: return null
+        return RecipeFullDTO(offlineItem, detail)
     }
 
     suspend fun query(query: RecipeQuery.Search, nextHash: String? = null) : QueryDTO?{

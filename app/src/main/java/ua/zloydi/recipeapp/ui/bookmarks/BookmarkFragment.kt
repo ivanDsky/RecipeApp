@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.data.local.bookmarks.BookmarksProvider
+import ua.zloydi.recipeapp.data.local.cache.CacheProvider
 import ua.zloydi.recipeapp.databinding.FragmentRecyclerViewBinding
 import ua.zloydi.recipeapp.ui.core.BaseFragment
 import ua.zloydi.recipeapp.ui.core.adapter.bookmarkAdapter.BookmarkAdapter
@@ -24,6 +25,7 @@ class BookmarkFragment : BaseFragment<FragmentRecyclerViewBinding>() {
     private val viewModel: BookmarkViewModel by viewModels {
         BookmarkViewModel.Factory(
             BookmarksProvider.database,
+            CacheProvider.database,
             (parentFragment as MainFragment).childNavigation
         )
     }

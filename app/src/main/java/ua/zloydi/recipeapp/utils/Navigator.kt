@@ -28,7 +28,8 @@ class Navigator(
     private fun addItem(addItem: AddItem<*>) = fragmentManager.commitNow(allowStateLoss = true) {
         hideAll()
         val fragment = get(addItem)
-        if (fragment != null) show(fragment) else add(addItem)
+        if (addItem.newInstance && fragment != null) remove(fragment)
+        if (!addItem.newInstance && fragment != null) show(fragment) else add(addItem)
     }
 
     private fun<F : Fragment> sendItem(sendItem: SendItem<F>){

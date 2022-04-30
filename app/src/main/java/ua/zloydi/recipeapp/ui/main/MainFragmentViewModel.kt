@@ -3,6 +3,7 @@ package ua.zloydi.recipeapp.ui.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,6 +57,14 @@ class MainFragmentViewModel : ViewModel(), IChildNavigation, IParentNavigation{
 
     override fun openDetail(item: RecipeItemDTO) {
         _navigationActions.trySendBlocking(Detail(currentScreenFlow.value, item))
+    }
+
+    override fun openDetail(id: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            val current = currentScreenFlow.value
+            val parent = if (current.tag == "Detail") (current as ChildItem).parent else current
+            _navigationActions.send(DetailId(parent, id))
+        }
     }
 
     override fun openCategory(searchCategory: RecipeQuery.Category) {

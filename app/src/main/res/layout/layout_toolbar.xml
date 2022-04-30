@@ -37,17 +37,16 @@
         android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_16ssp"
         app:layout_constraintBottom_toTopOf="@id/tvNoInternetConnection"
-        app:layout_constraintEnd_toStartOf="@id/btnSettings"
+        app:layout_constraintEnd_toStartOf="@id/btnRight"
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnSettings"
+        android:id="@+id/btnRight"
         android:layout_width="@dimen/_24sdp"
         android:layout_height="@dimen/_24sdp"
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/_16sdp"
-        android:src="@drawable/settings"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/tvTitle"
         app:layout_constraintEnd_toEndOf="parent"

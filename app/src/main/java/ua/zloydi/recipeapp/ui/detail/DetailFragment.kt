@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.addCallback
@@ -23,6 +24,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import kotlinx.coroutines.flow.collect
 import ua.zloydi.recipeapp.R
 import ua.zloydi.recipeapp.data.local.bookmarks.BookmarksProvider
+import ua.zloydi.recipeapp.data.local.cache.CacheProvider
 import ua.zloydi.recipeapp.data.repository.RecipeProvider
 import ua.zloydi.recipeapp.databinding.FragmentDetailBinding
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
@@ -33,22 +35,30 @@ import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.DishFingerprint
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.LabelAdapter
 import ua.zloydi.recipeapp.ui.core.adapter.labelAdapter.MealFingerprint
 import ua.zloydi.recipeapp.ui.core.adapterDecorators.PaddingDecoratorFactory
+import ua.zloydi.recipeapp.ui.core.toolbar.DrawableButtonContent
+import ua.zloydi.recipeapp.ui.core.toolbar.IRightButton
 import ua.zloydi.recipeapp.ui.data.RecipeUI
 import ua.zloydi.recipeapp.ui.main.MainFragment
 import ua.zloydi.recipeapp.utils.CookingTime
 import kotlin.properties.Delegates
 
-class DetailFragment : BaseFragment<FragmentDetailBinding>(){
+class DetailFragment : BaseFragment<FragmentDetailBinding>(), IRightButton{
     companion object{
         private const val RECIPE = "RECIPE"
+        private const val ID = "ID"
+        fun create(id: String): DetailFragment{
+            return DetailFragment().apply { arguments = bundleOf(ID to id) }
+        }
         fun create(recipe: RecipeItemDTO): DetailFragment{
-            return DetailFragment().apply { arguments = bundleOf(RECIPE to recipe) }
+            return DetailFragment().apply { arguments = bundleOf(ID to recipe.id, RECIPE to recipe) }
         }
     }
     override fun inflate(inflater: LayoutInflater) = FragmentDetailBinding.inflate(inflater)
     private val viewModel: DetailFragmentViewModel by viewModels{
         DetailFragmentViewModel.Factory(
-            requireArguments()[RECIPE] as RecipeItemDTO,
+            requireArguments()[ID] as String,
+            requireArguments()[RECIPE] as? RecipeItemDTO,
+            CacheProvider.database,
             BookmarksProvider.database,
             RecipeProvider.repository,
             (parentFragment as MainFragment).parentNavigation
@@ -57,7 +67,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindStable(viewModel.recipe.label)
+        Log.d("Debug141", "onViewCreated: ${viewModel.recipe?.id}")
+        bindStable(viewModel.recipe?.label)
         lifecycleScope.launchWhenCreated {
             val recipe = viewModel.recipeUI.await()
             if (recipe == null)
@@ -140,5 +151,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(){
         binding.btnBookmark.setImageResource(
             if (isBookmarked) R.drawable.bookmarked else R.drawable.bookmark
         )
+    }
+
+    override val rightButton = DrawableButtonContent(R.drawable.share){
+        shareItem()
+    }
+
+    private fun shareItem() = lifecycleScope.launchWhenStarted{
+        requireContext().startActivity(viewModel.shareIntent.await())
     }
 }

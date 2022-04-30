@@ -9,6 +9,7 @@ import ua.zloydi.recipeapp.data.retrofit.RetrofitConstants.RECIPES
 import ua.zloydi.recipeapp.models.dto.HitDTO
 import ua.zloydi.recipeapp.models.dto.QueryDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeFullDTO
 
 interface RecipeApi {
     @GET("$RECIPES?$QUERY_PREFIX")
@@ -26,5 +27,11 @@ interface RecipeApi {
         @Path("id") id: String,
         @Query("field") fields: List<String>,
     ): Response<HitDTO<RecipeDetailDTO>>
+
+    @GET("$RECIPES/{id}/?$QUERY_PREFIX")
+    suspend fun queryFullFilters(
+        @Path("id") id: String,
+        @Query("field") fields: List<String>,
+    ): Response<HitDTO<RecipeFullDTO>>
 
 }

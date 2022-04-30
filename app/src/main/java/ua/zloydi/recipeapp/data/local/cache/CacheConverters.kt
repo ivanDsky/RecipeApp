@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.GsonBuilder
 import ua.zloydi.recipeapp.models.dto.QueryDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
+import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
 
 private val gson = GsonBuilder().create()
 abstract class CacheConverter<T>(private val clazz: Class<T>){
@@ -16,3 +17,4 @@ abstract class CacheConverter<T>(private val clazz: Class<T>){
 
 class QueryDTOConverter : CacheConverter<QueryDTO>(QueryDTO::class.java)
 class RecipeDetailDTOConverter : CacheConverter<RecipeDetailDTO>(RecipeDetailDTO::class.java)
+class RecipeItemDTOConverter : CacheConverter<RecipeItemDTO>(RecipeItemDTO::class.java)

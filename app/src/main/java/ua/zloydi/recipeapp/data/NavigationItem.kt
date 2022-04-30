@@ -9,6 +9,7 @@ import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 import ua.zloydi.recipeapp.ui.bookmarks.BookmarkFragment
 import ua.zloydi.recipeapp.ui.categories.list.CategoriesFragment
 import ua.zloydi.recipeapp.ui.categories.search.CategorySearchFragment
+import ua.zloydi.recipeapp.ui.core.toolbar.IRightButton
 import ua.zloydi.recipeapp.ui.detail.DetailFragment
 import ua.zloydi.recipeapp.ui.search.SearchFragment
 import ua.zloydi.recipeapp.utils.StringItem
@@ -16,6 +17,7 @@ import ua.zloydi.recipeapp.utils.StringItem
 sealed interface NavigationItem : NavigationActionItem
 
 sealed class AddItem<out F : Fragment> : NavigationItem {
+    open val newInstance = false
     abstract val tag: String
     abstract val fragmentFactory: () -> F
 }
@@ -28,6 +30,8 @@ sealed interface MenuItem {
     @get:IdRes
     val id: Int
 }
+
+sealed interface RightToolbarItem<out F : IRightButton>
 
 abstract class SendItem<F : Fragment>(val addItem: AddItem<F>, val send: F.() -> Unit) : NavigationItem
 
@@ -83,11 +87,18 @@ class SearchSend(search: Search) : SendItem<SearchFragment>(search, { setQuery(s
 class GoToSearch(current: AddItem<*>, search: Search) : NavigationActionItem{
     override val actions = listOf(PopBackStack(current), search, SearchSend(search))
 }
+
 class Detail(parent: AddItem<*>, private val item: RecipeItemDTO) :
-    ChildItem<DetailFragment>(parent), TitleItem {
-    override val title = StringItem.String(item.label?:"")
+    ChildItem<DetailFragment>(parent), RightToolbarItem<DetailFragment> {
     override val tag = "Detail"
     override val fragmentFactory = { DetailFragment.create(item) }
+}
+
+class DetailId(parent: AddItem<*>, private val id: String) :
+    ChildItem<DetailFragment>(parent), RightToolbarItem<DetailFragment>{
+    override val newInstance = true
+    override val tag = "Detail"
+    override val fragmentFactory = { DetailFragment.create(id) }
 }
 
 class CategoryItem(parent: AddItem<*>, private val item: RecipeQuery.Category) :

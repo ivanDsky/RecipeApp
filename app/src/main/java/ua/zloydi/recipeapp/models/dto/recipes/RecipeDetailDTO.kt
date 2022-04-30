@@ -10,18 +10,4 @@ data class RecipeDetailDTO(
     val mealType: List<String>,
     val cuisineType: List<String>,
     val ingredients: List<IngredientDTO>
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as RecipeItemDTO
-
-        if (uri != other.uri) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int = uri?.hashCode() ?: 0
-
-}
+)

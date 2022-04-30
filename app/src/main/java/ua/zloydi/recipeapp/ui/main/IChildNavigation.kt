@@ -6,6 +6,7 @@ import ua.zloydi.recipeapp.models.filterTypes.SearchFilter
 
 interface IChildNavigation {
     fun openDetail(item: RecipeItemDTO)
+    fun openDetail(id: String)
     fun openCategory(searchCategory: RecipeQuery.Category)
 }
 

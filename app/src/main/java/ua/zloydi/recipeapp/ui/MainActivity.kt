@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         lifecycleScope.launchWhenStarted {
             ErrorProvider.service.getErrors().receiveAsFlow().collect {
                 Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_SHORT)
