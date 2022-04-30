@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ImageButton">
+        <item name="android:layout_width">@dimen/_24sdp</item>
+        <item name="android:layout_height">@dimen/_24sdp</item>
+        <item name="tint">?colorSecondary</item>
+        <item name="tint">?colorSecondary</item>
+        <item name="android:background">@drawable/circle_ripple</item>
+    </style>
+</resources>

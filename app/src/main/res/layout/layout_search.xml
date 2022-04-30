@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?colorBackground"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?colorBackground">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etQuery"
@@ -16,38 +16,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/btnSearch"
-        android:layout_width="@dimen/_24sdp"
-        android:layout_height="@dimen/_24sdp"
-        android:layout_gravity="center"
+        style="@style/ImageButton"
         android:layout_marginHorizontal="@dimen/_4sdp"
-        android:src="@drawable/search"
-        android:tint="?colorSecondary"
+        app:srcCompat="@drawable/search"
         app:layout_constraintBottom_toBottomOf="@id/etQuery"
         app:layout_constraintEnd_toStartOf="@id/btnFilter"
         app:layout_constraintTop_toTopOf="@id/etQuery" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/btnFilter"
-        android:layout_width="@dimen/_24sdp"
-        android:layout_height="@dimen/_24sdp"
-        android:layout_gravity="center"
+        style="@style/ImageButton"
         android:layout_marginHorizontal="@dimen/_4sdp"
-        android:src="@drawable/filter"
-        android:tint="?colorSecondary"
+        app:srcCompat="@drawable/filter"
         app:layout_constraintBottom_toBottomOf="@id/etQuery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/etQuery" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/btnReset"
-        android:layout_width="@dimen/_24sdp"
-        android:layout_height="@dimen/_24sdp"
-        android:layout_gravity="center"
+        style="@style/ImageButton"
         android:layout_marginHorizontal="@dimen/_4sdp"
-        android:src="@drawable/close"
-        android:tint="?colorSecondary"
+        app:srcCompat="@drawable/close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etQuery" />
