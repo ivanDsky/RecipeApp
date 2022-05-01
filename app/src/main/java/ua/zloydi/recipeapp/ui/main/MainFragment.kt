@@ -1,5 +1,6 @@
 package ua.zloydi.recipeapp.ui.main
 
+import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -42,12 +43,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         setupInternetChange()
         setupBackpressed()
         setupToolbar()
+        setupDeeplink()
     }
 
-    override fun onStart() {
-        super.onStart()
+    fun onNewIntent(intent: Intent?) {
         setupDeeplink()
-        Log.d("Debug141", "onStart: deeplink")
     }
 
     private fun setupToolbar() {

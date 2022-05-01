@@ -158,6 +158,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), IRightButton{
     }
 
     private fun shareItem() = lifecycleScope.launchWhenStarted{
-        requireContext().startActivity(viewModel.shareIntent.await())
+        requireContext().startActivity(viewModel.shareIntent())
     }
 }

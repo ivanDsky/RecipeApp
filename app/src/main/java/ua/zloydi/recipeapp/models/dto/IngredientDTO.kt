@@ -9,4 +9,27 @@ data class IngredientDTO(
     val measure: String? = null,
     val weight: Float? = null,
     val quantity: Float? = null,
-)
+){
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is IngredientDTO) return false
+
+        if (food != other.food) return false
+        if (text != other.text) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = food?.hashCode() ?: 0
+        result = 31 * result + (text?.hashCode() ?: 0)
+        return result
+    }
+
+
+}
+
+fun List<IngredientDTO>.unique(): List<IngredientDTO>{
+    val unique = toHashSet()
+    return filter { unique.remove(it) }
+}

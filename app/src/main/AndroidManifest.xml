@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.RecipeApp">
         <activity
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:exported="true"
             android:name=".ui.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="user">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

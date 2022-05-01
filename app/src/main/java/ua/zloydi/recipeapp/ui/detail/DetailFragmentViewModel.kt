@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ua.zloydi.recipeapp.data.local.bookmarks.BookmarkDatabase
 import ua.zloydi.recipeapp.data.local.bookmarks.insert
 import ua.zloydi.recipeapp.data.local.cache.CacheDatabase
@@ -114,14 +115,17 @@ class DetailFragmentViewModel(
         }
     }
 
-    val shareIntent = viewModelScope.async(Dispatchers.IO){
-        Intent().apply{
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-            val link = shortLink.await() ?: longLink.await()
-            putExtra(Intent.EXTRA_TEXT, link.toString())
+    suspend fun shareIntent() = withContext(Dispatchers.IO) {
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                val link = if (shortLink.isCompleted)
+                    shortLink.await()
+                else
+                    longLink.await()
+                putExtra(Intent.EXTRA_TEXT, link.toString())
+            }
         }
-    }
 
     class Factory(
         private val id: String,

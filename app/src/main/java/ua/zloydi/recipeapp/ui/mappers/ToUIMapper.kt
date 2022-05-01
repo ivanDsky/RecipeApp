@@ -3,6 +3,7 @@ package ua.zloydi.recipeapp.ui.mappers
 import ua.zloydi.recipeapp.models.dto.IngredientDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeDetailDTO
 import ua.zloydi.recipeapp.models.dto.recipes.RecipeItemDTO
+import ua.zloydi.recipeapp.models.dto.unique
 import ua.zloydi.recipeapp.ui.data.IngredientUI
 import ua.zloydi.recipeapp.ui.data.RecipeItemUI
 import ua.zloydi.recipeapp.ui.data.RecipeUI
@@ -28,7 +29,7 @@ fun RecipeDetailDTO.toUI(
     image = item.image,
     source = source,
     url = url,
-    ingredients = ingredients.map{it.toUI()},
+    ingredients = ingredients.unique().map{it.toUI()},
     totalTime = item.totalTime,
     dishType = dishes,
     mealType = meals,
