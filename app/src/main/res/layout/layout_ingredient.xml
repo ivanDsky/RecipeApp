@@ -8,25 +8,36 @@
     android:paddingHorizontal="@dimen/_8sdp"
     android:paddingVertical="@dimen/_4sdp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivIngredient"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardIngredient"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:cardBackgroundColor="?colorPrimary"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintWidth_percent=".2"/>
+        app:layout_constraintWidth_percent=".2">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivIngredient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/logo" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_marginStart="@dimen/_8sdp"
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
         android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_12ssp"
         app:layout_constraintEnd_toStartOf="@id/tvMeasure"
-        app:layout_constraintStart_toEndOf="@id/ivIngredient"
+        app:layout_constraintStart_toEndOf="@id/cardIngredient"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -42,14 +53,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_marginStart="@dimen/_8sdp"
         android:id="@+id/tvDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_4sdp"
         android:textColor="?colorOnPrimary"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivIngredient"
+        app:layout_constraintStart_toEndOf="@id/cardIngredient"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

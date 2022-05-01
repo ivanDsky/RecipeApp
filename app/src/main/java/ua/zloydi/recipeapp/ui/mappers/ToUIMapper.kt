@@ -37,6 +37,6 @@ fun RecipeDetailDTO.toUI(
 )
 
 fun IngredientDTO.toUI() = IngredientUI(
-    food, text, measure, image
+    food, text, measure, image, weight, quantity
 )
 

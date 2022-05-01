@@ -15,14 +15,14 @@ data class IngredientDTO(
         if (other !is IngredientDTO) return false
 
         if (food != other.food) return false
-        if (text != other.text) return false
+        if (image != other.image) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = food?.hashCode() ?: 0
-        result = 31 * result + (text?.hashCode() ?: 0)
+        result = 31 * result + (image?.hashCode() ?: 0)
         return result
     }
 

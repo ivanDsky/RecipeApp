@@ -41,7 +41,7 @@ class IngredientViewHolder(binding: LayoutIngredientBinding) :
     override fun bind(item: IngredientUI): Unit = with(binding){
         setText(tvTitle, item.food?.firstCaps())
         setText(tvDescription, item.text)
-        setText(tvMeasure, item.measure)
+        setText(tvMeasure, getMeasureText(item.measure, item.quantity, item.weight))
 
         Glide.with(ivIngredient)
             .load(item.image)
@@ -51,8 +51,22 @@ class IngredientViewHolder(binding: LayoutIngredientBinding) :
             .into(ivIngredient)
     }
 
+    private fun getMeasureText(measure: String?, quantity: Float?, weight: Float?) = buildString {
+        val isMeasureValid = !measure.isNullOrEmpty() && measure != "<unit>" && measure != "gram"
+        if (isMeasureValid && quantity != null) {
+            val format = if (quantity >= 1f) "%.0f " else "%.1f "
+            append(String.format(format, quantity))
+        }
+        if (isMeasureValid) append(measure)
+        if (weight != null) {
+            if (isMeasureValid) append(" or ")
+            append(String.format("≈%.0f", weight))
+            append('g')
+        }
+    }
+
     private fun setText(tv: TextView, text: String?){
-        tv.isGone = text.isNullOrBlank() || text == "<unit>"
+        tv.isGone = text.isNullOrBlank()
         tv.text = text
     }
 }
