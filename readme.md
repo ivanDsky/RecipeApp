@@ -31,7 +31,7 @@ Screenshots
   </tr>
  </table>
 
-Libraries used in this project
+Libraries and APIs used in this project
 ------------------------------
 
 * [Lottie][2]
@@ -40,6 +40,7 @@ Libraries used in this project
 * [Paging 3][5]
 * [Room][6]
 * [Firebase][7]
+* [Edamam Recipe API][8]
 
 [APK][1]
 -------
@@ -51,4 +52,5 @@ Libraries used in this project
 [5]: https://developer.android.com/topic/libraries/architecture/paging/v3-overview
 [6]: https://developer.android.com/training/data-storage/room
 [7]: https://firebase.google.com/products/dynamic-links
+[8]: https://developer.edamam.com/edamam-docs-recipe-api
 
