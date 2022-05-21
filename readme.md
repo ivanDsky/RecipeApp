@@ -10,26 +10,11 @@ implemented via Firebase.**
 Screenshots
 -----------
 
-<table>
-  <tr>
-    <td>Categories</td>
-    <td>Search</td>
-    <td>Filter dialog</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/category.jpg" width=270 height=540></td>
-    <td><img src="screenshots/search.jpg" width=270 height=540></td>
-    <td><img src="screenshots/filter.jpg" width=270 height=540></td>
-  </tr>
-  <tr>
-    <td>Detail screen with share options</td>
-    <td>Bookmarks</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/detail.jpg" width=270 height=540></td>
-    <td><img src="screenshots/bookmark.jpg" width=270 height=540></td>
-  </tr>
- </table>
+|              Categories              |    Search     | Filter Dialog |
+|:------------------------------------:|:-------------:|:-------------:|
+|                 ![9]                 |     ![10]     |     ![11]     |
+| __Detail screen with share options__ | __Bookmarks__ |               |
+|                ![12]                 |     ![13]     |               |
 
 Libraries and APIs used in this project
 ------------------------------
@@ -53,4 +38,8 @@ Libraries and APIs used in this project
 [6]: https://developer.android.com/training/data-storage/room
 [7]: https://firebase.google.com/products/dynamic-links
 [8]: https://developer.edamam.com/edamam-docs-recipe-api
-
+[9]: screenshots/category.jpg
+[10]: screenshots/search.jpg
+[11]: screenshots/filter.jpg
+[12]: screenshots/detail.jpg
+[13]: screenshots/bookmark.jpg
