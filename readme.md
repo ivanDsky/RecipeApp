@@ -10,11 +10,11 @@ implemented via Firebase.**
 Screenshots
 -----------
 
-|              Categories              |    Search     | Filter Dialog |
-|:------------------------------------:|:-------------:|:-------------:|
-|                 ![9]                 |     ![10]     |     ![11]     |
-| __Detail screen with share options__ | __Bookmarks__ |               |
-|                ![12]                 |     ![13]     |               |
+|                     Categories                     |                       Search                       |                  Filter Dialog                   |
+|:--------------------------------------------------:|:--------------------------------------------------:|:------------------------------------------------:|
+| <img src="screenshots/category.jpg" width="250" /> |  <img src="screenshots/search.jpg" width="250" />  | <img src="screenshots/filter.jpg" width="250" /> |
+|        __Detail screen with share options__        |                   __Bookmarks__                    |                                                  |
+|  <img src="screenshots/detail.jpg" width="250" />  | <img src="screenshots/bookmark.jpg" width="250" /> |                                                  |
 
 Libraries and APIs used in this project
 ------------------------------
@@ -38,8 +38,3 @@ Libraries and APIs used in this project
 [6]: https://developer.android.com/training/data-storage/room
 [7]: https://firebase.google.com/products/dynamic-links
 [8]: https://developer.edamam.com/edamam-docs-recipe-api
-[9]: screenshots/category.jpg
-[10]: screenshots/search.jpg
-[11]: screenshots/filter.jpg
-[12]: screenshots/detail.jpg
-[13]: screenshots/bookmark.jpg
